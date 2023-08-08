@@ -8,7 +8,7 @@ colcon build --packages-select scion_types
 . install/setup.sh
 
 # Perform colcon build, ignoring the specified packages
-colcon build --packages-ignore "scion_types"
+colcon build --packages-select library
 
 . install/setup.sh
 

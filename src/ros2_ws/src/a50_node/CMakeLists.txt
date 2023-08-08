@@ -25,6 +25,9 @@ add_subdirectory(${ROOT_DIR}/classes classes_binary)
 find_package(ament_cmake REQUIRED)
 find_package(scion_types REQUIRED)
 find_package(rclcpp REQUIRED)
+find_package(std_msgs REQUIRED)
+find_package(std_srvs REQUIRED)
+find_package(rclcpp_action REQUIRED)
 
 include_directories(include)
 
@@ -38,7 +41,7 @@ target_link_libraries(a50_exec
   ${rclcpp_LIBRARIES}
 )
 
-ament_target_dependencies(a50_exec rclcpp scion_types)
+ament_target_dependencies(a50_exec rclcpp scion_types rclcpp_action std_msgs std_srvs)
 
 target_include_directories(
     a50_exec PUBLIC include ${CMAKE_CURRENT_SOURCE_DIR}

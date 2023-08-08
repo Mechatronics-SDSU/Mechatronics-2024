@@ -11,6 +11,8 @@ find_package(scion_types REQUIRED)
 find_package(rclcpp_action REQUIRED)
 find_package(std_srvs REQUIRED)
 find_package(std_msgs REQUIRED)
+find_package(sensor_msgs REQUIRED)
+
 
 get_filename_component(SRC_DIR "${CMAKE_CURRENT_SOURCE_DIR}" DIRECTORY)
 get_filename_component(ROS_DIR "${SRC_DIR}" DIRECTORY)
@@ -23,8 +25,8 @@ add_library(
     nodes 
     ${SRC_DIR}/brain_node/src/brain_node.cpp
     ${SRC_DIR}/control_interface/src/control_interface.cpp
-    # ${SRC_DIR}/controller_node/src/controller_node.cpp
-    # ${SRC_DIR}/current_state_node/src/current_state_node.cpp
+    ${SRC_DIR}/controller_node/src/controller_node.cpp
+    ${SRC_DIR}/current_state_node/src/current_state_node.cpp
     # ${SRC_DIR}/mediator_node/src/mediator_node.cpp
     ${SRC_DIR}/pid_node/src/pid_node.cpp
 )
@@ -39,14 +41,14 @@ target_include_directories(
     nodes PUBLIC 
     ${SRC_DIR}/brain_node/include
     ${SRC_DIR}/control_interface/include
-    # ${SRC_DIR}/controller_node/include
-    # ${SRC_DIR}/current_state_node/include
-    # ${SRC_DIR}/gui_node/include
+    ${SRC_DIR}/controller_node/include
+    ${SRC_DIR}/current_state_node/include
+    ${SRC_DIR}/gui_node/include
     # ${SRC_DIR}/mediator_node/include
     ${SRC_DIR}/pid_node/include
 )
 
-ament_target_dependencies(nodes scion_types rclcpp rclcpp_action std_srvs std_msgs)
+ament_target_dependencies(nodes scion_types rclcpp rclcpp_action std_srvs std_msgs sensor_msgs)
 
 # Install the executable
 install(TARGETS nodes

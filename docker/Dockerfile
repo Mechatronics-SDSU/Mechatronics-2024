@@ -3,15 +3,12 @@
 # Installs Dependencies (including ROS2) and has all convenience scripts needed
 # If you have docker install you can copy this file and use the following commands 
 #       sudo docker build -t "mechatronics" -f docker/Dockerfile .
-#       sudo docker run -it mechatronics
+#       docker run -it -e "DISPLAY=$DISPLAY" -v "$HOME/.Xauthority:/home/.Xauthority:ro" --network host mechatronics
 # Now you will be inside the terminal of the robot with the needed environment
 
 
 FROM ubuntu:22.04
 ARG DEBIAN_FRONTEND=noninteractive
-
-# RUN apt-get install libxcb-xinerama0
-# RUN apt-get install '^libxcb.*-dev' libx11-xcb-dev libglu1-mesa-dev libxrender-dev libxi-dev libxkbcommon-dev
 
 RUN \
     set -eux && \
@@ -146,13 +143,18 @@ RUN rosdep init && \
     rosdep update
 EXPOSE 5555
 
+RUN apt-get update && \
+    apt-get install -y libqt5gui5 && \
+    rm -rf /var/lib/apt/lists/*
+ENV QT_DEBUG_PLUGINS=1
 
 COPY src/ src/
-WORKDIR /src/scripts/ros_scripts
-RUN . /opt/ros/${ROS_DISTRO}/setup.sh
-RUN . ./build.sh
-
 COPY src/scripts/system /usr/local/bin/
+
+WORKDIR /src/ros2_ws
+RUN . /opt/ros/${ROS_DISTRO}/setup.sh && \
+        build scion_types && build a50_node && \
+        build brain_node && build gui_node
 
 WORKDIR /src
 
