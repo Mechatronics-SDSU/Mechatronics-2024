@@ -2,7 +2,7 @@
 # Mechatronics Docker File
 # Installs Dependencies (including ROS2) and has all convenience scripts needed
 # If you have docker install you can copy this file and use the following commands 
-#       sudo docker build -t "mechatronics" .
+#       sudo docker build -t "mechatronics" -f docker/Dockerfile .
 #       sudo docker run -it mechatronics
 # Now you will be inside the terminal of the robot with the needed environment
 
@@ -147,14 +147,14 @@ RUN rosdep init && \
 EXPOSE 5555
 
 
-COPY app/ app/
-WORKDIR /app/scripts/ros_scripts
+COPY src/ src/
+WORKDIR /src/scripts/ros_scripts
 RUN . /opt/ros/${ROS_DISTRO}/setup.sh
 # RUN ./build.sh
 # RUN rm -r /usr/lib/python3.7/site-packages/cv2/qt/plugins 
 
-COPY app/scripts/system /usr/local/bin/
+COPY src/scripts/system /usr/local/bin/
 
-WORKDIR /app
+WORKDIR /src
 
 
