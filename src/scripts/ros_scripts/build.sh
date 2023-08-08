@@ -1,23 +1,16 @@
 
 origin_directory=$(pwd)
-cd ..
-cd ..
-cd ros2_ws/
+cd ../../ros2_ws/
 
-source /opt/ros/foxy/setup.bash
-
-packages_to_ignore=(
-    
-)
-
+. /opt/ros/$ROS_DISTRO/setup.sh
 
 colcon build --packages-select scion_types
-source install/setup.bash
+. install/setup.sh
 
 # Perform colcon build, ignoring the specified packages
-colcon build --packages-ignore "${packages_to_ignore[@]}"
+colcon build --packages-ignore "scion_types"
 
-source install/setup.bash
+. install/setup.sh
 
 cd $origin_directory
 

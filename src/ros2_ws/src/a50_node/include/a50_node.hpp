@@ -2,7 +2,7 @@
 #define A50_H
 
 #include <memory>
-#include <string>
+#include <cstring>
 #include <vector>
 #include <sys/socket.h>
 #include <arpa/inet.h>

@@ -150,8 +150,7 @@ EXPOSE 5555
 COPY src/ src/
 WORKDIR /src/scripts/ros_scripts
 RUN . /opt/ros/${ROS_DISTRO}/setup.sh
-# RUN ./build.sh
-# RUN rm -r /usr/lib/python3.7/site-packages/cv2/qt/plugins 
+RUN . ./build.sh
 
 COPY src/scripts/system /usr/local/bin/
 
