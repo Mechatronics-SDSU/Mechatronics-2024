@@ -1,6 +1,6 @@
 # SDSU Mechatronics 2023
 
-![Logo](img/logo.jpg)
+![Logo](resource/logo.jpg)
 
 
 # About contributions
@@ -35,4 +35,4 @@ Git naming conventions and usage: To make your own branches and push to this rep
 # About Scion
 
 ### Scion is the SDSU Mechatronics robot for the 2022 RoboSub Competition.
-![Scion](img/scion.png)
+![Scion](resource/scion.png)
