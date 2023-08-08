@@ -3,14 +3,11 @@
 
 <!-- PROJECT LOGO -->
 <div align="center">
-  
-
   <h3 align="center">SDSU-Mechatronics</h3>
-
   <p align="center">
-    Creators of Autonomus Robots
+    Creators of Autonomous Robots
     <br />
-    <a href="https://www.sdsumechatronics.org/"><strong>See our website »</strong></a>
+    <a href="https://www.sdsumechatronics.org/"><strong>Go To Our Website »</strong></a>
     <br />
   </p>
 </div>
@@ -28,7 +25,6 @@
     </li>
   </ol>
 </details>
-
 
 
 <!-- ABOUT THE PROJECT -->
@@ -89,7 +85,7 @@ Don't forget to give the project a star! Thanks again!
 <!-- CONTACT -->
 ## Contact
 
-Your Name - [@your_twitter](https://twitter.com/your_username) - email@example.com
+Zix - [@Zix](https://discord.com/channels/) - mechatronics.sdsu@gmail.com
 
 Project Link: [https://github.com/your_username/repo_name](https://github.com/your_username/repo_name)
 
