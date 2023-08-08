@@ -3,6 +3,7 @@
 
 int main(int argc, char** argv)
 {
+    RobotFactory::registerRobots();
     std::unique_ptr<Configuration> config = std::make_unique<Configuration>(CONFIG_FILE);
     nlohmann::json json_string = config->getJsonString();
 
