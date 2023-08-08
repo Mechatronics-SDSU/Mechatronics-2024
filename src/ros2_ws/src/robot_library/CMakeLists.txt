@@ -20,34 +20,17 @@ get_filename_component(ROOT_DIR "${ROS_DIR}" DIRECTORY)
 add_subdirectory(${ROOT_DIR}/classes/src/dependency_library ${CMAKE_BINARY_DIR}/classes-build)
 
 # Add your package's source files
-# add_library(
-    #robot_library 
-    #${SRC_DIR}/robot/src/robot.cpp
-    #${SRC_DIR}/robot/src/main.cpp
-    #${SRC_DIR}/robot/src/configuration.cpp
-
-    # ${SRC_DIR}/brain_node/src/brain_node.cpp
-    # ${SRC_DIR}/control_interface/src/control_interface.cpp
-    # ${SRC_DIR}/controller_node/src/controller_node.cpp
-    # ${SRC_DIR}/current_state_node/src/current_state_node.cpp
-    # ${SRC_DIR}/mediator_node/src/mediator_node.cpp
-    # ${SRC_DIR}/pid_node/src/pid_node.cpp
-#)
-
-add_executable(
+ add_library(
     robot_library 
     ${SRC_DIR}/robot/src/robot.cpp
-    ${SRC_DIR}/robot/src/main.cpp
     ${SRC_DIR}/robot/src/configuration.cpp
     ${SRC_DIR}/robot/src/junebug.cpp
     ${SRC_DIR}/robot/src/percy.cpp
+)
 
-    # ${SRC_DIR}/brain_node/src/brain_node.cpp
-    # ${SRC_DIR}/control_interface/src/control_interface.cpp
-    # ${SRC_DIR}/controller_node/src/controller_node.cpp
-    # ${SRC_DIR}/current_state_node/src/current_state_node.cpp
-    # ${SRC_DIR}/mediator_node/src/mediator_node.cpp
-    # ${SRC_DIR}/pid_node/src/pid_node.cpp
+add_executable(
+    robot
+    ${SRC_DIR}/robot/src/main.cpp
 )
 
 # Link gtest and other libraries to  executable
@@ -56,24 +39,29 @@ target_link_libraries(robot_library
   ${rclcpp_LIBRARIES}
 )
 
+# Link gtest and other libraries to  executable
+target_link_libraries(robot
+  robot_library
+  dependency_library
+  ${rclcpp_LIBRARIES}
+)std::unordered_map<std::string, RobotType> RobotFactory::robot_types = {};
+std::unordered_map<RobotType, std::function<std::unique_ptr<Robot>(const Configuration&)>> RobotFactory::constructors = {};
+
 target_include_directories(
     robot_library PUBLIC 
     ${SRC_DIR}/robot/include
+)
 
-
-    # ${SRC_DIR}/brain_node/include
-    # ${SRC_DIR}/control_interface/include
-    # ${SRC_DIR}/controller_node/include
-    # ${SRC_DIR}/current_state_node/include
-    # ${SRC_DIR}/gui_node/include
-    # ${SRC_DIR}/mediator_node/include
-    # ${SRC_DIR}/pid_node/include
+target_include_directories(
+    robot PUBLIC 
+    ${SRC_DIR}/robot/include
 )
 
 ament_target_dependencies(robot_library scion_types rclcpp rclcpp_action std_srvs std_msgs sensor_msgs)
+ament_target_dependencies(robot scion_types rclcpp rclcpp_action std_srvs std_msgs sensor_msgs)
 
 # Install the executable
-install(TARGETS robot_library
+install(TARGETS robot
   DESTINATION lib/${PROJECT_NAME}
 )
 

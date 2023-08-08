@@ -1,5 +1,4 @@
-#ifndef ROBOT_H
-#define ROBOT_H
+#pragma once
 
 #include <memory>
 #include <unordered_map>
@@ -8,9 +7,9 @@
 #include "robot_interface.hpp"
 #include "configuration.hpp"
 
-class Robot;
-class RobotFactory;
-enum class RobotType;
+// class Robot;
+// class RobotFactory;
+// enum class RobotType;
 
 class Robot
 {
@@ -21,6 +20,14 @@ class Robot
         std::string name;
         int motor_count;
 };
+
+enum class RobotType 
+{
+    Percy,
+    Junebug,
+    Scion
+};
+
 
 class RobotFactory 
 {
@@ -34,11 +41,3 @@ public:
     static std::unordered_map<RobotType, RobotConstructor> constructors;
 };
 
-enum class RobotType 
-{
-    Percy,
-    Junebug,
-    Scion
-};
-
-#endif // ROBOT_H
