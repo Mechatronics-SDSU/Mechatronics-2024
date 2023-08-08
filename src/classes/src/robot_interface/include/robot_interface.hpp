@@ -1,3 +1,6 @@
+#ifndef ROBOT_INTERFACE_H
+#define ROBOT_INTERFACE_H
+
 #include <vector>
 #include <iostream>
 #include <deque>
@@ -65,3 +68,5 @@ namespace Interface
     typedef std::vector<std::vector<float>>                                                 matrix_t;                                                                            
     typedef rclcpp::TimerBase::SharedPtr                                                    ros_timer_t;
 }
+
+#endif
