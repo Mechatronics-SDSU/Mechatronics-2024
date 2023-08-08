@@ -2,20 +2,21 @@
 #define ROBOT_H
 
 #include <memory>
+#include "robot_interface.hpp"
 
 class Robot;
 class Percy;
 class Junebug;
-class Config;
+class Configuration;
 
 class Robot
 {
     public: 
-        Robot();
+        Robot(const Configuration& configuration);
+        void run_update_loop();
     private:
-        const std::unique_ptr<Config> config;
-        const char* name_;
-        const int motor_count_;
+        char* name_;
+        int motor_count_;
 };
 
 class Percy : Robot
@@ -30,10 +31,5 @@ class Junebug : Robot
         Junebug();
 };
 
-class Config
-{
-    public:
-        Config();
-};
 
 #endif // ROBOT_H

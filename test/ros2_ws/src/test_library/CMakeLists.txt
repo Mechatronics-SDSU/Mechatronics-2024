@@ -31,7 +31,7 @@ set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
 FetchContent_MakeAvailable(googletest)
 
 # add_subdirectory(${SRC_DIR}/googletest googletest_binary/)
-add_subdirectory(${ROOT_DIR}/ros2_ws/src/library nodes_binary/)
+add_subdirectory(${ROOT_DIR}/ros2_ws/src/robot_library nodes_binary/)
 
 # Add your package's source files
 add_executable(
