@@ -9,7 +9,7 @@
     This object can be constructed in any file that needs to use it.
  */ 
 
-#include "filter.hpp"
+#include "finite_impulse_filter.hpp"
 #include "vector_operations.hpp"
 #include <fstream>
 #include <iostream>
@@ -25,7 +25,7 @@ using namespace std;
  *
  * *targets* number of static deques will be allocated with size being number of coefficients in coeff file
  */
-Filter::Filter(size_t targets, std::string& coeff_file)
+FiniteImpulseFilter::FiniteImpulseFilter(size_t targets, std::string& coeff_file)
 {
     read_coeffs_from_file(this->coefficients, coeff_file);
     for (size_t i = 0; i < targets; i++) 
@@ -39,7 +39,7 @@ Filter::Filter(size_t targets, std::string& coeff_file)
  * Specify the specific target that the filtering belongs to for history, do this by passing index of target into member data_streams
  * Pass in unfiltered data point, recieve filtered data point (this will work once buffer is filled and history gathered, note this will create some delay)
  */
-float Filter::smooth(deque<float>& static_deque, float in_x)
+float FiniteImpulseFilter::smooth(deque<float>& static_deque, float in_x)
 {
     float tmp_x = 0;
     static_deque.pop_back();
@@ -53,7 +53,7 @@ float Filter::smooth(deque<float>& static_deque, float in_x)
 /* 
  * Private function to populate coeffs from the passed in file
  */
-void Filter::read_coeffs_from_file(std::vector<float>& coeffs, const std::string& filename)
+void FiniteImpulseFilter::read_coeffs_from_file(std::vector<float>& coeffs, const std::string& filename)
 {
     std::ifstream coeffs_file(filename);
     if (!coeffs_file) {
@@ -67,7 +67,7 @@ void Filter::read_coeffs_from_file(std::vector<float>& coeffs, const std::string
     }
 }
 
-void Filter::print_coefficients()
+void FiniteImpulseFilter::print_coefficients()
 {
     for (float coeff : this->coefficients)
     {

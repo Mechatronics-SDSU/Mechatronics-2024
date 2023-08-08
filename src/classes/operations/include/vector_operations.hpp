@@ -1,17 +1,14 @@
 #ifndef VECTOR_OPERATIONS_H
 #define VECTOR_OPERATIONS_H
-
 #define _USE_MATH_DEFINES
-#define PI 3.14159265
+
 #include <iostream>
 #include <vector>
 #include <cmath>
 
-using namespace std;
-
 // Print each element of vector
 template <typename T>
-void printVector(vector<T>& vector) 
+void printVector(std::vector<T>& vector) 
 {
     for (T element : vector)
     {
@@ -22,7 +19,7 @@ void printVector(vector<T>& vector)
 
 // Decrement two vectors
 template <typename T>
-vector<T>& operator-=(vector<T> &lhs, const vector<T> &rhs) 
+std::vector<T>& operator-=(std::vector<T> &lhs, const std::vector<T> &rhs) 
 {
     if (lhs.size() != rhs.size())
         throw length_error("vectors must be same size to add");
@@ -33,7 +30,7 @@ vector<T>& operator-=(vector<T> &lhs, const vector<T> &rhs)
 
 // Subtract two vectors
 template <typename T>
-vector<T> operator- (vector<T> lhs, const vector<T> &rhs) 
+std::vector<T> operator- (std::vector<T> lhs, const std::vector<T> &rhs) 
 {
     if (lhs.size() != rhs.size())
         throw length_error("vectors must be same size to add");
@@ -42,7 +39,7 @@ vector<T> operator- (vector<T> lhs, const vector<T> &rhs)
 
 // Increment two vectors
 template <typename T>
-vector<T>& operator+=(vector<T> &lhs, const vector<T> &rhs) 
+std::vector<T>& operator+=(std::vector<T> &lhs, const std::vector<T> &rhs) 
 {
     if (lhs.size() != rhs.size())
         throw length_error("vectors must be same size to add");
@@ -53,7 +50,7 @@ vector<T>& operator+=(vector<T> &lhs, const vector<T> &rhs)
 
 // Add two vectors
 template <typename T>
-vector<T> operator+ (vector<T> lhs, const vector<T> &rhs) 
+std::vector<T> operator+ (std::vector<T> lhs, const std::vector<T> &rhs) 
 {
     if (lhs.size() != rhs.size())
         throw length_error("vectors must be same size to add");
@@ -62,7 +59,7 @@ vector<T> operator+ (vector<T> lhs, const vector<T> &rhs)
 
 // Subtract number from each element of vector
 template <typename T>
-vector<T> operator-(vector<T> lhs, const T &rhs) 
+std::vector<T> operator-(std::vector<T> lhs, const T &rhs) 
 {
     for (vector<double>::size_type i = 0; i < lhs.size(); ++i)
         lhs[i] -= rhs;
@@ -71,7 +68,7 @@ vector<T> operator-(vector<T> lhs, const T &rhs)
 
 // Add number to each element of vector
 template <typename T>
-vector<T> operator+(vector<T> lhs, const T &rhs) 
+std::vector<T> operator+(std::vector<T> lhs, const T &rhs) 
 {
     for (vector<double>::size_type i = 0; i < lhs.size(); ++i)
         lhs[i] += rhs;
@@ -81,7 +78,7 @@ vector<T> operator+(vector<T> lhs, const T &rhs)
 
 // See if number is less than each element of vector
 template <typename T>
-bool operator<(vector<T> lhs, const T &rhs) 
+bool operator<(std::vector<T> lhs, const T &rhs) 
 {
     bool lessThan = true;
     for (vector<double>::size_type i = 0; i < lhs.size(); ++i)
@@ -94,7 +91,7 @@ bool operator<(vector<T> lhs, const T &rhs)
 
 // See if number is greater than each element of vector
 template <typename T>
-bool operator>(vector<T> lhs, const T &rhs) 
+bool operator>(std::vector<T> lhs, const T &rhs) 
 {
     bool greaterThan = true;
     for (vector<double>::size_type i = 0; i < lhs.size(); ++i)
@@ -107,7 +104,7 @@ bool operator>(vector<T> lhs, const T &rhs)
 
 // Multiply number to each element of vector
 template <typename T>
-vector<T> operator*(vector<T> lhs, const T &rhs) 
+std::vector<T> operator*(std::vector<T> lhs, const T &rhs) 
 {
     for (vector<double>::size_type i = 0; i < lhs.size(); ++i)
         lhs[i] *= rhs;
@@ -116,7 +113,7 @@ vector<T> operator*(vector<T> lhs, const T &rhs)
 
 // Add two vectors
 template <typename T>
-bool operator== (vector<T> lhs, const vector<T> &rhs) 
+bool operator== (std::vector<T> lhs, const std::vector<T> &rhs) 
 {
     bool equal = true;
     for (vector<double>::size_type i = 0; i < lhs.size(); ++i)
@@ -128,7 +125,7 @@ bool operator== (vector<T> lhs, const vector<T> &rhs)
 
 // Divide each element of vector by number
 template <typename T>
-vector<T> operator/(vector<T> lhs, const T &rhs) 
+std::vector<T> operator/(std::vector<T> lhs, const T &rhs) 
 {
     for (vector<double>::size_type i = 0; i < lhs.size(); ++i)
         lhs[i] /= rhs;
@@ -137,11 +134,11 @@ vector<T> operator/(vector<T> lhs, const T &rhs)
 
 // matrix multiplication with two-dimensional and one-dimensional array
 template<typename T>
-vector<T> operator*(vector<vector<T>> lhs, const vector<T> &rhs)
+std::vector<T> operator*(vector<std::vector<T>> lhs, const std::vector<T> &rhs)
 {
-    vector<T> matrix;
+    std::vector<T> matrix;
 
-    for (vector<T> row : lhs)
+    for (std::vector<T> row : lhs)
     {
         T newElement = 0;
         for (vector<double>::size_type i = 0; i < rhs.size(); i++)
@@ -155,7 +152,7 @@ vector<T> operator*(vector<vector<T>> lhs, const vector<T> &rhs)
 }
 
 template<typename T>
-vector<T> abs(vector<T>& vect)
+std::vector<T> abs(std::vector<T>& vect)
 {
     for (T& value : vect)
     {
@@ -165,7 +162,7 @@ vector<T> abs(vector<T>& vect)
 }
 
 template<typename T>
-T sum(vector<T>& vect)
+T sum(std::vector<T>& vect)
 {
     T sum = 0;
     for (T& value : vect)

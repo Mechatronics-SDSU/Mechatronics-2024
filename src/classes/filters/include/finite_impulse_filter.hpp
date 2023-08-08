@@ -1,15 +1,15 @@
-#ifndef FILTER_H
-#define FILTER_H
+#ifndef FINITE_IMPULSE_FILTER_H
+#define FINITE_IMPULSE_FILTER_H
 
 #include <vector>
 #include <deque>
 #include <array>
 #include <string>
 
-class Filter
+class FiniteImpulseFilter
 {
     public:
-        Filter(size_t targets, std::string& coeff_file);
+        FiniteImpulseFilter(size_t targets, std::string& coeff_file);
         float smooth(std::deque<float>& static_deque, float in_x);
         void print_coefficients();
         std::vector<std::deque<float>> data_streams;         // Dynamic amount of static (by class member) data streams
