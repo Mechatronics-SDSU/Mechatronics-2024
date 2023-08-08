@@ -12,9 +12,9 @@ void printVector(std::vector<T>& vector)
 {
     for (T element : vector)
     {
-        cout << element << " ";
+        std::cout << element << " ";
     }
-    cout << endl;
+    std::cout << std::endl;
 }
 
 // Decrement two vectors
@@ -22,8 +22,8 @@ template <typename T>
 std::vector<T>& operator-=(std::vector<T> &lhs, const std::vector<T> &rhs) 
 {
     if (lhs.size() != rhs.size())
-        throw length_error("vectors must be same size to add");
-    for (vector<double>::size_type i = 0; i < lhs.size(); ++i)
+        throw std::length_error("vectors must be same size to add");
+    for (std::vector<double>::size_type i = 0; i < lhs.size(); ++i)
         lhs[i] -= rhs[i];
     return lhs;
 }
@@ -33,7 +33,7 @@ template <typename T>
 std::vector<T> operator- (std::vector<T> lhs, const std::vector<T> &rhs) 
 {
     if (lhs.size() != rhs.size())
-        throw length_error("vectors must be same size to add");
+        throw std::length_error("vectors must be same size to add");
     return lhs -= rhs;
 }
 
@@ -42,8 +42,8 @@ template <typename T>
 std::vector<T>& operator+=(std::vector<T> &lhs, const std::vector<T> &rhs) 
 {
     if (lhs.size() != rhs.size())
-        throw length_error("vectors must be same size to add");
-    for (vector<double>::size_type i = 0; i < lhs.size(); ++i)
+        throw std::length_error("vectors must be same size to add");
+    for (std::vector<double>::size_type i = 0; i < lhs.size(); ++i)
         lhs[i] += rhs[i];
     return lhs;
 }
@@ -53,7 +53,7 @@ template <typename T>
 std::vector<T> operator+ (std::vector<T> lhs, const std::vector<T> &rhs) 
 {
     if (lhs.size() != rhs.size())
-        throw length_error("vectors must be same size to add");
+        throw std::length_error("vectors must be same size to add");
     return lhs += rhs;
 }
 
@@ -61,7 +61,7 @@ std::vector<T> operator+ (std::vector<T> lhs, const std::vector<T> &rhs)
 template <typename T>
 std::vector<T> operator-(std::vector<T> lhs, const T &rhs) 
 {
-    for (vector<double>::size_type i = 0; i < lhs.size(); ++i)
+    for (std::vector<double>::size_type i = 0; i < lhs.size(); ++i)
         lhs[i] -= rhs;
     return lhs;
 }
@@ -70,7 +70,7 @@ std::vector<T> operator-(std::vector<T> lhs, const T &rhs)
 template <typename T>
 std::vector<T> operator+(std::vector<T> lhs, const T &rhs) 
 {
-    for (vector<double>::size_type i = 0; i < lhs.size(); ++i)
+    for (std::vector<double>::size_type i = 0; i < lhs.size(); ++i)
         lhs[i] += rhs;
     return lhs;
 }
@@ -81,7 +81,7 @@ template <typename T>
 bool operator<(std::vector<T> lhs, const T &rhs) 
 {
     bool lessThan = true;
-    for (vector<double>::size_type i = 0; i < lhs.size(); ++i)
+    for (std::vector<double>::size_type i = 0; i < lhs.size(); ++i)
         if (lhs[i] > rhs)
         {
             lessThan = false;
@@ -94,7 +94,7 @@ template <typename T>
 bool operator>(std::vector<T> lhs, const T &rhs) 
 {
     bool greaterThan = true;
-    for (vector<double>::size_type i = 0; i < lhs.size(); ++i)
+    for (std::vector<double>::size_type i = 0; i < lhs.size(); ++i)
         if (lhs[i] < rhs)
         {
             greaterThan = false;
@@ -106,7 +106,7 @@ bool operator>(std::vector<T> lhs, const T &rhs)
 template <typename T>
 std::vector<T> operator*(std::vector<T> lhs, const T &rhs) 
 {
-    for (vector<double>::size_type i = 0; i < lhs.size(); ++i)
+    for (std::vector<double>::size_type i = 0; i < lhs.size(); ++i)
         lhs[i] *= rhs;
     return lhs;
 }
@@ -116,7 +116,7 @@ template <typename T>
 bool operator== (std::vector<T> lhs, const std::vector<T> &rhs) 
 {
     bool equal = true;
-    for (vector<double>::size_type i = 0; i < lhs.size(); ++i)
+    for (std::vector<double>::size_type i = 0; i < lhs.size(); ++i)
     {
         if (lhs[i] != rhs[i]) {equal = false;}
     }
@@ -127,21 +127,21 @@ bool operator== (std::vector<T> lhs, const std::vector<T> &rhs)
 template <typename T>
 std::vector<T> operator/(std::vector<T> lhs, const T &rhs) 
 {
-    for (vector<double>::size_type i = 0; i < lhs.size(); ++i)
+    for (std::vector<double>::size_type i = 0; i < lhs.size(); ++i)
         lhs[i] /= rhs;
     return lhs;
 }
 
 // matrix multiplication with two-dimensional and one-dimensional array
 template<typename T>
-std::vector<T> operator*(vector<std::vector<T>> lhs, const std::vector<T> &rhs)
+std::vector<T> operator*(std::vector<std::vector<T>> lhs, const std::vector<T> &rhs)
 {
     std::vector<T> matrix;
 
     for (std::vector<T> row : lhs)
     {
         T newElement = 0;
-        for (vector<double>::size_type i = 0; i < rhs.size(); i++)
+        for (std::vector<double>::size_type i = 0; i < rhs.size(); i++)
         {
             newElement += row[i] * rhs[i];
         }     
