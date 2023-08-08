@@ -1,5 +1,5 @@
-#ifndef ROBOTS_H
-#define ROBOTS_H
+#ifndef ROBOT_H
+#define ROBOT_H
 
 #include <memory>
 
@@ -14,8 +14,8 @@ class Robot
         Robot();
     private:
         const std::unique_ptr<Config> config;
-        const char* name_ = "percy";
-        const int motor_count_ = 8;
+        const char* name_;
+        const int motor_count_;
 };
 
 class Percy : Robot
@@ -36,4 +36,4 @@ class Config
         Config();
 };
 
-#endif // ROBOTS_H
+#endif // ROBOT_H

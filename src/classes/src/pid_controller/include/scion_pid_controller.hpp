@@ -23,8 +23,6 @@ using namespace std;
 class Scion_Position_PID_Controller
 {
     private:
-
-    public:
         shared_ptr<PID_Controller> yaw_pid;
         shared_ptr<PID_Controller> pitch_pid;
         shared_ptr<PID_Controller> roll_pid;
@@ -35,6 +33,8 @@ class Scion_Position_PID_Controller
         vector<float> current_ctrl_vals;
         vector<float> current_thrust_values;
         vector<vector<float>> pid_thrust_mapper;
+
+    public:
 
         // Default constructor to tune PID manually
         Scion_Position_PID_Controller();

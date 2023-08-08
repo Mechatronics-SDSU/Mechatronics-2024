@@ -118,7 +118,7 @@ float PID_Controller::update(float error, float dt)
     
     float proportional = (this->k_p * error);  // Directly proportional to error based on k_p constant
     float integral = this->k_i * this->integral;
-    float derivative = this->k_d * (error - this->previous_error); // Derivative takes into account previous error
+    float derivative = this->k_d * (error - this->previous_error) / dt; // Derivative takes into account previous error
 
     this->previous_error = error;            // reset error for next cycle
 

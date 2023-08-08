@@ -21,7 +21,6 @@ Scion_Position_PID_Controller::Scion_Position_PID_Controller()
     this->yaw_pid = std::make_shared<PID_Controller>(0.0, 0.0, 0.0, true);
     this->pitch_pid = std::make_shared<PID_Controller>(0.0, 0.0, 0.0, true);
     this->roll_pid = std::make_shared<PID_Controller>(0.0, 0.0, 0.0, true);
-
     this->x_pos_pid = std::make_shared<PID_Controller>(0.0, 0.0, 0.0);
     this->y_pos_pid = std::make_shared<PID_Controller>(0.0, 0.0, 0.0);
     this->z_pos_pid = std::make_shared<PID_Controller>(0.0, 0.0, 0.0);
@@ -64,16 +63,16 @@ Scion_Position_PID_Controller::Scion_Position_PID_Controller(map<string, map<str
      * if we decide to load our PID_Params from a dictionary, we can set each controllers' values to 
      * the values stored in the hashmap from pid_params.cpp 
      */
-    for (auto ctrl_type : this->controllers) // one row with string : unique_ptr<PID_Controller>
+    for (const auto& [axis_name, controller] : this->controllers) // one row with string : unique_ptr<PID_Controller>
     {
-        ctrl_type.second->k_p = pid_params[ctrl_type.first]["kp"];
-        ctrl_type.second->k_i = pid_params[ctrl_type.first]["ki"];
-        ctrl_type.second->k_d = pid_params[ctrl_type.first]["kd"];
-        ctrl_type.second->ctrl_val_offset = pid_params[ctrl_type.first]["ctrl_val_offset"];
-        ctrl_type.second->ctrl_val_max = pid_params[ctrl_type.first]["ctrl_val_max"];
-        ctrl_type.second->ctrl_val_min = pid_params[ctrl_type.first]["ctrl_val_min"];
-        ctrl_type.second->i_max = pid_params[ctrl_type.first]["i_max"];
-        ctrl_type.second->i_min = pid_params[ctrl_type.first]["i_min"];
+        controller->k_p = pid_params[axis_name]["kp"];
+        controller->k_i = pid_params[axis_name]["ki"];
+        controller->k_d = pid_params[axis_name]["kd"];
+        controller->ctrl_val_offset = pid_params[axis_name]["ctrl_val_offset"];
+        controller->ctrl_val_max = pid_params[axis_name]["ctrl_val_max"];
+        controller->ctrl_val_min = pid_params[axis_name]["ctrl_val_min"];
+        controller->i_max = pid_params[axis_name]["i_max"];
+        controller->i_min = pid_params[axis_name]["i_min"];
     }
 }
 
