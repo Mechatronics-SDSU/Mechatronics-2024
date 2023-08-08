@@ -1,5 +1,3 @@
-cd ..
-. install/setup.bash
-cd src
+source ../install/setup.bash
 ros2 launch launch.py
 

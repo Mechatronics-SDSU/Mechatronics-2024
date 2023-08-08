@@ -1,1 +1,2 @@
-. install/setup.bash
+source /opt/ros/{$ROS_DISTO}/setup.bash
+source install/setup.bash
