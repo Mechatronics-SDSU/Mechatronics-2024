@@ -149,12 +149,14 @@ RUN apt-get update && \
 ENV QT_DEBUG_PLUGINS=1
 
 COPY src/ src/
+COPY .git src/
 COPY src/scripts/system /usr/local/bin/
 
 WORKDIR /src/ros2_ws
-RUN . /opt/ros/${ROS_DISTRO}/setup.sh && \
-        build scion_types && build a50_node && \
-        build brain_node && build gui_node
+RUN . /opt/ros/${ROS_DISTRO}/setup.sh && build scion_types 
+RUN . /opt/ros/${ROS_DISTRO}/setup.sh && build a50_node
+RUN . /opt/ros/${ROS_DISTRO}/setup.sh && build brain_node
+RUN . /opt/ros/${ROS_DISTRO}/setup.sh && build && build gui_node
 
 WORKDIR /src
 
