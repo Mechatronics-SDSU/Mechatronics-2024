@@ -44,8 +44,7 @@ target_link_libraries(robot
   robot_library
   dependency_library
   ${rclcpp_LIBRARIES}
-)std::unordered_map<std::string, RobotType> RobotFactory::robot_types = {};
-std::unordered_map<RobotType, std::function<std::unique_ptr<Robot>(const Configuration&)>> RobotFactory::constructors = {};
+)
 
 target_include_directories(
     robot_library PUBLIC 
