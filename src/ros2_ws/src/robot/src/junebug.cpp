@@ -7,5 +7,5 @@ std::unique_ptr<Robot> Junebug::CreateJunebug(const Configuration& configuration
 
 Junebug::Junebug(const Configuration& configuration)
 {
-    this->name_ = "junebug";
+    this->name = "junebug";
 }

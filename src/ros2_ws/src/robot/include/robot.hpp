@@ -15,20 +15,22 @@ enum class RobotType;
 class Robot
 {
     public: 
-        void getName();
+        virtual void getName();
+        virtual void main_update_loop();
     protected:
-        std::string name_;
-        int motor_count_;
+        std::string name;
+        int motor_count;
 };
-
-using RobotConstructor = std::function<std::unique_ptr<Robot>(const Configuration&)>;
 
 class RobotFactory 
 {
 public:
-
-    static void RegisterRobotType(RobotType type, RobotConstructor constructor);
+    using RobotConstructor = std::function<std::unique_ptr<Robot>(const Configuration&)>;
+    static void RegisterRobotType(std::string type_name, RobotType type, RobotConstructor constructor);
+    static void registerRobots();
+    static RobotType getType(std::string type_name);
     static std::unique_ptr<Robot> CreateRobot(RobotType type, const Configuration& config);
+    static std::unordered_map<std::string, RobotType> robot_types;
     static std::unordered_map<RobotType, RobotConstructor> constructors;
 };
 

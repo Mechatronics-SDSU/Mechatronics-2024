@@ -7,5 +7,5 @@ std::unique_ptr<Robot> Percy::CreatePercy(const Configuration& configuration)
 
 Percy::Percy(const Configuration& configuration)
 {
-    this->name_ = "percy";
+    this->name = "percy";
 }
