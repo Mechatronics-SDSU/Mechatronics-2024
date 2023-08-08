@@ -2,34 +2,41 @@
 #define ROBOT_H
 
 #include <memory>
+#include <unordered_map>
+#include <cstring>
+#include <functional>
 #include "robot_interface.hpp"
+#include "configuration.hpp"
 
 class Robot;
-class Percy;
-class Junebug;
-class Configuration;
+class RobotFactory;
+enum class RobotType;
 
 class Robot
 {
     public: 
-        Robot(const Configuration& configuration);
-        void run_update_loop();
-    private:
-        char* name_;
+        void getName();
+    protected:
+        std::string name_;
         int motor_count_;
 };
 
-class Percy : Robot
+using RobotConstructor = std::function<std::unique_ptr<Robot>(const Configuration&)>;
+
+class RobotFactory 
 {
-    public:
-        Percy();
+public:
+
+    static void RegisterRobotType(RobotType type, RobotConstructor constructor);
+    static std::unique_ptr<Robot> CreateRobot(RobotType type, const Configuration& config);
+    static std::unordered_map<RobotType, RobotConstructor> constructors;
 };
 
-class Junebug : Robot
+enum class RobotType 
 {
-    public:
-        Junebug();
+    Percy,
+    Junebug,
+    Scion
 };
-
 
 #endif // ROBOT_H

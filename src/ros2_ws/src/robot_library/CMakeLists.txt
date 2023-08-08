@@ -20,11 +20,27 @@ get_filename_component(ROOT_DIR "${ROS_DIR}" DIRECTORY)
 add_subdirectory(${ROOT_DIR}/classes/src/dependency_library ${CMAKE_BINARY_DIR}/classes-build)
 
 # Add your package's source files
-add_library(
+# add_library(
+    #robot_library 
+    #${SRC_DIR}/robot/src/robot.cpp
+    #${SRC_DIR}/robot/src/main.cpp
+    #${SRC_DIR}/robot/src/configuration.cpp
+
+    # ${SRC_DIR}/brain_node/src/brain_node.cpp
+    # ${SRC_DIR}/control_interface/src/control_interface.cpp
+    # ${SRC_DIR}/controller_node/src/controller_node.cpp
+    # ${SRC_DIR}/current_state_node/src/current_state_node.cpp
+    # ${SRC_DIR}/mediator_node/src/mediator_node.cpp
+    # ${SRC_DIR}/pid_node/src/pid_node.cpp
+#)
+
+add_executable(
     robot_library 
     ${SRC_DIR}/robot/src/robot.cpp
     ${SRC_DIR}/robot/src/main.cpp
     ${SRC_DIR}/robot/src/configuration.cpp
+    ${SRC_DIR}/robot/src/junebug.cpp
+    ${SRC_DIR}/robot/src/percy.cpp
 
     # ${SRC_DIR}/brain_node/src/brain_node.cpp
     # ${SRC_DIR}/control_interface/src/control_interface.cpp
