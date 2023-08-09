@@ -31,28 +31,28 @@ set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
 FetchContent_MakeAvailable(googletest)
 
 # add_subdirectory(${SRC_DIR}/googletest googletest_binary/)
-add_subdirectory(${ROOT_DIR}/ros2_ws/src/library nodes_binary/)
+add_subdirectory(${ROOT_DIR}/src/ros2_ws/src/robot_library robot_library_binary/)
 
 # Add your package's source files
 add_executable(
     test_exec 
-    ${SRC_DIR}/brain_node/src/brain_test.cpp
-    ${SRC_DIR}/pid_node/src/pid_test.cpp
+    ${SRC_DIR}/test_robot/src/test_robot.cpp
+    ${SRC_DIR}/test_robot/src/main.cpp
 )
 
 # Link gtest and other libraries to  executable
 target_link_libraries(test_exec
-  nodes
+  robot_library
   gtest
+  gmock
   gtest_main
   ${rclcpp_LIBRARIES}
 )
 
-# target_include_directories(
-#     test_exec PUBLIC 
-#     ${SRC_DIR}/brain_node/include
-#     ${SRC_DIR}/pid_node/include 
-# )
+target_include_directories(
+    test_exec PUBLIC 
+    ${SRC_DIR}/test_robot/include
+)
 
 ament_target_dependencies(test_exec scion_types rclcpp rclcpp_action std_srvs std_msgs)
 
