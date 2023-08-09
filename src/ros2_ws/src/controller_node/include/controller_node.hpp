@@ -4,18 +4,19 @@
 #include <vector>
 #include <stdlib.h>
 
+#include "component.hpp"
 #include "rclcpp/rclcpp.hpp"
 #include "sensor_msgs/msg/joy.hpp"
 #include "std_msgs/msg/string.hpp"
 #include "vector_operations.hpp"
 #include "control_interface.hpp"
 
-class Controller : public rclcpp::Node
+class Controller : public Component
 {
     typedef void (Controller::*button_function)();
 
     public:
-        Controller(unique_ptr<Robot> robot);
+        Controller(std::unique_ptr<Robot> robot);
 
     private:
         std::vector<bool>                                           buttons_;

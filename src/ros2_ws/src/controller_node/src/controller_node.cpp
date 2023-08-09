@@ -10,16 +10,9 @@
  *  3. ros2 run controller_node controller_exec
  */
 
-#include <vector>
-#include <iostream>
-#include <stdlib.h>
-#include <string>
 #include "controller_node.hpp"
 
 #define MAX_POWER 100
-
-using namespace std;
-using std::placeholders::_1;
 
 /* Require:
  * Subscription to ROS built in Joy node
@@ -27,28 +20,26 @@ using std::placeholders::_1;
  * Thrust_mapper matrix to take the 6 axis yaw, pitch, roll, x, y, z, and map them to physical movements of
  * the robot that can be implemented using 8 motor thrust values from -100 to 100 
  */
-Controller::Controller() : Node("controller")
+Controller::Controller(const std::string& node_name, std::unique_ptr<Robot> robot) : Component(node_name, robot)
 {
     controller_sub_ = this->create_subscription<sensor_msgs::msg::Joy>
-    ("/joy", 10, std::bind(&Controller::controller_subscription_callback, this, _1));
+    ("/joy", 10, std::bind(&Controller::controller_subscription_callback, this, std::placeholders::_1));
 
-    /* x_button, o_button, tri_button */
-    buttons_ = vector<bool>{false, false, false, false};
-    button_functions_ = vector<button_function> 
+    /* x_button, o_button, tri_button, square_button*/
+    buttons_ = std::vector<bool>{false, false, false, false};
+    button_functions_ = std::vector<button_function> 
     {
         &canClient::killRobot, 
         &canClient::allClear, 
         &canClient::turnOnLight,
         &canClient::turnOffLight
     };
-
-    canClient::setBotInSafeMode(can_client_);
 }
 
 void Controller::controller_subscription_callback(const sensor_msgs::msg::Joy::SharedPtr msg)
 {
-    vector<float> axes = msg->axes;
-    vector<int> buttons = msg->buttons;
+    std::vector<float> axes = msg->axes;
+    std::vector<int> buttons = msg->buttons;
 
     /* These map to the actual controller sticks and buttons */
 
@@ -62,19 +53,19 @@ void Controller::controller_subscription_callback(const sensor_msgs::msg::Joy::S
     float right_y       = -1 *  msg->axes[3];           // y
     float left_y        = -1 *  msg->axes[1];           // z
     
-    /* Multiply our 8 x 6 mapper matrix by our 6 x 1 ctrl_vals to get an 8 x 1 vector of thrust values (a vector with 8 values) */
+    /* Multiply our 8 x 6 mapper matrix by our 6 x 1 ctrl_vals to get an 8 x 1 std::vector of thrust values (a std::vector with 8 values) */
 
-    vector<float> ctrl_vals = vector<float>{left_x, right_trigger, left_trigger, right_x, right_y, left_y};
+    std::vector<float> ctrl_vals = std::vector<float>{left_x, right_trigger, left_trigger, right_x, right_y, left_y};
     ctrl_vals = normalizeCtrlVals(ctrl_vals);
-    vector<float> thrust_vals = this->thrust_mapper_ * ctrl_vals;
+    std::vector<float> thrust_vals = robot_parent->thrust_mapper * ctrl_vals;
 
     bool x_button = msg->buttons[0];
     bool o_button = msg->buttons[1];
     bool tri_button = msg->buttons[2];
     bool square_button = msg->buttons[3];
-    vector<bool> button_vals{x_button, o_button, tri_button, square_button};
+    std::vector<bool> button_vals{x_button, o_button, tri_button, square_button};
 
-    make_CAN_request(thrust_vals);
+    canClient::make_CAN_request(thrust_vals, robot_parent->motor_count, MAX_POWER);
     processButtonInputs(button_vals);
 }
 
@@ -95,50 +86,3 @@ void Controller::processButtonInputs(vector<bool>& button_inputs)
         }
     }
 }
-
-
-vector<float> Controller::normalizeCtrlVals(vector<float>& ctrl_vals)
-{
-    vector<float> normalized{0,0,0,0,0,0};
-    
-    float vectorTotal = abs(ctrl_vals[0]) + abs(ctrl_vals[3]) + abs(ctrl_vals[4]); // yaw, x, y
-    float nonVectorTotal = abs(ctrl_vals[1]) + abs(ctrl_vals[2]) + abs(ctrl_vals[5]); // roll, pitch, z
-
-    normalized[0] = ctrl_vals[0];
-    normalized[1] = ctrl_vals[1];
-    normalized[2] = ctrl_vals[2];
-    normalized[3] = ctrl_vals[3];
-    normalized[4] = ctrl_vals[4];
-    normalized[5] = ctrl_vals[5];
-
-    if (vectorTotal > 1)
-    {
-        normalized[0] = ctrl_vals[0] / vectorTotal;
-        normalized[3] = ctrl_vals[3] / vectorTotal;
-        normalized[4] = ctrl_vals[4] / vectorTotal;
-    }
-    if (nonVectorTotal > 1)
-    {
-        normalized[1] = ctrl_vals[1] / nonVectorTotal;
-        normalized[2] = ctrl_vals[2] / nonVectorTotal;
-        normalized[5] = ctrl_vals[5] / nonVectorTotal;
-    }
-
-    if (vectorTotal == 0)
-    {
-        normalized[0] = 0;
-        normalized[3] = 0;
-        normalized[4] = 0;
-    }
-
-    if (nonVectorTotal == 0)
-    {
-        normalized[1] = 0;
-        normalized[2] = 0;
-        normalized[5] = 0;
-    }
-
-    return normalized;
-}
-
-
