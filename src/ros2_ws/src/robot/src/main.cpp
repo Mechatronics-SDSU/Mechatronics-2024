@@ -1,5 +1,6 @@
 #include "robot.hpp"
-#define CONFIG_FILE "/home/mechatronics/clean/src/ros2_ws/src/robot/config.json"
+#include <filesystem>
+#define CONFIG_FILE "/home/mechatronics/robots/src/ros2_ws/src/robot/config.json"
 
 int main(int argc, char** argv)
 {
@@ -10,7 +11,5 @@ int main(int argc, char** argv)
     RobotType type = RobotFactory::getType(json_string["robot"]);
     std::unique_ptr<Robot> robot = RobotFactory::CreateRobot(type, *config);
 
-    robot->getName();
-
     return EXIT_SUCCESS;
- }
+}

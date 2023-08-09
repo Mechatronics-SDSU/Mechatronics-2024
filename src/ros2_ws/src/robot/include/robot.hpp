@@ -6,19 +6,16 @@
 #include <functional>
 #include "robot_interface.hpp"
 #include "configuration.hpp"
-
-// class Robot;
-// class RobotFactory;
-// enum class RobotType;
+#define protected public 
 
 class Robot
 {
     public: 
-        virtual void getName();
         virtual void main_update_loop();
     protected:
         std::string name;
         int motor_count;
+        Interface::matrix_t thrust_mapper;
 };
 
 enum class RobotType 
@@ -28,16 +25,16 @@ enum class RobotType
     Scion
 };
 
-
 class RobotFactory 
 {
-public:
-    using RobotConstructor = std::function<std::unique_ptr<Robot>(const Configuration&)>;
-    static void RegisterRobotType(std::string type_name, RobotType type, RobotConstructor constructor);
-    static void registerRobots();
-    static RobotType getType(std::string type_name);
-    static std::unique_ptr<Robot> CreateRobot(RobotType type, const Configuration& config);
-    static std::unordered_map<std::string, RobotType> robot_types;
-    static std::unordered_map<RobotType, RobotConstructor> constructors;
+    public:
+        using RobotConstructor = std::function<std::unique_ptr<Robot>(const Configuration&)>;
+        static void RegisterRobotType(std::string type_name, RobotType type, RobotConstructor constructor);
+        static void registerRobots();
+        static RobotType getType(std::string type_name);
+        static std::unique_ptr<Robot> CreateRobot(RobotType type, const Configuration& config);
+    private:
+        static std::unordered_map<std::string, RobotType> robot_types;
+        static std::unordered_map<RobotType, RobotConstructor> constructors;
 };
 

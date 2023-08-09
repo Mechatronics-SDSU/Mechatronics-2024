@@ -19,6 +19,8 @@ get_filename_component(ROOT_DIR "${ROS_DIR}" DIRECTORY)
 
 add_subdirectory(${ROOT_DIR}/classes/src/dependency_library ${CMAKE_BINARY_DIR}/classes-build)
 
+configure_file(${SRC_DIR}/robot/config.json ${CMAKE_BINARY_DIR}/config.json COPYONLY)
+
 # Add your package's source files
  add_library(
     robot_library 
