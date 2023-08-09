@@ -11,6 +11,7 @@
 class Robot
 {
     public: 
+        Robot();
         virtual void main_update_loop();
     protected:
         std::string name;

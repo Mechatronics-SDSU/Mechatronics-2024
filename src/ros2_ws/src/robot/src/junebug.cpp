@@ -5,7 +5,7 @@ std::unique_ptr<Robot> Junebug::CreateJunebug(const Configuration& configuration
     return std::make_unique<Junebug>(configuration);
 }
 
-Junebug::Junebug(const Configuration& configuration)
+Junebug::Junebug(const Configuration& configuration) : Robot()
 {
     this->name = "junebug";
     this->motor_count = 2;

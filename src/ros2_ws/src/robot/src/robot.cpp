@@ -5,6 +5,11 @@
 std::unordered_map<std::string, RobotType> RobotFactory::robot_types;
 std::unordered_map<RobotType, std::function<std::unique_ptr<Robot>(const Configuration&)>> RobotFactory::constructors;
 
+Robot::Robot()
+{
+    
+}
+
 void Robot::main_update_loop()
 {
     

@@ -5,7 +5,7 @@ std::unique_ptr<Robot> Percy::CreatePercy(const Configuration& configuration)
     return std::make_unique<Percy>(configuration);
 }
 
-Percy::Percy(const Configuration& configuration)
+Percy::Percy(const Configuration& configuration) : Robot()
 {
     this->name = "percy";
     this->motor_count = 8;

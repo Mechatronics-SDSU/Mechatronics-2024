@@ -28,6 +28,7 @@ configure_file(${SRC_DIR}/robot/config.json ${CMAKE_BINARY_DIR}/config.json COPY
     ${SRC_DIR}/robot/src/configuration.cpp
     ${SRC_DIR}/robot/src/junebug.cpp
     ${SRC_DIR}/robot/src/percy.cpp
+    ${SRC_DIR}/robot/src/component.cpp
 )
 
 add_executable(
