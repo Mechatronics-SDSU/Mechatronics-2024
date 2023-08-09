@@ -1,7 +1,12 @@
 #include "can_interface.hpp"
 
+canClient::canClient()
+{
+    node = rclcpp::Node::make_shared("can_client");
+    can_client = node->create_client<scion_types::srv::SendFrame>("send_can_raw");
+}
 
-void canClient::sendFrame(int32_t can_id, int8_t can_dlc, unsigned char can_data[], Interface::ros_sendframe_client_t can_client)
+void canClient::sendFrame(int32_t can_id, int8_t can_dlc, unsigned char can_data[])
 {
     auto can_request = std::make_shared<scion_types::srv::SendFrame::Request>();
     can_request->can_id = can_id;
@@ -12,40 +17,41 @@ void canClient::sendFrame(int32_t can_id, int8_t can_dlc, unsigned char can_data
         can_data + can_dlc,
         can_request->can_data.begin()
     );
-    auto can_future = can_client->async_send_request(can_request);
+    auto can_future = this->can_client->async_send_request(can_request);
+    rclcpp::spin_until_future_complete(this->node, can_future);
 }
 
-void canClient::setBotInSafeMode(Interface::ros_sendframe_client_t can_client)
+void canClient::setBotInSafeMode()
 {
     std::vector<unsigned char> safeModeFrame{0,0,0,0,0x04};
-    sendFrame(0x022, 5, safeModeFrame.data(), can_client);
+    sendFrame(0x022, 5, safeModeFrame.data());
 }
 
-void canClient::turnOnLight(Interface::ros_sendframe_client_t can_client) 
+void canClient::turnOnLight() 
 {
     std::vector<unsigned char> lightEnable{0x04, 0x00, 0x00, 0x00, 0x01};
-    canClient::sendFrame(0x22, 5, lightEnable.data(), can_client);
+    canClient::sendFrame(0x22, 5, lightEnable.data());
     std::vector<unsigned char> lightOn{0x04, 0x00, 0x04, 0x00, 0x64};
-    canClient::sendFrame(0x22, 5, lightOn.data(), can_client);
+    canClient::sendFrame(0x22, 5, lightOn.data());
 }
 
-void canClient::turnOffLight(Interface::ros_sendframe_client_t can_client) 
+void canClient::turnOffLight() 
 {
     std::vector<unsigned char> lightOn{0x04, 0x00, 0x04, 0x00, 0x00};
-    canClient::sendFrame(0x22, 5, lightOn.data(), can_client);
+    canClient::sendFrame(0x22, 5, lightOn.data());
 }
 
-void canClient::killRobot(Interface::ros_sendframe_client_t can_client)
+void canClient::killRobot()
 {
-    canClient::sendFrame(0x00, 0, 0, can_client);
+    canClient::sendFrame(0x00, 0, 0);
 }
 
-void canClient::allClear(Interface::ros_sendframe_client_t can_client)
+void canClient::allClear()
 {
-    canClient::sendFrame(0x00A, 0, 0, can_client);
+    canClient::sendFrame(0x00A, 0, 0);
 }
 
-std::vector<int> canClient::make_CAN_request(std::vector<float>& thrusts, int motor_count, int max_power, Interface::ros_sendframe_client_t can_client)
+std::vector<int> canClient::make_motor_request(std::vector<float>& thrusts, int motor_count, int max_power)
 {
     #define MOTOR_ID 0x010
     /* Thrusts come out of PID as a float between -1 and 1; motors need int value from -100 to 100 */
@@ -74,6 +80,6 @@ std::vector<int> canClient::make_CAN_request(std::vector<float>& thrusts, int mo
     * one byte for each value -100 to 100 
     */
 
-    canClient::sendFrame(MOTOR_ID, motor_count, byteThrusts.data(), can_client);
+    canClient::sendFrame(MOTOR_ID, motor_count, byteThrusts.data());
     return convertedThrusts;
 }
