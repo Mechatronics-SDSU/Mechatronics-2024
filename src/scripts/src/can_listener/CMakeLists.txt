@@ -5,6 +5,7 @@ get_filename_component(SCRIPTS_DIR "${CMAKE_CURRENT_SOURCE_DIR}" DIRECTORY)
 get_filename_component(ROOT_DIR "${SCRIPTS_DIR}" DIRECTORY)
 
 set(CMAKE_CXX_STANDARD 20)
+add_definitions(-DROBOT_PROGRAM_PATH="${ROOT_DIR}/ros2_ws/install/robot_library/lib/dependency_library/robot")
 
 # Find dependencies
 find_package(ament_cmake REQUIRED)

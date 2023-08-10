@@ -17,7 +17,7 @@ const std::string canInterface = "can0";
 const int targetSignalID = 0x04;       
 
 void startTargetProgram() {
-    const char* programPath = "/home/mechatronics/quantum/src/ros2_ws/install/robot_library/lib/robot_library/robot";
+    const char* programPath = ROBOT_PROGRAM_PATH; // Defined in CMakeLists.txt
     
     pid_t pid = fork();
     if (pid == 0) {
