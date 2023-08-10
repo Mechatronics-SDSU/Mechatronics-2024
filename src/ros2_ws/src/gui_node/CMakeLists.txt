@@ -6,10 +6,16 @@ set(CMAKE_AUTOUIC ON)
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
 
-
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
+add_definitions(-DSTYLE_SHEET_FILE_PATH="${CMAKE_CURRENT_SOURCE_DIR}/styles.qss")
 set(STYLESHEET_FILE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/styles.qss")
+
+get_filename_component(SRC_DIR "${CMAKE_CURRENT_SOURCE_DIR}" DIRECTORY)
+get_filename_component(ROS_DIR "${SRC_DIR}" DIRECTORY)
+get_filename_component(ROOT_DIR "${ROS_DIR}" DIRECTORY)
+
+add_subdirectory(${ROOT_DIR}/classes/src/dependency_library ${CMAKE_BINARY_DIR}/classes-build)
 
 find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Widgets)
 find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets)
@@ -26,12 +32,14 @@ add_executable(gui_exec src/main.cpp
         src/mainwindow.ui
 )
 
-target_include_directories(gui_exec PUBLIC include
-                                    ../control_interface/include)
+target_include_directories(gui_exec PUBLIC include)
 
 ament_target_dependencies(gui_exec PUBLIC rclcpp scion_types std_msgs)
 
-target_link_libraries(gui_exec PRIVATE Qt${QT_VERSION_MAJOR}::Widgets)
+target_link_libraries(gui_exec 
+    PRIVATE Qt${QT_VERSION_MAJOR}::Widgets
+    PUBLIC dependency_library
+)
 
 set_target_properties(gui_exec PROPERTIES
     MACOSX_BUNDLE_GUI_IDENTIFIER my.example.com

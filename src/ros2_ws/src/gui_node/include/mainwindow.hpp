@@ -3,10 +3,11 @@
 
 #include <QMainWindow>
 #include <QLabel>
-#include "rclcpp/rclcpp.hpp"
-#include "std_msgs/msg/int32.hpp"
-#include "scion_types/msg/pid_tuning.hpp"
-#include "std_msgs/msg/float32.hpp"
+#include <QFile>
+#include <QApplication>
+#include <chrono>
+#include <unistd.h>
+#include "robot_interface.hpp"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -17,6 +18,7 @@ class MainWindow : public QMainWindow
     Q_OBJECT
 
 public:
+    static void initiate(int argc, char* argv[]);
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
@@ -44,4 +46,6 @@ private slots:
     void kiPushButtonClicked();
     void kdPushButtonClicked();
 };
+
+
 #endif // MAINWINDOW_H
