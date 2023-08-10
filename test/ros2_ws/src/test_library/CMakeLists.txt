@@ -5,6 +5,13 @@ if(NOT CMAKE_MAXIMUM_RECURSION_DEPTH)
   set(CMAKE_MAXIMUM_RECURSION_DEPTH 1000)
 endif()
 
+get_filename_component(SRC_DIR "${CMAKE_CURRENT_SOURCE_DIR}" DIRECTORY)
+get_filename_component(ROS_DIR "${SRC_DIR}" DIRECTORY)
+get_filename_component(ROOT_DIR "${ROS_DIR}" DIRECTORY)
+
+add_definitions(-DJUNEBUG_CONFIG="${SRC_DIR}/test_robot/src/junebug_test_config.json")
+add_definitions(-DPERCY_CONFIG="${SRC_DIR}/test_robot/src/percy_test_config.json")
+
 # Set the C++ standard to use (e.g., C++17)
 set(CMAKE_CXX_STANDARD 17)
 

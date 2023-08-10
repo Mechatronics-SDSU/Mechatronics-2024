@@ -31,6 +31,7 @@ configure_file(${SRC_DIR}/robot/config.json ${CMAKE_BINARY_DIR}/config.json COPY
  add_library(
     robot_library 
     ${SRC_DIR}/robot/src/robot.cpp
+    ${SRC_DIR}/robot/src/robot_factory.cpp
     ${SRC_DIR}/robot/src/configuration.cpp
     ${SRC_DIR}/robot/src/junebug.cpp
     ${SRC_DIR}/robot/src/percy.cpp

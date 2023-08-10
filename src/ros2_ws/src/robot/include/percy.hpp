@@ -5,5 +5,5 @@ class Percy : public Robot
 {
     public:
         Percy(const Configuration& configuration);
-        static std::unique_ptr<Robot> CreatePercy(const Configuration& configuration);
+        static std::shared_ptr<Robot> CreatePercy(const Configuration& configuration);
 };

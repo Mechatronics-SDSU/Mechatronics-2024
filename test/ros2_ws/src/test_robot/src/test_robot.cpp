@@ -21,11 +21,11 @@ public:
 TEST_F(ROBOT_TEST_SUITE, junebug_json)
 {
     RobotFactory::registerRobots();
-    std::unique_ptr<Configuration> config = std::make_unique<Configuration>("/home/mechatronics/robots/test/ros2_ws/src/test_robot/src/junebug_test_config.json");
+    std::unique_ptr<Configuration> config = std::make_unique<Configuration>(JUNEBUG_CONFIG);
     nlohmann::json json_string = config->getJsonString();
 
     RobotType type = RobotFactory::getType(json_string["robot"]);
-    std::unique_ptr<Robot> robot = RobotFactory::CreateRobot(type, *config);
+    std::shared_ptr<Robot> robot = RobotFactory::CreateRobot(type, *config);
     EXPECT_EQ(robot->name, "junebug");
     EXPECT_EQ(robot->motor_count, 2);
 }
@@ -33,11 +33,11 @@ TEST_F(ROBOT_TEST_SUITE, junebug_json)
 TEST_F(ROBOT_TEST_SUITE, percy_json)
 {
     RobotFactory::registerRobots();
-    std::unique_ptr<Configuration> config = std::make_unique<Configuration>("/home/mechatronics/robots/test/ros2_ws/src/test_robot/src/percy_test_config.json");
+    std::unique_ptr<Configuration> config = std::make_unique<Configuration>(PERCY_CONFIG);
     nlohmann::json json_string = config->getJsonString();
 
     RobotType type = RobotFactory::getType(json_string["robot"]);
-    std::unique_ptr<Robot> robot = RobotFactory::CreateRobot(type, *config);
+    std::shared_ptr<Robot> robot = RobotFactory::CreateRobot(type, *config);
     EXPECT_EQ(robot->name, "percy");
     EXPECT_EQ(robot->motor_count, 8);
 }
