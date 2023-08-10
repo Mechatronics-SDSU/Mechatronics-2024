@@ -1,3 +1,2 @@
-#!/bin/bash
 . /opt/ros/$ROS_DISTRO/setup.bash
-# . install/setup.bash
+. install/setup.bash

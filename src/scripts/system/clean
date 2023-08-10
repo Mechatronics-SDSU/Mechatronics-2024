@@ -1,0 +1,1 @@
+sudo rm -r build && sudo rm -r log && sudo rm -r install
