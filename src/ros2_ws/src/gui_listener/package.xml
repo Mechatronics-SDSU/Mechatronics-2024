@@ -1,14 +1,13 @@
 <?xml version="1.0"?>
 <?xml-model href="http://download.ros.org/schema/package_format3.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
 <package format="3">
-  <name>gui_node</name>
+  <name>gui_listener_node</name>
   <version>0.0.0</version>
-  <description>TODO: Package description</description>
+  <description>Listen to GUI Info</description>
   <maintainer email="mechatronics.sdsu@gmail.com">mechatronics</maintainer>
   <license>MIT</license>
 
   <buildtool_depend>ament_cmake</buildtool_depend>
-
   <depend>std_srvs</depend>
   <depend>std_msgs</depend>
   <depend>scion_types</depend>

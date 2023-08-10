@@ -28,7 +28,7 @@ add_subdirectory(${ROOT_DIR}/classes/src/dependency_library ${CMAKE_BINARY_DIR}/
 configure_file(${SRC_DIR}/robot/config.json ${CMAKE_BINARY_DIR}/config.json COPYONLY)
 
 # Add your package's source files
- add_library(
+add_library(
     robot_library 
     ${SRC_DIR}/robot/src/robot.cpp
     ${SRC_DIR}/robot/src/robot_factory.cpp
@@ -39,6 +39,7 @@ configure_file(${SRC_DIR}/robot/config.json ${CMAKE_BINARY_DIR}/config.json COPY
     ${SRC_DIR}/gui_node/src/mainwindow.cpp
     ${SRC_DIR}/gui_node/src/mainwindow.ui
     ${SRC_DIR}/gui_node/include/mainwindow.hpp
+    ${SRC_DIR}/gui_listener_node/src/gui_listener_node.cpp
 )
 
 add_executable(
@@ -65,12 +66,14 @@ target_include_directories(
     robot_library PUBLIC 
     ${SRC_DIR}/robot/include
     ${SRC_DIR}/gui_node/include
+    ${SRC_DIR}/gui_listener/include
 )
 
 target_include_directories(
     robot PUBLIC 
     ${SRC_DIR}/robot/include
     ${SRC_DIR}/gui_node/include
+    ${SRC_DIR}/gui_listener/include
 )
 
 ament_target_dependencies(robot_library scion_types rclcpp rclcpp_action std_srvs std_msgs sensor_msgs)

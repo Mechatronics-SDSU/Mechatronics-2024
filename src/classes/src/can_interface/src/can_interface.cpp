@@ -1,6 +1,12 @@
 #include "can_interface.hpp"
 
-void canClient::sendFrame(int32_t can_id, int8_t can_dlc, unsigned char can_data[])
+CanInterface::CanClient::CanClient()
+{
+    this->node = rclcpp::Node::make_shared("can_client");
+    this->can_client = node->create_client<scion_types::srv::SendFrame>("send_can_raw");
+}
+
+void CanInterface::CanClient::sendFrame(int32_t can_id, int8_t can_dlc, unsigned char can_data[])
 {
     auto can_request = std::make_shared<scion_types::srv::SendFrame::Request>();
     can_request->can_id = can_id;
@@ -15,37 +21,37 @@ void canClient::sendFrame(int32_t can_id, int8_t can_dlc, unsigned char can_data
     rclcpp::spin_until_future_complete(node, can_future);
 }
 
-void canClient::setBotInSafeMode()
+void CanInterface::CanClient::setBotInSafeMode()
 {
     std::vector<unsigned char> safeModeFrame{0,0,0,0,0x04};
     sendFrame(0x022, 5, safeModeFrame.data());
 }
 
-void canClient::turnOnLight() 
+void CanInterface::CanClient::turnOnLight() 
 {
     std::vector<unsigned char> lightEnable{0x04, 0x00, 0x00, 0x00, 0x01};
-    canClient::sendFrame(0x22, 5, lightEnable.data());
+    CanInterface::CanClient::sendFrame(0x22, 5, lightEnable.data());
     std::vector<unsigned char> lightOn{0x04, 0x00, 0x04, 0x00, 0x64};
-    canClient::sendFrame(0x22, 5, lightOn.data());
+    CanInterface::CanClient::sendFrame(0x22, 5, lightOn.data());
 }
 
-void canClient::turnOffLight() 
+void CanInterface::CanClient::turnOffLight() 
 {
     std::vector<unsigned char> lightOn{0x04, 0x00, 0x04, 0x00, 0x00};
-    canClient::sendFrame(0x22, 5, lightOn.data());
+    CanInterface::CanClient::sendFrame(0x22, 5, lightOn.data());
 }
 
-void canClient::killRobot()
+void CanInterface::CanClient::killRobot()
 {
-    canClient::sendFrame(0x00, 0, 0);
+    CanInterface::CanClient::sendFrame(0x00, 0, 0);
 }
 
-void canClient::allClear()
+void CanInterface::CanClient::allClear()
 {
-    canClient::sendFrame(0x00A, 0, 0);
+    CanInterface::CanClient::sendFrame(0x00A, 0, 0);
 }
 
-std::vector<int> canClient::make_motor_request(std::vector<float>& thrusts, int motor_count, int max_power)
+std::vector<int> CanInterface::CanClient::make_motor_request(std::vector<float>& thrusts, int motor_count, int max_power)
 {
     #define MOTOR_ID 0x010
     /* Thrusts come out of PID as a float between -1 and 1; motors need int value from -100 to 100 */
@@ -74,6 +80,6 @@ std::vector<int> canClient::make_motor_request(std::vector<float>& thrusts, int 
     * one byte for each value -100 to 100 
     */
 
-    canClient::sendFrame(MOTOR_ID, motor_count, byteThrusts.data());
+    CanInterface::CanClient::sendFrame(MOTOR_ID, motor_count, byteThrusts.data());
     return convertedThrusts;
 }
