@@ -1,3 +1,4 @@
+#pragma once
 #include "robot_interface.hpp"
 
 namespace CanInterface
