@@ -2,13 +2,13 @@
 #include <linux/can/raw.h>
 #include <sys/socket.h>
 #include <unistd.h>
+#include <QTimer>
+#include <cstring>
+#include <QComboBox>
 
 #include "mainwindow.hpp"
 #include "./ui_mainwindow.h"
 #include <iostream>
-#include <QTimer>
-#include <cstring>
-#include <QComboBox>
 
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWindow)
 {
@@ -121,3 +121,14 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
+void MainWindow::initiate(int argc, char* argv[])
+{
+    QApplication app(argc, argv);
+    QFile styleFile(STYLE_SHEET_FILE_PATH);
+    styleFile.open(QFile::ReadOnly);
+    QString style(styleFile.readAll());
+    app.setStyleSheet(style);
+    MainWindow window;
+    window.show();
+    app.exec();
+}

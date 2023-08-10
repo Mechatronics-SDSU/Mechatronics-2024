@@ -29,9 +29,7 @@ class PID_Controller
         float curr_ctrl_val = 0.0;
 
     public:
-        
         PID_Controller() {};
-
         PID_Controller
         (
             float k_p, 
