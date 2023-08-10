@@ -39,7 +39,7 @@ add_library(
     ${SRC_DIR}/gui_node/src/mainwindow.cpp
     ${SRC_DIR}/gui_node/src/mainwindow.ui
     ${SRC_DIR}/gui_node/include/mainwindow.hpp
-    ${SRC_DIR}/gui_listener_node/src/gui_listener_node.cpp
+    ${SRC_DIR}/gui_listener/src/gui_listener_node.cpp
 )
 
 add_executable(
