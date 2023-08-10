@@ -3,15 +3,14 @@
 class canClient
 {
     public:
-        canClient();
-        void sendFrame(int32_t can_id, int8_t can_dlc, unsigned char can_data[]);
-        void setBotInSafeMode();
-        void turnOnLight();
-        void turnOffLight();
-        void killRobot();
-        void allClear();
-        std::vector<int> make_motor_request(std::vector<float>& thrusts, int motor_count, int max_power);
+        static void sendFrame(int32_t can_id, int8_t can_dlc, unsigned char can_data[]);
+        static void setBotInSafeMode();
+        static void turnOnLight();
+        static void turnOffLight();
+        static void killRobot();
+        static void allClear();
+        static std::vector<int> make_motor_request(std::vector<float>& thrusts, int motor_count, int max_power);
     private:
-        Interface::node_t node;
-        Interface::ros_sendframe_client_t can_client;
+        static Interface::node_t node;
+        static Interface::ros_sendframe_client_t can_client;
 };

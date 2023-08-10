@@ -1,10 +1,7 @@
 #include "can_interface.hpp"
 
-canClient::canClient()
-{
-    node = rclcpp::Node::make_shared("can_client");
-    can_client = node->create_client<scion_types::srv::SendFrame>("send_can_raw");
-}
+Interface::node_t canClient::node = rclcpp::Node::make_shared("can_client");
+Interface::ros_sendframe_client_t canClient::can_client = node->create_client<scion_types::srv::SendFrame>("send_can_raw");
 
 void canClient::sendFrame(int32_t can_id, int8_t can_dlc, unsigned char can_data[])
 {
@@ -17,8 +14,8 @@ void canClient::sendFrame(int32_t can_id, int8_t can_dlc, unsigned char can_data
         can_data + can_dlc,
         can_request->can_data.begin()
     );
-    auto can_future = this->can_client->async_send_request(can_request);
-    rclcpp::spin_until_future_complete(this->node, can_future);
+    auto can_future = can_client->async_send_request(can_request);
+    rclcpp::spin_until_future_complete(node, can_future);
 }
 
 void canClient::setBotInSafeMode()
