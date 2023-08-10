@@ -12,5 +12,5 @@ void Component::disable()
 
 void Component::validate()
 {
-    this->validated = true;
+    this->valid = true;
 }

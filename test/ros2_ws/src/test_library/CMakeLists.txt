@@ -7,7 +7,8 @@ endif()
 
 get_filename_component(SRC_DIR "${CMAKE_CURRENT_SOURCE_DIR}" DIRECTORY)
 get_filename_component(ROS_DIR "${SRC_DIR}" DIRECTORY)
-get_filename_component(ROOT_DIR "${ROS_DIR}" DIRECTORY)
+get_filename_component(TEST_DIR "${ROS_DIR}" DIRECTORY)
+get_filename_component(ROOT_DIR "${TEST_DIR}" DIRECTORY)
 
 add_definitions(-DJUNEBUG_CONFIG="${SRC_DIR}/test_robot/src/junebug_test_config.json")
 add_definitions(-DPERCY_CONFIG="${SRC_DIR}/test_robot/src/percy_test_config.json")
@@ -22,11 +23,6 @@ find_package(scion_types REQUIRED)
 find_package(rclcpp_action REQUIRED)
 find_package(std_srvs REQUIRED)
 find_package(std_msgs REQUIRED)
-
-get_filename_component(SRC_DIR "${CMAKE_CURRENT_SOURCE_DIR}" DIRECTORY)
-get_filename_component(ROS_DIR "${SRC_DIR}" DIRECTORY)
-get_filename_component(TEST_DIR "${ROS_DIR}" DIRECTORY)
-get_filename_component(ROOT_DIR "${TEST_DIR}" DIRECTORY)
 
 # Add gtest library
 include(FetchContent)
