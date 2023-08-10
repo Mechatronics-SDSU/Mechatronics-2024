@@ -6,7 +6,7 @@
 class Component : public rclcpp::Node
 {
     public:
-        Component(const std::string& node_name, std::unique_ptr<Robot> robot);
+        Component();
     protected:
         virtual void update() = 0;
         void enable();
@@ -14,5 +14,4 @@ class Component : public rclcpp::Node
         void validate();
         bool enabled = false;
         bool valid = false;
-        std::unique_ptr<Robot> robot_parent;
 };

@@ -1,8 +1,5 @@
 #include "can_interface.hpp"
 
-Interface::node_t canClient::node = rclcpp::Node::make_shared("can_client");
-Interface::ros_sendframe_client_t canClient::can_client = node->create_client<scion_types::srv::SendFrame>("send_can_raw");
-
 void canClient::sendFrame(int32_t can_id, int8_t can_dlc, unsigned char can_data[])
 {
     auto can_request = std::make_shared<scion_types::srv::SendFrame::Request>();
