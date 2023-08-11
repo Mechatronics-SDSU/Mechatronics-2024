@@ -1,6 +1,7 @@
 #include "robot.hpp"
 #include "robot_factory.hpp"
 #include "rclcpp/rclcpp.hpp"
+#include "async_nodes.hpp"
 
 std::shared_ptr<Robot> initRobot(int argc, char* argv[])
 {
@@ -16,7 +17,8 @@ int main(int argc, char** argv)
 {
     rclcpp::init(argc, argv);
     std::shared_ptr<Robot> robot = initRobot(argc, argv);
-    rclcpp::spin(robot);
+    asyncNodes::startup();
+    // rclcpp::spin(robot);
     rclcpp::shutdown();   
     return EXIT_SUCCESS;
 }
