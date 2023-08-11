@@ -1,20 +1,20 @@
 #pragma once
 #include "robot_interface.hpp"
-#include "can_interface.hpp"
+#include "abstract_robot.hpp"
 #include "configuration.hpp"
 #include "gui_listener_node.hpp"
 #include "controller_node.hpp"
 
 #define protected public 
-class Robot : public rclcpp::Node
+class Robot : public AbstractRobot, public rclcpp::Node
 {
     public: 
         Robot();
-        virtual void main_update_loop();
-        std::string getName() {return this->name;}
-        int getMotorCount() {return this->motor_count;}
-        Interface::matrix_t getThrustMapper() {return this->thrust_mapper;}
-        std::shared_ptr<CanInterface::CanClient> getCanClient() {return this->can_client;}
+        virtual void main_update_loop() override;
+        std::string getName() override {return this->name;}
+        int getMotorCount() override {return this->motor_count;}
+        Interface::matrix_t getThrustMapper() override {return this->thrust_mapper;}
+        std::shared_ptr<CanInterface::CanClient> getCanClient() override {return this->can_client;}
     protected:
         std::string name;
         int motor_count;
