@@ -25,6 +25,7 @@ class Controller : public Component
         int                                                         motor_count;
     
         void controller_subscription_callback(const sensor_msgs::msg::Joy::SharedPtr msg);
+        void processStickInputs(std::vector<float>& ctrl_vals);
         void processButtonInputs(std::vector<bool>& button_inputs);
 };
 

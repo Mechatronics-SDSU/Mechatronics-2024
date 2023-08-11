@@ -63,27 +63,29 @@ void Controller::controller_subscription_callback(const sensor_msgs::msg::Joy::S
     bool square_button = msg->buttons[3];
 
     std::vector<float> ctrl_vals = std::vector<float>{left_x, right_trigger, left_trigger, right_x, right_y, left_y};
-    ctrl_vals = mathOperations::normalizeCtrlVals(ctrl_vals);
-    std::vector<float> thrust_vals = this->thrust_mapper * ctrl_vals;
-    can_client->make_motor_request(thrust_vals, this->motor_count, MAX_POWER);
+    processStickInputs(ctrl_vals);
 
     std::vector<bool> button_vals{x_button, o_button, tri_button, square_button};
     processButtonInputs(button_vals);
 }
 
+// Side effect: motor request equal to power provided by stick
+void Controller::processStickInputs(std::vector<float>& ctrl_vals)
+{
+    ctrl_vals = mathOperations::normalizeCtrlVals(ctrl_vals);
+    std::vector<float> thrust_vals = this->thrust_mapper * ctrl_vals;
+    can_client->make_motor_request(thrust_vals, this->motor_count, MAX_POWER);
+}
 
-// 0: x, 1: o, 2: tri, 3: square
+// Side effect: CAN request equal to function mapped to button
 void Controller::processButtonInputs(std::vector<bool>& button_inputs)
 {
-    for (int i = 0; i < button_inputs.size(); i++)
-    {
-        if (button_inputs[i] && !this->buttons_[i]) 
-        {
+    for (int i = 0; i < button_inputs.size(); i++) {
+        if (button_inputs[i] && !this->buttons_[i]) {
             this->buttons_[i] = 1;
             // (this->can_client->*(button_functions_[i]))();
         }
-        if (!button_inputs[i] && this->buttons_[i]) 
-        {
+        if (!button_inputs[i] && this->buttons_[i]) {
             this->buttons_[i] = 0;
         }
     }
