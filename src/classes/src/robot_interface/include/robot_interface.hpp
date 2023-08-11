@@ -20,6 +20,7 @@
 #include "scion_types/msg/pid_tuning.hpp"
 #include "scion_types/msg/sub_state.hpp"
 #include "scion_types/action/pid.hpp"
+#include "sensor_msgs/msg/joy.hpp"
 #include "std_msgs/msg/int32.hpp"
 #include "std_msgs/msg/string.hpp"
 

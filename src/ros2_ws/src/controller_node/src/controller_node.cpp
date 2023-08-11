@@ -11,6 +11,7 @@
  */
 
 #include "controller_node.hpp"
+#include "math_operations.hpp"
 
 #define MAX_POWER 100
 
@@ -20,7 +21,7 @@
  * Thrust_mapper matrix to take the 6 axis yaw, pitch, roll, x, y, z, and map them to physical movements of
  * the robot that can be implemented using 8 motor thrust values from -100 to 100 
  */
-Controller::Controller(int motor_count, Interface::matrix_t thrust_mapper) : Node("controller")
+Controller::Controller(Interface::matrix_t thrust_mapper, int motor_count, std::shared_ptr<CanInterface::CanClient> canClient) : Component("controller")
 {
     controller_sub_ = this->create_subscription<sensor_msgs::msg::Joy>
     ("/joy", 10, std::bind(&Controller::controller_subscription_callback, this, std::placeholders::_1));
@@ -29,11 +30,15 @@ Controller::Controller(int motor_count, Interface::matrix_t thrust_mapper) : Nod
     buttons_ = std::vector<bool>{false, false, false, false};
     button_functions_ = std::vector<button_function> 
     {
-        &canClient::killRobot, 
-        &canClient::allClear, 
-        &canClient::turnOnLight,
-        &canClient::turnOffLight
+        &CanInterface::CanClient::killRobot, 
+        &CanInterface::CanClient::allClear, 
+        &CanInterface::CanClient::turnOnLight,
+        &CanInterface::CanClient::turnOffLight
     };
+
+    this->can_client = can_client;
+    this->motor_count = motor_count;
+    this->thrust_mapper = thrust_mapper;
 }
 
 void Controller::controller_subscription_callback(const sensor_msgs::msg::Joy::SharedPtr msg)
@@ -58,9 +63,9 @@ void Controller::controller_subscription_callback(const sensor_msgs::msg::Joy::S
     bool square_button = msg->buttons[3];
 
     std::vector<float> ctrl_vals = std::vector<float>{left_x, right_trigger, left_trigger, right_x, right_y, left_y};
-    ctrl_vals = normalizeCtrlVals(ctrl_vals);
+    ctrl_vals = mathOperations::normalizeCtrlVals(ctrl_vals);
     std::vector<float> thrust_vals = this->thrust_mapper * ctrl_vals;
-    canClient::make_CAN_request(thrust_vals, this->motor_count, MAX_POWER);
+    can_client->make_motor_request(thrust_vals, this->motor_count, MAX_POWER);
 
     std::vector<bool> button_vals{x_button, o_button, tri_button, square_button};
     processButtonInputs(button_vals);
@@ -68,14 +73,14 @@ void Controller::controller_subscription_callback(const sensor_msgs::msg::Joy::S
 
 
 // 0: x, 1: o, 2: tri, 3: square
-void Controller::processButtonInputs(vector<bool>& button_inputs)
+void Controller::processButtonInputs(std::vector<bool>& button_inputs)
 {
     for (int i = 0; i < button_inputs.size(); i++)
     {
         if (button_inputs[i] && !this->buttons_[i]) 
         {
             this->buttons_[i] = 1;
-            (this->*(button_functions_[i]))();
+            // (this->can_client->*(button_functions_[i]))();
         }
         if (!button_inputs[i] && this->buttons_[i]) 
         {

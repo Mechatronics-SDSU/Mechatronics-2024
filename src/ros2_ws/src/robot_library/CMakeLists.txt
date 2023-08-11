@@ -41,6 +41,7 @@ add_library(
     ${SRC_DIR}/gui_node/src/mainwindow.ui
     ${SRC_DIR}/gui_node/include/mainwindow.hpp
     ${SRC_DIR}/gui_listener/src/gui_listener_node.cpp
+    ${SRC_DIR}/controller_node/src/controller_node.cpp
 )
 
 add_executable(
@@ -66,6 +67,7 @@ target_link_libraries(robot
 target_include_directories(
     robot_library PUBLIC 
     ${SRC_DIR}/robot/include
+    ${SRC_DIR}/controller_node/include
     ${SRC_DIR}/gui_node/include
     ${SRC_DIR}/gui_listener/include
 )
@@ -74,6 +76,7 @@ target_include_directories(
     robot PUBLIC 
     ${SRC_DIR}/robot/include
     ${SRC_DIR}/gui_node/include
+    ${SRC_DIR}/controller_node/include
     ${SRC_DIR}/gui_listener/include
 )
 

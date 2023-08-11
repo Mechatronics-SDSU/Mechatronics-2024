@@ -1,4 +1,10 @@
 #include "component.hpp"
+#include <cstring>
+
+Component::Component(std::string name) : Node(name)
+{
+
+}
 
 void Component::enable()
 {

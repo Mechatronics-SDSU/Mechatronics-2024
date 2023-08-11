@@ -1,14 +1,12 @@
 #pragma once
 #include "rclcpp/rclcpp.hpp"
-#include "robot.hpp"
 #include <memory>
 
 class Component : public rclcpp::Node
 {
     public:
-        Component();
+        Component(std::string name);
     protected:
-        virtual void update() = 0;
         void enable();
         void disable();
         void validate();

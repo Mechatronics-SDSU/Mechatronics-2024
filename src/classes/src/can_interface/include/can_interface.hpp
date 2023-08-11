@@ -1,7 +1,7 @@
 #pragma once
 #include "robot_interface.hpp"
 
-namespace CanInterface
+namespace CanInterface 
 {
     class CanClient
     {

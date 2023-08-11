@@ -21,6 +21,7 @@ add_library(dependency_library
     ${SRC_DIR}/pid_controller/src/pid_controller.cpp
     ${SRC_DIR}/pid_controller/src/scion_pid_controller.cpp
     ${SRC_DIR}/pid_controller/src/pid_params.cpp
+    ${SRC_DIR}/operations/src/math_operations.cpp
 )
 
 target_include_directories(

@@ -3,29 +3,29 @@
 
 #include <vector>
 #include <stdlib.h>
-
-#include "component.hpp"
+#include <memory>
 #include "rclcpp/rclcpp.hpp"
-#include "sensor_msgs/msg/joy.hpp"
-#include "std_msgs/msg/string.hpp"
 #include "vector_operations.hpp"
-#include "control_interface.hpp"
+#include "robot_interface.hpp"
+#include "can_interface.hpp"
+#include "component.hpp"
 
 class Controller : public Component
 {
-    typedef void (Controller::*button_function)();
+    typedef void (CanInterface::CanClient::*button_function)();
 
     public:
-        Controller(std::unique_ptr<Robot> robot);
-
+        Controller(Interface::matrix_t thrust_mapper, int motor_count, std::shared_ptr<CanInterface::CanClient> canClient);
     private:
         std::vector<bool>                                           buttons_;
         std::vector<button_function>                                button_functions_;
         rclcpp::Subscription<sensor_msgs::msg::Joy>::SharedPtr      controller_sub_;
+        std::shared_ptr<CanInterface::CanClient>                    can_client;
+        Interface::matrix_t                                         thrust_mapper;
+        int                                                         motor_count;
     
         void controller_subscription_callback(const sensor_msgs::msg::Joy::SharedPtr msg);
         void processButtonInputs(std::vector<bool>& button_inputs);
-        std::vector<float> normalizeCtrlVals(std::vector<float>& ctrl_vals);
 };
 
 #endif
