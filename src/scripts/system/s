@@ -1,2 +1,2 @@
-. /opt/ros/$ROS_DISTRO/setup.bash
-. install/setup.bash
+source /opt/ros/foxy/setup.bash
+source install/setup.bash

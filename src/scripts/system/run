@@ -1,0 +1,1 @@
+compile && run_tests && run_robot

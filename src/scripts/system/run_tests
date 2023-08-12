@@ -1,0 +1,5 @@
+cd test/ros2_ws
+
+. s
+
+ros2 run test_library test_exec
