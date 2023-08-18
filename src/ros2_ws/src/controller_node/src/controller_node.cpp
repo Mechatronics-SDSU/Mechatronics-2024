@@ -62,7 +62,7 @@ void Controller::controller_subscription_callback(const sensor_msgs::msg::Joy::S
     bool tri_button = msg->buttons[2];
     bool square_button = msg->buttons[3];
 
-    std::vector<float> ctrl_vals = std::vector<float>{left_x, right_trigger, left_trigger, right_x, right_y, left_y};
+    std::vector<float> ctrl_vals{left_x, right_trigger, left_trigger, right_x, right_y, left_y};
     processStickInputs(ctrl_vals);
 
     std::vector<bool> button_vals{x_button, o_button, tri_button, square_button};

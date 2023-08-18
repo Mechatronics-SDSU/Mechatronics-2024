@@ -12,4 +12,6 @@ class Component : public rclcpp::Node
         void validate();
         bool enabled = false;
         bool valid = false;
+    private:
+        int update_rate;
 };

@@ -35,7 +35,6 @@ add_library(
     ${SRC_DIR}/robot/src/configuration.cpp
     ${SRC_DIR}/robot/src/junebug.cpp
     ${SRC_DIR}/robot/src/percy.cpp
-    ${SRC_DIR}/robot/src/async_nodes.cpp
     ${SRC_DIR}/robot/src/component.cpp
     ${SRC_DIR}/gui_node/src/mainwindow.cpp
     ${SRC_DIR}/gui_node/src/mainwindow.ui

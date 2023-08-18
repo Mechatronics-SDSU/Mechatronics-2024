@@ -1,34 +1,62 @@
 #include "robot_factory.hpp"
+#include "percy.hpp"
+#include "junebug.hpp"
+#include <unordered_map>
+#include <cstring>
+#include <functional>
 
-std::unordered_map<std::string, RobotType> RobotFactory::robot_types;
-std::unordered_map<RobotType, std::function<std::shared_ptr<Robot>(const Configuration&)>> RobotFactory::constructors;
-
-void RobotFactory::RegisterRobotType(std::string type_name, RobotType type, RobotConstructor constructor) 
+namespace 
 {
-    robot_types[type_name] = type;
-    constructors[type] = constructor;
-}
+    using RobotConstructor = std::function<std::shared_ptr<Robot>(const Configuration&)>;
 
-void RobotFactory::registerRobots()
-{
-    RobotFactory::RegisterRobotType("percy", RobotType::Percy, &Percy::CreatePercy);
-    RobotFactory::RegisterRobotType("junebug", RobotType::Junebug, &Junebug::CreateJunebug);    
-}
-
-RobotType RobotFactory::getType(std::string type_name)
-{
-    auto it = robot_types.find(type_name);
-     if (it != robot_types.end()) {
-        return it->second;
+    std::unordered_map<std::string, RobotType> createTypeMap()
+    {
+        return  std::unordered_map<std::string, RobotType> 
+                {
+                    {"percy", RobotType::Percy},
+                    {"junebug", RobotType::Junebug}
+                };
     }
-    return RobotType::Percy;
+
+    std::unordered_map<RobotType, RobotConstructor> createConstructorMap()
+    {
+        return  std::unordered_map<RobotType, RobotConstructor> 
+                {
+                    {RobotType::Percy, &Percy::CreatePercy},
+                    {RobotType::Junebug, &Junebug::CreateJunebug}
+                };
+    }
+
+    RobotType findType(std::string type_name, const std::unordered_map<std::string, RobotType>& robot_type_map)
+    {
+        auto it = robot_type_map.find(type_name);
+        if (it != robot_type_map.end()) {
+            return it->second;
+        }
+        return RobotType::Percy;
+    }
+
+    RobotConstructor findConstructor(RobotType type, const std::unordered_map<RobotType, RobotConstructor>& robot_constructor_map)
+    {
+        auto it = robot_constructor_map.find(type);
+        if (it != robot_constructor_map.end()) {
+            return it->second;
+        }
+        return &Percy::CreatePercy;
+    }
+
+    RobotType getRobotType(const Configuration& config)
+    {
+        #define CONFIG_ROBOT_NAME_KEY "robot"
+        nlohmann::json json_string = config.getJsonString();
+        RobotType robot_type = findType(json_string[CONFIG_ROBOT_NAME_KEY], createTypeMap());
+        return robot_type;
+    }
 }
 
-std::shared_ptr<Robot> RobotFactory::CreateRobot(RobotType type, const Configuration& config)
+std::shared_ptr<Robot> RobotFactory::createRobot(const Configuration& config)
 {
-    auto it = constructors.find(type);
-    if (it != constructors.end()) {
-        return it->second(config);
-    }
-    return NULL;
+    RobotType robot_type = getRobotType(config);
+    RobotConstructor robot_constructor = findConstructor(robot_type, createConstructorMap());
+    return robot_constructor(config);
 }

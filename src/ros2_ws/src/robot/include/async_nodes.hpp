@@ -1,4 +1,0 @@
-namespace asyncNodes
-{
-    void startup();
-}

@@ -1,7 +1,6 @@
 #include "robot_interface.hpp"
 #include "can_interface.hpp"
 
-
 class AbstractRobot
 {
     public: 
