@@ -26,7 +26,6 @@ TEST_F(ROBOT_TEST_SUITE, create_components)
 {
     std::unique_ptr<Configuration> config = std::make_unique<Configuration>(JUNEBUG_CONFIG); // Declared in CMakeLists.txt
     std::shared_ptr<Robot> robot = RobotFactory::createRobot(*config);
-    std::vector<std::string> nodes_to_enable = robot->getConfiguration().getJsonString()["nodes"]; 
     std::shared_ptr<std::vector<std::shared_ptr<Component>>> components = Components::CreateComponentVector(*robot);
     EXPECT_EQ(components->size(), 2);
 }
