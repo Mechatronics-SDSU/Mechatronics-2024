@@ -37,6 +37,7 @@ add_library(
     ${SRC_DIR}/robot/src/junebug.cpp
     ${SRC_DIR}/robot/src/percy.cpp
     ${SRC_DIR}/robot/src/component.cpp
+    ${SRC_DIR}/robot/src/components.cpp
     ${SRC_DIR}/gui_node/src/mainwindow.cpp
     ${SRC_DIR}/gui_node/src/mainwindow.ui
     ${SRC_DIR}/gui_node/include/mainwindow.hpp

@@ -8,10 +8,10 @@ class Robot : public rclcpp::Node
     public: 
         Robot(const Configuration& configuration);
         virtual void main_update_loop();
-        std::string getName() {return this->name;}
-        int getMotorCount() {return this->motor_count;}
-        Interface::matrix_t getThrustMapper() {return this->thrust_mapper;}
-        std::shared_ptr<CanInterface::CanClient> getCanClient() {return this->can_client;}
+        std::string getName() const {return this->name;}
+        int getMotorCount() const {return this->motor_count;}
+        Interface::matrix_t getThrustMapper() const {return this->thrust_mapper;}
+        std::shared_ptr<CanInterface::CanClient> getCanClient() const {return this->can_client;}
         const Configuration& getConfiguration() const {return this->configuration;}
     protected:
         std::string name;

@@ -6,7 +6,9 @@ class Component : public rclcpp::Node
 {
     public:
         Component(std::string name);
+        // virtual ~Component() {};
     protected:
+        // virtual void update();
         void enable();
         void disable();
         void validate();

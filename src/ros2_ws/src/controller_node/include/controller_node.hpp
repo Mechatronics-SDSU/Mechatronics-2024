@@ -6,8 +6,7 @@
 #include <memory>
 #include "rclcpp/rclcpp.hpp"
 #include "vector_operations.hpp"
-#include "robot_interface.hpp"
-#include "can_interface.hpp"
+#include "robot.hpp"
 #include "component.hpp"
 
 class Controller : public Component
@@ -15,15 +14,13 @@ class Controller : public Component
     typedef void (CanInterface::CanClient::*button_function)();
 
     public:
-        Controller(Interface::matrix_t thrust_mapper, int motor_count, std::shared_ptr<CanInterface::CanClient> canClient);
+        Controller(const Robot& robot);
     private:
         std::vector<bool>                                           buttons_;
         std::vector<button_function>                                button_functions_;
         rclcpp::Subscription<sensor_msgs::msg::Joy>::SharedPtr      controller_sub_;
-        std::shared_ptr<CanInterface::CanClient>                    can_client;
-        Interface::matrix_t                                         thrust_mapper;
-        int                                                         motor_count;
-    
+        const Robot& robot;
+
         void controller_subscription_callback(const sensor_msgs::msg::Joy::SharedPtr msg);
         void processStickInputs(std::vector<float>& ctrl_vals);
         void processButtonInputs(std::vector<bool>& button_inputs);

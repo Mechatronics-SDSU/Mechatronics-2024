@@ -1,7 +1,8 @@
 #pragma once
 #include "robot_interface.hpp"
+#include "component.hpp"
 
-class GUI_Listener : public rclcpp::Node
+class GUI_Listener : public Component
 {
     public:
         GUI_Listener();
