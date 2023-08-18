@@ -1,22 +1,12 @@
 #include "component.hpp"
 #include <cstring>
 
-Component::Component(std::string name) : Node(name)
+Component::Component(std::string name) : Node(name) 
 {
-
+    valid = false;
 }
 
-void Component::enable()
+void Component::update()
 {
-    this->enabled = true;
-}
 
-void Component::disable()
-{
-    this->enabled = false;
-}
-
-void Component::validate()
-{
-    this->valid = true;
 }
