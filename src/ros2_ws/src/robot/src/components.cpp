@@ -1,6 +1,7 @@
 #include "components.hpp"
 #include "gui_listener_node.hpp"
 #include "controller_node.hpp"
+#include <iostream>
 
 namespace
 {
@@ -39,14 +40,14 @@ namespace
         }
         return component_vector;
     }
+
+    const std::vector<std::string> getNodesToEnable(Robot& robot)
+    {
+        return  robot.getConfiguration().getJsonString()[NODES_MAP_KEY];
+    }
 }
 
-Components::Components(Robot& robot) : robot{robot} {}
-
-component_vector_ptr_t Components::CreateComponentVector()
+component_vector_ptr_t Components::CreateComponentVector(Robot& robot)
 {
-    return populateComponentsFromStringList(this->robot, this->robot.getConfiguration().getJsonString()[NODES_MAP_KEY], allocateComponentsVector());
+    return populateComponentsFromStringList(robot, getNodesToEnable(robot), allocateComponentsVector());
 }
-
-
-

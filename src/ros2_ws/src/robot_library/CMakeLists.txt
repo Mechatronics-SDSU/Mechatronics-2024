@@ -26,8 +26,6 @@ find_package(sensor_msgs REQUIRED)
 add_subdirectory(${ROOT_DIR}/classes/src/dependency_library ${CMAKE_BINARY_DIR}/classes-build)
 add_subdirectory(${SRC_DIR}/unified_can_driver ${CMAKE_BINARY_DIR}/unified-can-driver-build)
 
-configure_file(${SRC_DIR}/robot/config.json ${CMAKE_BINARY_DIR}/config.json COPYONLY)
-
 # Add your package's source files
 add_library(
     robot_library 

@@ -1,12 +1,6 @@
 #include "test_robot.hpp"
 #include <memory>
 
-class MockRobot : public Robot
-{
-public:
-    // MOCK_METHOD(void, centerRobot, (int object_identifier), (override));
-};
-
 class ROBOT_TEST_SUITE : public ::testing::Test {
 public:
     static void SetUpTestSuite() {

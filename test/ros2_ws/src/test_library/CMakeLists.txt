@@ -40,6 +40,7 @@ add_subdirectory(${ROOT_DIR}/src/ros2_ws/src/robot_library robot_library_binary/
 add_executable(
     test_exec 
     ${SRC_DIR}/test_robot/src/test_robot.cpp
+    ${SRC_DIR}/test_robot/src/test_components.cpp
     ${SRC_DIR}/test_robot/src/main.cpp
 )
 
