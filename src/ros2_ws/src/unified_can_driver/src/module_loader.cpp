@@ -66,7 +66,7 @@ void ModuleLoader::module_decode_dres(struct can_frame* frame)
 	 	&& module_list[device]->module_enable_dres
 	 	&& module_list[device]->module_hw_info != 0)
 	 {
-		module_list[device]->dres_handle(frame);
+		module_list[device]->dres_handle();
 	 }
 	 else
 	 {

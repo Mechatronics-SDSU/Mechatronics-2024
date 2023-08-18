@@ -33,7 +33,7 @@ namespace
         if (it != robot_type_map.end()) {
             return it->second;
         }
-        return RobotType::Percy;
+        exit(EXIT_FAILURE);
     }
 
     RobotConstructor findConstructor(RobotType type, const std::unordered_map<RobotType, RobotConstructor>& robot_constructor_map)
@@ -42,7 +42,7 @@ namespace
         if (it != robot_constructor_map.end()) {
             return it->second;
         }
-        return &Percy::CreatePercy;
+        exit(EXIT_FAILURE);
     }
 
     RobotType getRobotType(const Configuration& config)

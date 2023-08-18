@@ -24,8 +24,8 @@ include_directories(include)
 include_directories(include/module)
 
 # target executable
-add_executable(
-	unified_can_driver
+add_library(
+	unified_can_driver_library
 	src/base_driver/unified_can_driver.cpp
 	src/base_driver/can_send_service.cpp
 	src/base_driver/can_mailbox_topic.cpp
@@ -41,7 +41,18 @@ add_executable(
 	src/module/module.cpp
 )
 
-ament_target_dependencies(unified_can_driver rclcpp scion_types)
+add_executable(
+	unified_can_driver
+	src/base_driver/main.cpp
+)
+
+target_link_libraries(
+  unified_can_driver
+  unified_can_driver_library
+  ${rclcpp_LIBRARIES}
+)
+
+ament_target_dependencies(unified_can_driver_library rclcpp scion_types)
 
 install(TARGETS
 	unified_can_driver

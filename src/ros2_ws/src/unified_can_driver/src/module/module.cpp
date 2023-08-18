@@ -38,7 +38,7 @@ DeviceModule::~DeviceModule()
 	delete[] module_topic_ptr_array;
 }
 
-void DeviceModule::dres_handle(struct can_frame* frame) { /* UNUSED */ }
+void DeviceModule::dres_handle() { /* UNUSED */ }
 void DeviceModule::timer_callback() { /* UNUSED */ }
 void DeviceModule::dres_info() { /* UNUSED */ }
 void DeviceModule::mod_init() { /* UNUSED */ }

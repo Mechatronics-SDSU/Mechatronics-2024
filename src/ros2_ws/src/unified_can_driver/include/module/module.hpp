@@ -28,7 +28,7 @@ namespace Module
 				uint8_t); 			/*topic_count*/
 			~DeviceModule();
 			virtual void mod_init();
-			virtual void dres_handle(struct can_frame*);
+			virtual void dres_handle();
 
 			uint8_t module_timer_len; 		/* interval for timer cb */
 			uint16_t module_device_id; 		/* module device id (matches hw) */

@@ -115,13 +115,3 @@ void UnifiedCanDriver::shutdown_node()
 	delete module_loader;
 	delete sub_state_pub;
 }
-
-
-
-int main(int argc, char * argv[])
-{
-	rclcpp::init(argc, argv);
-	rclcpp::spin(std::make_shared<UnifiedCanDriver>());
-	rclcpp::shutdown();
-	return 0;
-}

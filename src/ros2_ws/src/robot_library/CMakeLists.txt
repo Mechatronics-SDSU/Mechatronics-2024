@@ -24,6 +24,7 @@ find_package(std_msgs REQUIRED)
 find_package(sensor_msgs REQUIRED)
 
 add_subdirectory(${ROOT_DIR}/classes/src/dependency_library ${CMAKE_BINARY_DIR}/classes-build)
+add_subdirectory(${SRC_DIR}/unified_can_driver ${CMAKE_BINARY_DIR}/unified-can-driver-build)
 
 configure_file(${SRC_DIR}/robot/config.json ${CMAKE_BINARY_DIR}/config.json COPYONLY)
 
@@ -51,6 +52,7 @@ add_executable(
 # Link gtest and other libraries to  executable
 target_link_libraries(robot_library
   Qt${QT_VERSION_MAJOR}::Widgets
+  unified_can_driver_library
   dependency_library
   ${rclcpp_LIBRARIES}
 )
@@ -59,7 +61,6 @@ target_link_libraries(robot_library
 target_link_libraries(robot
   Qt${QT_VERSION_MAJOR}::Widgets
   robot_library
-  dependency_library
   ${rclcpp_LIBRARIES}
 )
 
