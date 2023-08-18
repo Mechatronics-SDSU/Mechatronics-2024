@@ -79,7 +79,7 @@ void Controller::processButtonInputs(std::vector<bool>& button_inputs)
     for (int i = 0; i < button_inputs.size(); i++) {
         if (button_inputs[i] && !this->buttons_[i]) {
             this->buttons_[i] = 1;
-            // (this->can_client->*(button_functions_[i]))();
+            (robot.getCanClient().get()->*(button_functions_[i]))();
         }
         if (!button_inputs[i] && this->buttons_[i]) {
             this->buttons_[i] = 0;

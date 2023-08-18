@@ -6,7 +6,15 @@ Robot::Robot(const Configuration& configuration) : Node("Robot"), configuration{
     can_client = std::make_shared<CanInterface::CanClient>();
 }
 
+void Robot::connectComponents(std::shared_ptr<std::vector<std::shared_ptr<Component>>> components)
+{
+    this->components = components;
+}
+
 void Robot::main_update_loop()
 {
-
+    for (std::shared_ptr<Component> component : *this->components)
+    {
+        rclcpp::spin_some(component);
+    }
 }

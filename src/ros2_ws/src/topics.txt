@@ -117,7 +117,7 @@ ros2 topic pub -1 position_data scion_types/msg/Position "{position: [0,0,1]}"
 ros2 topic pub -r 10 ahrs_position scion_types/msg/Position "{orientation: [1,0,0]}"
 -----------------------------------------------
 
-
+ros2 topic pub -r 10 gui_data std_msgs/msg/String "{data: {nodes : brain}}"
 
 
 INSTRUCTIONS FOR SERVICE CALL
