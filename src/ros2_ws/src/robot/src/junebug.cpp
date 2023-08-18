@@ -5,7 +5,7 @@ std::shared_ptr<Robot> Junebug::CreateJunebug(const Configuration& configuration
     return std::make_shared<Junebug>(configuration);
 }
 
-Junebug::Junebug(const Configuration& configuration) : Robot()
+Junebug::Junebug(const Configuration& configuration) : Robot(configuration)
 {
     this->name = "junebug";
     this->motor_count = 2;

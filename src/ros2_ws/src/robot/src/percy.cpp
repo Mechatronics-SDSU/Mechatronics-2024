@@ -5,7 +5,7 @@ std::shared_ptr<Robot> Percy::CreatePercy(const Configuration& configuration)
     return std::make_shared<Percy>(configuration);
 }
 
-Percy::Percy(const Configuration& configuration) : Robot()
+Percy::Percy(const Configuration& configuration) : Robot(configuration)
 {
     this->name = "percy";
     this->motor_count = 8;
