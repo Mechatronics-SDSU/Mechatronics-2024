@@ -10,8 +10,8 @@ get_filename_component(ROS_DIR "${SRC_DIR}" DIRECTORY)
 get_filename_component(TEST_DIR "${ROS_DIR}" DIRECTORY)
 get_filename_component(ROOT_DIR "${TEST_DIR}" DIRECTORY)
 
-add_definitions(-DJUNEBUG_CONFIG="${SRC_DIR}/test_robot/src/junebug_test_config.json")
-add_definitions(-DPERCY_CONFIG="${SRC_DIR}/test_robot/src/percy_test_config.json")
+add_definitions(-DJUNEBUG_CONFIG="${SRC_DIR}/test_robot/src/config/junebug_test_config.json")
+add_definitions(-DPERCY_CONFIG="${SRC_DIR}/test_robot/src/config/percy_test_config.json")
 
 # Set the C++ standard to use (e.g., C++17)
 set(CMAKE_CXX_STANDARD 17)
@@ -41,6 +41,7 @@ add_executable(
     test_exec 
     ${SRC_DIR}/test_robot/src/test_robot.cpp
     ${SRC_DIR}/test_robot/src/test_components.cpp
+    ${SRC_DIR}/test_gui_listener/src/test_gui_listener.cpp
     ${SRC_DIR}/test_robot/src/main.cpp
 )
 

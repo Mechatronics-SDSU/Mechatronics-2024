@@ -80,6 +80,7 @@ namespace Interface
     typedef rclcpp::Subscription<scion_types::msg::ZedObject>::SharedPtr                    vision_sub_t;
     typedef rclcpp::Subscription<scion_types::msg::SubState>::SharedPtr                     sub_state_sub_t;
     typedef rclcpp::Publisher<std_msgs::msg::Int32>::SharedPtr                              int_pub_t;
+    typedef rclcpp::Publisher<std_msgs::msg::String>::SharedPtr                             string_pub_t;
     typedef rclcpp::Publisher<scion_types::msg::PidTuning>::SharedPtr                       tune_pid_pub_t;
     typedef rclcpp::Publisher<scion_types::msg::Idea>::SharedPtr                            idea_pub_t;
     typedef rclcpp::Publisher<scion_types::msg::State>::SharedPtr                           state_pub_t;
