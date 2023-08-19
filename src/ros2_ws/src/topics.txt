@@ -208,3 +208,6 @@ std_msgs/Header header
 Pose pose
 
 I'll save the headache but pose is made up of Position and like Quaternion or something and position has float 64 of x,y, and z, so that's what we need
+
+
+sudo chown -R <username>:<group> <directory_name>.
