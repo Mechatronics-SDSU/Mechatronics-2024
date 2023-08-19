@@ -18,7 +18,7 @@ namespace
         if (component_name == "gui_listener")           {return std::make_shared<GUI_Listener>();}
         if (component_name == "unified_can_driver")     {return std::make_shared<UnifiedCanDriver>();}
         if (component_name == "controller_node")        {return std::make_shared<Controller>(robot);}
-        fprintf(stderr, "\ninvalid node given in JSON file, exception thrown at %s at line # %d\n", __FILE__,__LINE__);
+        fprintf(stderr, "\nInvalid node given in JSON file, exception thrown at %s at line # %d - Sincerely, Zix ;)\n", __FILE__,__LINE__);
         exit(EXIT_FAILURE);
     }
 }
@@ -47,7 +47,7 @@ namespace
 
     const std::vector<std::string> getNodesToEnable(Robot& robot)
     {
-        return  robot.getConfiguration().getJsonString()[NODES_MAP_KEY];
+        return robot.getConfiguration().getJsonString()[NODES_MAP_KEY];
     }
 }
 

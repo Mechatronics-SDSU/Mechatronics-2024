@@ -4,6 +4,8 @@
 #include <unordered_map>
 #include <cstring>
 #include <functional>
+#include <stdio.h>
+#include <stdlib.h>
 
 namespace 
 {
@@ -33,6 +35,7 @@ namespace
         if (it != robot_type_map.end()) {
             return it->second;
         }
+        fprintf(stderr, "\nInvalid robot type given in JSON file, reference file %s at line # %d - Sincerely, Zix ;)\n", __FILE__,__LINE__);
         exit(EXIT_FAILURE);
     }
 
@@ -42,6 +45,7 @@ namespace
         if (it != robot_constructor_map.end()) {
             return it->second;
         }
+        fprintf(stderr, "\nInvalid robot type given in JSON file, reference file %s at line # %d - Sincerely, Zix ;)\n", __FILE__,__LINE__);
         exit(EXIT_FAILURE);
     }
 
