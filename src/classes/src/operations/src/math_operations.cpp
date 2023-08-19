@@ -84,12 +84,6 @@ bool mathOperations::equalToZero(std::vector<int> thrustVect)
     return equal;
 }
 
-bool mathOperations::isSlewRateLow(int totalSlewRate)
-{
-    #define LOW_SLEW_VALUE 1;
-    return totalSlewRate < LOW_SLEW_VALUE;
-}
-
 int mathOperations::calculateTotalSlew(std::deque<std::vector<int>>& slew_buffer)
 {
     int slew_rate = 0;

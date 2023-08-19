@@ -8,6 +8,5 @@ namespace mathOperations
     bool areEqual(float float1, float float2, float epsilon);
     bool areEqual(std::vector<float>& current_state, std::vector<float>& desired_state);
     bool equalToZero(std::vector<int> thrustVect);
-    bool isSlewRateLow(int totalSlewRate);
     int calculateTotalSlew(std::deque<std::vector<int>>& slew_buffer);
 }

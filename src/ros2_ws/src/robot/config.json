@@ -1,12 +1,5 @@
 {
     "robot" : "junebug",
-    "input_nodes" : [
-        "a50_node",
-        "ahrs_node",
-        "joy_node",
-        "zed_position_node",
-        "zed_vision_node"
-    ],
     "nodes" : [
         "controller_node",
         "gui_listener",

@@ -28,7 +28,10 @@ namespace
                     {RobotType::Junebug, &Junebug::CreateJunebug}
                 };
     }
+}
 
+namespace 
+{
     RobotType findType(std::string type_name, const std::unordered_map<std::string, RobotType>& robot_type_map)
     {
         auto it = robot_type_map.find(type_name);
@@ -48,7 +51,10 @@ namespace
         fprintf(stderr, "\nInvalid robot type given in JSON file, reference file %s at line # %d - Sincerely, Zix ;)\n", __FILE__,__LINE__);
         exit(EXIT_FAILURE);
     }
+}
 
+namespace
+{
     RobotType getRobotType(const Configuration& config)
     {
         #define CONFIG_ROBOT_NAME_KEY "robot"
