@@ -1,8 +1,9 @@
 #include "gtest/gtest.h"
 #include "gmock/gmock.h"
+#include "component.hpp"
 #include <chrono>
 
-class _TEST_SUITE : public ::testing::Test {
+class COMPONENT_TEST_SUITE : public ::testing::Test {
 public:
     static void SetUpTestSuite() {
     }
@@ -16,7 +17,7 @@ namespace
     
 }
 
-TEST_F(_TEST_SUITE, test_component)
+TEST_F(COMPONENT_TEST_SUITE, test_component)
 {
     
 }
