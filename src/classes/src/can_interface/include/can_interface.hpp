@@ -13,6 +13,7 @@ namespace CanInterface
             void turnOffLight();
             void killRobot();
             void allClear();
+            void sendNothing();
             std::vector<int> make_motor_request(std::vector<float>& thrusts, int motor_count, int max_power);
         private:
             Interface::node_t node;

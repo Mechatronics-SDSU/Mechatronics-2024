@@ -21,6 +21,12 @@ void CanInterface::CanClient::sendFrame(int32_t can_id, int8_t can_dlc, unsigned
     rclcpp::spin_until_future_complete(node, can_future);
 }
 
+void CanInterface::CanClient::sendNothing()
+{
+    std::vector<unsigned char> nothing{0x00};
+    sendFrame(0x010, 0, nothing.data());
+}
+
 void CanInterface::CanClient::setBotInSafeMode()
 {
     std::vector<unsigned char> safeModeFrame{0,0,0,0,0x04};
