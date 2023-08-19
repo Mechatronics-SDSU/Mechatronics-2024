@@ -22,6 +22,7 @@ rosidl_generate_interfaces(${PROJECT_NAME}
   "msg/Orientation.msg"
   "msg/PidTuning.msg"
   "msg/Position.msg"
+  "msg/SetValue.msg"
   "msg/State.msg"
   "msg/SubState.msg"
   "msg/VisionObject.msg"
