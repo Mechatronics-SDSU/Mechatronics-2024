@@ -1,1 +1,3 @@
-float32[] orientation
+SetValue yaw
+SetValue pitch
+SetValue roll
