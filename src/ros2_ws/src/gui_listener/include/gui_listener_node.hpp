@@ -8,5 +8,4 @@ class GUI_Listener : public Component
         GUI_Listener();
     private:
         Interface::string_sub_t gui_subscriber;
-        void gui_subscription_callback();
 };

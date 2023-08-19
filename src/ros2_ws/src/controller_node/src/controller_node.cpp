@@ -12,7 +12,6 @@
 
 #include "controller_node.hpp"
 #include "math_operations.hpp"
-
 #define MAX_POWER 100
 
 /* Require:

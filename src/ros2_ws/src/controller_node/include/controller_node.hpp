@@ -19,7 +19,7 @@ class Controller : public Component
         std::vector<bool>                                           buttons_;
         std::vector<button_function>                                button_functions_;
         rclcpp::Subscription<sensor_msgs::msg::Joy>::SharedPtr      controller_sub_;
-        const Robot& robot;
+        const Robot&                                                robot;
 
         void controller_subscription_callback(const sensor_msgs::msg::Joy::SharedPtr msg);
         void processStickInputs(std::vector<float>& ctrl_vals);
