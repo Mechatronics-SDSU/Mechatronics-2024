@@ -17,6 +17,7 @@ get_filename_component(ROOT_DIR "${ROS_DIR}" DIRECTORY)
 
 add_subdirectory(${ROOT_DIR}/classes/src/dependency_library ${CMAKE_BINARY_DIR}/classes-build)
 
+find_package(Qt<Qt5> COMPONENTS Widgets)
 find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Widgets)
 find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets)
 find_package(ament_cmake REQUIRED)

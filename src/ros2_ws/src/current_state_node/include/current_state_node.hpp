@@ -22,6 +22,10 @@ class CurrentStateNode : public Component
       Interface::RobotState               relative_robot_state;
       Interface::state_pub_t              absolute_state_pub;
       Interface::state_pub_t              relative_state_pub;
+      Interface::state_sub_t              ahrs_state_sub;
+      Interface::state_sub_t              ahrs_state_sub;
+      Interface::state_sub_t              a50_state_sub;
+      Interface::state_sub_t              zed_pos_state_sub;
       Interface::ros_trigger_service_t    reset_relative_state_service;
       Interface::ros_trigger_service_t    reset_relative_position_service;
       void publishAbsoluteState();

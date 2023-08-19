@@ -145,49 +145,7 @@ vector<float> Controller::ctrlValsToThrusts(vector<float>& ctrl_vals)
     return this->thrust_mapper_ * ctrl_vals;
 }
 
-float Controller::angleBetweenHereAndPoint(float x, float y)
-{
-    if (areEqual(y, 0, .01)) {return 90;}
-    float point_angle_radians = atan(x / y);
-    float point_angle_degrees = point_angle_radians * (180/PI);
-    if (y < 0) {point_angle_degrees += 180;}
-    return point_angle_degrees;
-}
 
-float Controller::distanceBetweenHereAndPoint(float x, float y)
-{
-    return sqrt(pow(x,2) + pow(y,2));
-}
-
-vector<float> Controller::adjustErrors(vector<float>& errors)
-{
-    float yaw = current_state_[0];
-
-    float x = errors[3];
-    float y = errors[4];
-    float z = errors[5];
-
-    float absoluteAngle = angleBetweenHereAndPoint(y ,x);
-    float absoluteDistance = distanceBetweenHereAndPoint(y, x);
-
-    float yawAdjustedX = absoluteDistance * cos((absoluteAngle - yaw) * M_PI/180);
-    float yawAdjustedY = absoluteDistance * sin((absoluteAngle - yaw) * M_PI/180);
-
-    float adjustedX = yawAdjustedX;
-    float adjustedY = yawAdjustedY;
-    float adjustedZ = z;
-            
-    vector<float> adjustedErrors = vector<float>
-    {
-        errors[0],
-        errors[1],
-        errors[2],
-        adjustedX,
-        adjustedY,
-        adjustedZ
-    };
-    return adjustedErrors;
-}
 
 vector<float> Controller::update_PID(Interface::current_state_t& current_state, Interface::desired_state_t& desired_state)
 {
