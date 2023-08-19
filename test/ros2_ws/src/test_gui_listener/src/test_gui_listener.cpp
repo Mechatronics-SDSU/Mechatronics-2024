@@ -27,8 +27,7 @@ namespace
         std::promise<bool> got_string;
         std::shared_future<bool> future  = got_string.get_future();
         Interface::node_t temp_node = rclcpp::Node::make_shared("gui_subscriber");
-        Interface::string_sub_t string_sub = temp_node->create_subscription<std_msgs::msg::String>("gui_data", 10, [&message, &got_string](const std_msgs::msg::String::SharedPtr msg)
-        {
+        Interface::string_sub_t string_sub = temp_node->create_subscription<std_msgs::msg::String>("gui_data", 10, [&message, &got_string](const std_msgs::msg::String::SharedPtr msg) {
             message = msg->data;
             got_string.set_value(true);
         });
@@ -37,11 +36,11 @@ namespace
     }
 }
 
-TEST_F(GUI_LISTENER_TEST_SUITE, test_string_subscription)
+TEST_F(GUI_LISTENER_TEST_SUITE, test_gui_subscription)
 {
     Interface::node_t temp_node = rclcpp::Node::make_shared("gui_publisher");
     Interface::string_pub_t gui_pub = temp_node->create_publisher<std_msgs::msg::String>("gui_data", 10);
-    Interface::ros_timer_t gui_timer = temp_node->create_wall_timer(std::chrono::milliseconds(10), [&gui_pub](){
+    Interface::ros_timer_t gui_timer = temp_node->create_wall_timer(std::chrono::milliseconds(10), [&gui_pub]() {
         std_msgs::msg::String msg = std_msgs::msg::String();
         msg.data = "Zix was here";
         gui_pub->publish(msg);
