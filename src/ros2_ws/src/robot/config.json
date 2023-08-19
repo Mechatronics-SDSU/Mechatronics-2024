@@ -1,10 +1,8 @@
 {
     "robot" : "junebug",
-    "default_nodes" : [
-        "unified_can_driver"
-    ],
     "nodes" : [
         "controller_node",
-        "gui_listener"
-    ] 
+        "gui_listener",
+        "unified_can_driver"
+    ]
 }

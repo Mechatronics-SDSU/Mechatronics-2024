@@ -19,8 +19,8 @@ class Robot : public rclcpp::Node
         std::string name;
         int motor_count;
         Interface::matrix_t thrust_mapper;
-        std::shared_ptr<CanInterface::CanClient> can_client;
         const Configuration& configuration;
+        std::shared_ptr<CanInterface::CanClient> can_client;
         std::shared_ptr<std::vector<std::shared_ptr<Component>>> components;
     private:
         Interface::ros_timer_t update_timer;

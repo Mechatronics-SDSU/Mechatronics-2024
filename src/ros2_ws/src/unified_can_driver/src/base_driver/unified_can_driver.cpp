@@ -42,8 +42,7 @@ uint32_t module_enabled_field = 0xFFFFFFFF;
 
 
 
-UnifiedCanDriver::UnifiedCanDriver()
-: Node("can_driver")
+UnifiedCanDriver::UnifiedCanDriver() : Component("can_driver")
 {
 
 	/* User Configurable Parameters */

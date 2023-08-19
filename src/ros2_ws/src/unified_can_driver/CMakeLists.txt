@@ -15,6 +15,8 @@ if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
   add_compile_options(-Wall -Wextra -Wpedantic)
 endif()
 
+get_filename_component(SRC_DIR "${CMAKE_CURRENT_SOURCE_DIR}" DIRECTORY)
+
 # find dependencies
 find_package(ament_cmake REQUIRED)
 find_package(rclcpp REQUIRED)
@@ -22,10 +24,13 @@ find_package(scion_types REQUIRED)
 
 include_directories(include)
 include_directories(include/module)
+include_directories(${SRC_DIR}/robot/include)
+
 
 # target executable
 add_library(
 	unified_can_driver_library
+	${SRC_DIR}/robot/src/component.cpp
 	src/base_driver/unified_can_driver.cpp
 	src/base_driver/can_send_service.cpp
 	src/base_driver/can_mailbox_topic.cpp
@@ -57,6 +62,10 @@ ament_target_dependencies(unified_can_driver_library rclcpp scion_types)
 install(TARGETS
 	unified_can_driver
 	DESTINATION lib/${PROJECT_NAME})
+
+install(TARGETS unified_can_driver_library
+  DESTINATION lib/${PROJECT_NAME}
+)
 
 # debug
 add_compile_options(-g)

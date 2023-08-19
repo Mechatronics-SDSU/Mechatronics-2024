@@ -69,6 +69,8 @@ target_include_directories(
     ${SRC_DIR}/controller_node/include
     ${SRC_DIR}/gui_node/include
     ${SRC_DIR}/gui_listener/include
+    ${SRC_DIR}/unified_can_driver/include
+    ${SRC_DIR}/unified_can_driver/include/module
 )
 
 target_include_directories(
@@ -77,6 +79,8 @@ target_include_directories(
     ${SRC_DIR}/gui_node/include
     ${SRC_DIR}/controller_node/include
     ${SRC_DIR}/gui_listener/include
+    ${SRC_DIR}/unified_can_driver/include
+    ${SRC_DIR}/unified_can_driver/include/module
 )
 
 ament_target_dependencies(robot_library scion_types rclcpp rclcpp_action std_srvs std_msgs sensor_msgs)

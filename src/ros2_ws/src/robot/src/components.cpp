@@ -1,7 +1,9 @@
+#include <stdio.h>
+#include <stdlib.h>
 #include "components.hpp"
 #include "gui_listener_node.hpp"
 #include "controller_node.hpp"
-#include <iostream>
+#include "unified_can_driver.hpp"
 
 namespace
 {
@@ -13,8 +15,10 @@ namespace
 {
     std::shared_ptr<Component> createComponent(const Robot& robot, std::string component_name)
     {
-        if (component_name == "gui_listener")       {return std::make_shared<GUI_Listener>();}
-        if (component_name == "controller_node")    {return std::make_shared<Controller>(robot);}
+        if (component_name == "gui_listener")           {return std::make_shared<GUI_Listener>();}
+        if (component_name == "unified_can_driver")     {return std::make_shared<UnifiedCanDriver>();}
+        if (component_name == "controller_node")        {return std::make_shared<Controller>(robot);}
+        fprintf(stderr, "\ninvalid node given in JSON file, exception thrown at %s at line # %d\n", __FILE__,__LINE__);
         exit(EXIT_FAILURE);
     }
 }

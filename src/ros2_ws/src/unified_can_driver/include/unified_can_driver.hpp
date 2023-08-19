@@ -14,7 +14,7 @@
 #include "module_loader.hpp"
 #include "send_command_service.hpp"
 #include "state_decoder.hpp"
-
+#include "component.hpp"
 /*
  * MailboxTopic Class:
  * 		This class exists to simplify the process of adding
@@ -72,7 +72,7 @@ class CanSendService
  * 		which is then passed by pointer into subclasses to allow each mailbox object to
  * 		handle it's own integration with ros.
  */
-class UnifiedCanDriver : public rclcpp::Node
+class UnifiedCanDriver : public Component
 {
 	public:
 		UnifiedCanDriver();
