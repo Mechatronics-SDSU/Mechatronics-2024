@@ -1,0 +1,243 @@
+#!/bin/bash
+
+snake_to_camel() 
+{
+    local snake_case="$1"
+    local parts=()
+    IFS="_" read -ra parts <<< "$snake_case"
+    local camel_case=""
+    for part in "${parts[@]}"; do
+      camel_case+="$(tr '[:lower:]' '[:upper:]' <<< ${part:0:1})${part:1}"
+    done
+    echo "$camel_case"
+}
+
+mkdir $1
+cd $1
+mkdir include
+touch include/$1.hpp
+mkdir src
+touch src/$1.cpp
+touch src/main.cpp
+touch CMakeLists.txt
+touch package.xml
+
+snake_case_name=$1
+camel_case_name=$(snake_to_camel "$snake_case_name")
+
+HEADER_CONTENT=$(cat << EOL
+#include <memory>
+
+class $camel_case_name
+{
+    public:
+        $camel_case_name();
+    private:
+
+};
+EOL
+)
+
+SOURCE_CONTENT=$(cat << EOL
+#include "$snake_case_name.hpp"
+
+$camel_case_name::$camel_case_name() 
+{
+
+}
+
+EOL
+)
+
+MAIN_CONTENT=$(cat << EOL
+#include "$snake_case_name.hpp"
+
+int main(int argc, char * argv[])
+{
+    return 0;
+}
+EOL
+)
+
+
+CMAKE_CONTENT=$(cat << EOL
+cmake_minimum_required(VERSION 3.5)
+project($snake_case_name)
+
+get_filename_component(SRC_DIR "\${CMAKE_CURRENT_SOURCE_DIR}" DIRECTORY)
+get_filename_component(ROS_DIR "\${SRC_DIR}" DIRECTORY)
+get_filename_component(ROOT_DIR "\${ROS_DIR}" DIRECTORY)
+
+set(CMAKE_CXX_STANDARD 20)
+
+# Add your package's source files
+add_executable(
+    $snake_case_name 
+    \${SRC_DIR}/$snake_case_name/src/$snake_case_name.cpp
+    \${SRC_DIR}/$snake_case_name/src/main.cpp
+)
+
+# Link gtest and other libraries to  executable
+target_link_libraries($snake_case_name
+  dependency_library
+  \${rclcpp_LIBRARIES}
+)
+
+target_include_directories(
+    $snake_case_name PUBLIC 
+    \${SRC_DIR}/$snake_case_name/include
+)
+
+# Install the executable
+install(TARGETS $snake_case_name
+  DESTINATION lib/\${PROJECT_NAME}
+)
+
+EOL
+)
+
+PACKAGE_CONTENT=$(cat << EOL
+<?xml version="1.0"?>
+<?xml-model href="http://download.ros.org/schema/package_format3.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
+<package format="3">
+<name>$snake_case_name</name>
+<version>0.0.0</version>
+<description>Package for $snake_case_name</description>
+<maintainer email="mechatronics.sdsu@gmail.com">Zix</maintainer>
+<license>MIT</license>
+
+<export>
+    <build_type>ament_cmake</build_type>
+</export>
+</package>
+EOL
+)
+
+echo "$SOURCE_CONTENT" >  "src/$snake_case_name.cpp"
+echo "$HEADER_CONTENT" >  "include/$snake_case_name.hpp"
+echo "$MAIN_CONTENT" >    "src/main.cpp"
+echo "$CMAKE_CONTENT" >   "CMakeLists.txt"
+echo "$PACKAGE_CONTENT" > "package.xml"
+
+## TEST ##
+############################################################################################################
+
+
+cd ../../../test/classes/src
+mkdir test_$1
+cd test_$1
+mkdir src
+touch src/$1.cpp
+
+TEST_CONTENT=$(cat << EOL
+#include "gtest/gtest.h"
+#include "gmock/gmock.h"
+#include "$snake_case_name.hpp"
+#include <chrono>
+
+class ${upper_case_name}_TEST_SUITE : public ::testing::Test {
+public:
+    static void SetUpTestSuite() {
+    }
+
+    static void TearDownTestSuite() {
+    }
+};
+
+namespace
+{
+    
+}
+
+TEST_F(${upper_case_name}_TEST_SUITE, test_${snake_case_name})
+{
+    
+}
+
+EOL
+)
+
+TEST_MAIN_CONTENT=$(cat << EOL
+#include "robot.hpp"
+#include "robot_factory.hpp"
+#include "gtest/gtest.h"
+#include "gmock/gmock.h"
+#include "can_interface.hpp"
+#include "components.hpp"
+#include "component.hpp"
+
+int main(int argc, char ** argv)
+{
+    ::testing::InitGoogleTest(&argc, argv);
+    return RUN_ALL_TESTS();
+}
+EOL
+)
+
+TEST_CMAKE_CONTENT=$(cat << EOL
+cmake_minimum_required(VERSION 3.5)
+project(test_library)
+
+get_filename_component(SRC_DIR "\${CMAKE_CURRENT_SOURCE_DIR}" DIRECTORY)
+get_filename_component(ROS_DIR "\${SRC_DIR}" DIRECTORY)
+get_filename_component(TEST_DIR "\${ROS_DIR}" DIRECTORY)
+get_filename_component(ROOT_DIR "\${TEST_DIR}" DIRECTORY)
+
+set(CMAKE_CXX_STANDARD 20)
+
+# Find dependencies
+find_package(ament_cmake REQUIRED)
+find_package(rclcpp REQUIRED)
+find_package(scion_types REQUIRED)
+find_package(rclcpp_action REQUIRED)
+find_package(std_srvs REQUIRED)
+find_package(std_msgs REQUIRED)
+
+# Add gtest library
+include(FetchContent)
+FetchContent_Declare(
+  googletest
+  URL https://github.com/google/googletest/archive/5376968f6948923e2411081fd9372e71a59d8e77.zip
+)
+set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
+FetchContent_MakeAvailable(googletest)
+
+# add_subdirectory(\${SRC_DIR}/googletest googletest_binary/)
+add_subdirectory(\${ROOT_DIR}/src/ros2_ws/src/robot_library robot_library_binary/)
+
+# Add your package's source files
+add_executable(
+    $snake_case_name 
+    \${SRC_DIR}/$snake_case_name/src/$snake_case_name.cpp
+    \${SRC_DIR}/$snake_case_name/src/main.cpp
+)
+
+# Link gtest and other libraries to  executable
+target_link_libraries($snake_case_name
+  robot_library
+  gtest
+  gmock
+  gtest_main
+  \${rclcpp_LIBRARIES}
+)
+
+target_include_directories(
+    $snake_case_name PUBLIC 
+    \${SRC_DIR}/$snake_case_name/include
+)
+
+ament_target_dependencies($snake_case_name scion_types rclcpp rclcpp_action std_srvs std_msgs)
+
+# Install the executable
+install(TARGETS $snake_case_name
+  DESTINATION lib/\${PROJECT_NAME}
+)
+
+ament_package()
+
+EOL
+)
+
+echo "$TEST_CONTENT" > "src/$1.cpp"
+echo "$TEST_CMAKE_CONTENT" > "src/main.cpp"
+echo "$TEST_MAIN_CONTENT" > "CMakeLists.txt"
