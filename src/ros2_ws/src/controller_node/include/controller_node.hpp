@@ -5,9 +5,9 @@
 #include <stdlib.h>
 #include <memory>
 #include "rclcpp/rclcpp.hpp"
-#include "vector_operations.hpp"
 #include "robot.hpp"
 #include "component.hpp"
+#include "vector_operations.hpp"
 
 class Controller : public Component
 {

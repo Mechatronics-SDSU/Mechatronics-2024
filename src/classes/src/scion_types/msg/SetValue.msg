@@ -1,2 +1,2 @@
-float32 value
-bool  set
+float32 value 
+bool    set     false

@@ -90,6 +90,9 @@ namespace Interface
     typedef rclcpp::Publisher<scion_types::msg::ZedObject>::SharedPtr                       vision_pub_t;
     typedef rclcpp::Publisher<scion_types::msg::SubState>::SharedPtr                        sub_state_pub_t;
     typedef rclcpp::TimerBase::SharedPtr                                                    ros_timer_t;
+    
+    typedef std::shared_ptr<std_srvs::srv::Trigger::Request>                                trigger_request_t;
+    typedef std::shared_ptr<std_srvs::srv::Trigger::Response>                               trigger_response_t;
 }
 
 #endif
