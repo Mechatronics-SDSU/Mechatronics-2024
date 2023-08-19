@@ -1,4 +1,6 @@
 #include "math_operations.hpp"
+#include "vector_operations.hpp"
+#include <cmath>
 
 std::vector<float> mathOperations::normalizeCtrlVals(std::vector<float>& ctrl_vals)
 {
@@ -42,4 +44,59 @@ std::vector<float> mathOperations::normalizeCtrlVals(std::vector<float>& ctrl_va
     }
 
     return normalized;
+}
+
+bool mathOperations::areEqual(float float1, float float2, float epsilon)
+{
+    return (fabs(float1 - float2) < epsilon);
+}
+
+bool mathOperations::areEqual(std::vector<float>& current_state, std::vector<float>& desired_state)
+{
+    #define ORIENTATION_TOLERANCE 4.0f
+    #define POSITION_TOLERANCE 0.06f
+
+    bool equal = true;
+    for (std::vector<float>::size_type i = 0; i < 3; i++)
+    {
+        if (!areEqual(current_state[i], desired_state[i], ORIENTATION_TOLERANCE)) //.05*current_state[i])
+        {
+            equal = false;
+        }
+    }
+    for (std::vector<float>::size_type j = 3; j < 6; j++)
+    {
+        if (!areEqual(current_state[j], desired_state[j], POSITION_TOLERANCE)) //.05*current_state[i])
+        {
+            equal = false;
+        }
+    }
+    return equal;
+}
+
+bool mathOperations::equalToZero(std::vector<int> thrustVect)
+{
+    bool equal = true;
+    for (int thrust : thrustVect)
+    {
+        if (thrust > 1) {equal = false;}
+    }
+    return equal;
+}
+
+bool mathOperations::isSlewRateLow(int totalSlewRate)
+{
+    #define LOW_SLEW_VALUE 1;
+    return totalSlewRate < LOW_SLEW_VALUE;
+}
+
+int mathOperations::calculateTotalSlew(std::deque<std::vector<int>>& slew_buffer)
+{
+    int slew_rate = 0;
+    for (size_t i = 0; i < slew_buffer.size() - 1; i++)
+    {   
+        std::vector<int> difference = abs(slew_buffer[i]) - abs(slew_buffer[i+1]);
+        slew_rate += abs(sum(difference));
+    }
+    return slew_rate;
 }
