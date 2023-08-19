@@ -30,6 +30,26 @@ namespace Interface
     union Params; 
     struct Command;
 
+    struct Orientation
+    {
+        float yaw;
+        float pitch;
+        float roll;
+    };
+
+    struct Position
+    {
+        float x_pos;
+        float y_pos;
+        float z_pos;  
+    };
+
+    struct RobotState
+    {   
+        Orientation orientation;
+        Position position;
+    };
+
     /* Custom Types to Use In Control System */
     typedef std::vector<float>                                                              current_state_t;
     typedef std::vector<float>                                                              desired_state_t;
