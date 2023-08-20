@@ -5,22 +5,12 @@ namespace
 {
     void copyRobotState(const scion_types::msg::State::SharedPtr msg, Interface::RobotState& robot_state)
     {
-        if (msg->orientation.yaw.set)   {robot_state.orientation.yaw = msg->orientation.yaw.value;}
-        if (msg->orientation.pitch.set) {robot_state.orientation.pitch = msg->orientation.pitch.value;}
-        if (msg->orientation.roll.set)  {robot_state.orientation.roll = msg->orientation.roll.value;}
-        if (msg->position.x_pos.set)    {robot_state.position.x_pos = msg->position.x_pos.value;}
-        if (msg->position.y_pos.set)    {robot_state.position.y_pos = msg->position.y_pos.value;}
-        if (msg->position.z_pos.set)    {robot_state.position.z_pos = msg->position.z_pos.value;}
+
     }
 
     void copyRobotState(const Interface::RobotState& robot_state, scion_types::msg::State msg)
     {
-        msg.orientation.yaw.value =    robot_state.orientation.yaw;
-        msg.orientation.pitch.value =  robot_state.orientation.pitch;
-        msg.orientation.roll.value =   robot_state.orientation.roll;
-        msg.position.x_pos.value =     robot_state.position.x_pos;
-        msg.position.y_pos.value =     robot_state.position.y_pos;
-        msg.position.z_pos.value =     robot_state.position.z_pos;
+
     }
 }
 
@@ -37,12 +27,10 @@ namespace
 }
 CurrentStateNode::CurrentStateNode() : Component("current_state_node")
 {
-    using std::placeholders::_1; 
-    using std::placeholders::_2;
-    absolute_state_pub =                this->create_publisher<scion_types::msg::State>("absolute_current_state_data", 10);
-    relative_state_pub =                this->create_publisher<scion_types::msg::State>("relative_current_state_data", 10);
-    reset_relative_state_service =      this->create_service<std_srvs::srv::Trigger>("reset_relative_state", std::bind(&CurrentStateNode::resetRelativeState, this, _1, _2));
-    reset_relative_position_service =   this->create_service<std_srvs::srv::Trigger>("reset_relative_position", std::bind(&CurrentStateNode::resetRelativePosition, this, _1, _2));
+    absolute_state_pub =    this->create_publisher<scion_types::msg::State>("absolute_current_state_data", 10);
+    ahrs_state_sub =        createStateSubscription(this, "ahrs_state_data",    this->absolute_robot_state);
+    a50_state_sub =         createStateSubscription(this, "a50_state_data",     this->absolute_robot_state);
+    zed_pos_state_sub =     createStateSubscription(this, "zed_pos_state_data", this->absolute_robot_state);
 }
 
 void CurrentStateNode::publishAbsoluteState()
@@ -51,18 +39,3 @@ void CurrentStateNode::publishAbsoluteState()
     this->absolute_state_pub->publish(absolute_state);
 }
 
-void CurrentStateNode::publishRelativeState()
-{
-    scion_types::msg::State relative_state = scion_types::msg::State();
-    this->relative_state_pub->publish(relative_state);
-}
-
-void CurrentStateNode::resetRelativeState (const Interface::trigger_request_t request, Interface::trigger_response_t response)
-{
-    RCLCPP_INFO(this->get_logger(), "Incoming Request to Reset Relative State\n");
-}
-
-void CurrentStateNode::resetRelativePosition (const Interface::trigger_request_t request, Interface::trigger_response_t response)
-{
-    RCLCPP_INFO(this->get_logger(), "Incoming Request to Reset Relative Position\n");
-}

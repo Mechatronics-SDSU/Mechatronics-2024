@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <?xml-model href="http://download.ros.org/schema/package_format3.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
 <package format="3">
-<name>relative_state_node</name>
+<name>test_relative_state_node</name>
 <version>0.0.0</version>
 <description>Package for relative_state_node</description>
 <maintainer email="mechatronics.sdsu@gmail.com">Zix</maintainer>
