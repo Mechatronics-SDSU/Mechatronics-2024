@@ -34,7 +34,6 @@ add_library(
     ${SRC_DIR}/robot/src/configuration.cpp
     ${SRC_DIR}/robot/src/junebug.cpp
     ${SRC_DIR}/robot/src/percy.cpp
-    ${SRC_DIR}/robot/src/component.cpp
     ${SRC_DIR}/robot/src/components.cpp
     ${SRC_DIR}/gui_node/src/mainwindow.cpp
     ${SRC_DIR}/gui_node/src/mainwindow.ui
@@ -51,8 +50,8 @@ add_executable(
 # Link gtest and other libraries to  executable
 target_link_libraries(robot_library
   Qt${QT_VERSION_MAJOR}::Widgets
-  unified_can_driver_library
   dependency_library
+  unified_can_driver_library
   ${rclcpp_LIBRARIES}
 )
 

@@ -17,6 +17,7 @@ find_package(sensor_msgs REQUIRED)
 
 add_library(dependency_library
     ${SRC_DIR}/can_interface/src/can_interface.cpp
+    ${SRC_DIR}/component/src/component.cpp
     ${SRC_DIR}/filters/src/finite_impulse_filter.cpp
     ${SRC_DIR}/pid_controller/src/pid_controller.cpp
     ${SRC_DIR}/pid_controller/src/scion_pid_controller.cpp
@@ -27,11 +28,12 @@ add_library(dependency_library
 target_include_directories(
     dependency_library
     PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}
-    ${SRC_DIR}/robot_interface/include
-    ${SRC_DIR}/pid_controller/include
-    ${SRC_DIR}/operations/include
     ${SRC_DIR}/can_interface/include
+    ${SRC_DIR}/component/include
     ${SRC_DIR}/filters/include
+    ${SRC_DIR}/operations/include
+    ${SRC_DIR}/pid_controller/include
+    ${SRC_DIR}/robot_interface/include
 )
 
 ament_target_dependencies(dependency_library scion_types rclcpp rclcpp_action std_srvs std_msgs sensor_msgs)

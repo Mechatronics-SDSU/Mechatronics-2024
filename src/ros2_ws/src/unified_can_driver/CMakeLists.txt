@@ -6,9 +6,8 @@ if(NOT CMAKE_C_STANDARD)
   set(CMAKE_C_STANDARD 99)
 endif()
 
-# Default to C++14
 if(NOT CMAKE_CXX_STANDARD)
-  set(CMAKE_CXX_STANDARD 14)
+  set(CMAKE_CXX_STANDARD 20)
 endif()
 
 if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
@@ -24,13 +23,10 @@ find_package(scion_types REQUIRED)
 
 include_directories(include)
 include_directories(include/module)
-include_directories(${SRC_DIR}/robot/include)
-
 
 # target executable
 add_library(
 	unified_can_driver_library
-	${SRC_DIR}/robot/src/component.cpp
 	src/base_driver/unified_can_driver.cpp
 	src/base_driver/can_send_service.cpp
 	src/base_driver/can_mailbox_topic.cpp
@@ -54,6 +50,13 @@ add_executable(
 target_link_libraries(
   unified_can_driver
   unified_can_driver_library
+  dependency_library
+  ${rclcpp_LIBRARIES}
+)
+
+target_link_libraries(
+  unified_can_driver_library
+  dependency_library
   ${rclcpp_LIBRARIES}
 )
 
