@@ -142,7 +142,6 @@ add_executable(
     $name_append_exec 
     \${SRC_DIR}/$1/src/$1.cpp
     \${SRC_DIR}/$1/src/main.cpp
-    \${SRC_DIR}/robot/src/component.cpp
 )
 
 # Link gtest and other libraries to  executable
@@ -154,7 +153,6 @@ target_link_libraries($name_append_exec
 target_include_directories(
     $name_append_exec PUBLIC 
     \${SRC_DIR}/$1/include
-    \${SRC_DIR}/robot/include
 )
 
 ament_target_dependencies($name_append_exec scion_types rclcpp rclcpp_action std_srvs std_msgs sensor_msgs)
