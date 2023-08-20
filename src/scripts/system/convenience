@@ -2,9 +2,7 @@ echo "--------------------------------------------------------------------------
 
 echo "\nAdding Convenience Scripts to Your linux Commands \n"
 
-# SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
-
-cd src/scripts/system
+SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 
 sudo cp * /usr/local/bin
 
