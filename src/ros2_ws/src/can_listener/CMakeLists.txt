@@ -16,7 +16,9 @@ find_package(rclcpp_action REQUIRED)
 find_package(std_srvs REQUIRED)
 find_package(std_msgs REQUIRED)
 
-add_subdirectory(${ROOT_DIR}/ros2_ws/src/robot_library robot_library_binary/)
+if (NOT TARGET dependency_library)
+    add_subdirectory(${ROOT_DIR}/ros2_ws/src/robot_library robot_library_binary/)
+endif()
 
 # Add your package's source files
 add_executable(

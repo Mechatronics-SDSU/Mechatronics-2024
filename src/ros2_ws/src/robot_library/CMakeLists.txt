@@ -23,8 +23,10 @@ find_package(std_srvs REQUIRED)
 find_package(std_msgs REQUIRED)
 find_package(sensor_msgs REQUIRED)
 
-add_subdirectory(${ROOT_DIR}/classes/src/dependency_library ${CMAKE_BINARY_DIR}/classes-build)
-add_subdirectory(${SRC_DIR}/unified_can_driver ${CMAKE_BINARY_DIR}/unified-can-driver-build)
+if (NOT TARGET dependency_library)
+    add_subdirectory(${ROOT_DIR}/classes/src/dependency_library ${CMAKE_BINARY_DIR}/classes-build)
+    add_subdirectory(${SRC_DIR}/unified_can_driver ${CMAKE_BINARY_DIR}/unified-can-driver-build)
+endif()
 
 # Add your package's source files
 add_library(

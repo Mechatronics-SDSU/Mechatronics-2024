@@ -53,6 +53,9 @@ def generate_launch_description():
         launch_ros.actions.Node(
             package='joy', executable='joy_node', output='screen'
             ),  
+        launch_ros.actions.Node(
+            package='can_listener', executable='can_listener', output='screen' 
+            ),
         # launch_ros.actions.Node(
         #     package='mediator_node', executable='mediator_exec', output='screen' 
         #     ),  

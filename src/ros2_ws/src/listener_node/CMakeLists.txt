@@ -21,10 +21,9 @@ add_executable(
     listener_exec 
     ${SRC_DIR}/listener_node/src/listener_node.cpp
     ${SRC_DIR}/listener_node/src/main.cpp
-    ${SRC_DIR}/robot/src/component.cpp
 )
 
-# Link gtest and other libraries to  executable
+# Link gtest and other libraries to executable
 target_link_libraries(listener_exec
   dependency_library
   ${rclcpp_LIBRARIES}
@@ -33,7 +32,6 @@ target_link_libraries(listener_exec
 target_include_directories(
     listener_exec PUBLIC 
     ${SRC_DIR}/listener_node/include
-    ${SRC_DIR}/robot/include
 )
 
 ament_target_dependencies(listener_exec scion_types rclcpp rclcpp_action std_srvs std_msgs sensor_msgs)

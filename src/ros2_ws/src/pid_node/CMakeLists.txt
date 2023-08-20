@@ -1,15 +1,44 @@
-cmake_minimum_required(VERSION 3.12)  # Adjust as needed
+cmake_minimum_required(VERSION 3.5)
 project(pid_node)
 
-# Set C++ standard
-set(CMAKE_CXX_STANDARD 20)
+get_filename_component(SRC_DIR "${CMAKE_CURRENT_SOURCE_DIR}" DIRECTORY)
+get_filename_component(ROS_DIR "${SRC_DIR}" DIRECTORY)
+get_filename_component(ROOT_DIR "${ROS_DIR}" DIRECTORY)
 
-# Add your source files
+set(CMAKE_CXX_STANDARD 20)
+find_package(ament_cmake REQUIRED)
+find_package(rclcpp REQUIRED)
+find_package(scion_types REQUIRED)
+find_package(rclcpp_action REQUIRED)
+find_package(std_srvs REQUIRED)
+find_package(std_msgs REQUIRED)
+find_package(sensor_msgs REQUIRED)
+
+add_subdirectory(${ROOT_DIR}/classes/src/dependency_library ${CMAKE_BINARY_DIR}/classes-build)
+
+# Add your package's source files
 add_executable(
-    pid_exec
-    src/robot.cpp
-    src/main.cpp
+    pid_exec 
+    ${SRC_DIR}/pid_node/src/pid_node.cpp
+    ${SRC_DIR}/pid_node/src/main.cpp
 )
 
-# Add any necessary include directories
-target_include_directories(pid_exec PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/include)
+# Link gtest and other libraries to  executable
+target_link_libraries(pid_exec
+  dependency_library
+  ${rclcpp_LIBRARIES}
+)
+
+target_include_directories(
+    pid_exec PUBLIC 
+    ${SRC_DIR}/pid_node/include
+)
+
+ament_target_dependencies(pid_exec scion_types rclcpp rclcpp_action std_srvs std_msgs sensor_msgs)
+
+# Install the executable
+install(TARGETS pid_exec
+  DESTINATION lib/${PROJECT_NAME}
+)
+
+ament_package()

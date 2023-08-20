@@ -2,7 +2,6 @@
     "robot" : "junebug",
     "nodes" : [
         "controller_node",
-        "gui_listener",
-        "unified_can_driver"
+        "gui_listener"
     ]
 }

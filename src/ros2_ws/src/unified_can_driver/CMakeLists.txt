@@ -15,6 +15,12 @@ if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
 endif()
 
 get_filename_component(SRC_DIR "${CMAKE_CURRENT_SOURCE_DIR}" DIRECTORY)
+get_filename_component(ROS_DIR "${SRC_DIR}" DIRECTORY)
+get_filename_component(ROOT_DIR "${ROS_DIR}" DIRECTORY)
+
+if (NOT TARGET dependency_library)
+	add_subdirectory(${ROOT_DIR}/classes/src/dependency_library ${CMAKE_BINARY_DIR}/classes)
+endif()
 
 # find dependencies
 find_package(ament_cmake REQUIRED)
@@ -48,15 +54,14 @@ add_executable(
 )
 
 target_link_libraries(
-  unified_can_driver
   unified_can_driver_library
   dependency_library
   ${rclcpp_LIBRARIES}
 )
 
 target_link_libraries(
+  unified_can_driver
   unified_can_driver_library
-  dependency_library
   ${rclcpp_LIBRARIES}
 )
 

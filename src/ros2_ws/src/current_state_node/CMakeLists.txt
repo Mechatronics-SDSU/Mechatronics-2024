@@ -21,7 +21,6 @@ add_executable(
     current_state_exec 
     ${SRC_DIR}/current_state_node/src/current_state_node.cpp
     ${SRC_DIR}/current_state_node/src/main.cpp
-    ${SRC_DIR}/robot/src/component.cpp
 )
 
 # Link gtest and other libraries to  executable
@@ -33,7 +32,6 @@ target_link_libraries(current_state_exec
 target_include_directories(
     current_state_exec PUBLIC 
     ${SRC_DIR}/current_state_node/include
-    ${SRC_DIR}/robot/include
 )
 
 ament_target_dependencies(current_state_exec scion_types rclcpp rclcpp_action std_srvs std_msgs sensor_msgs)

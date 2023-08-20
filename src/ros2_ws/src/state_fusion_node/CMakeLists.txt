@@ -21,7 +21,6 @@ add_executable(
     state_fusion_exec 
     ${SRC_DIR}/state_fusion_node/src/state_fusion_node.cpp
     ${SRC_DIR}/state_fusion_node/src/main.cpp
-    ${SRC_DIR}/robot/src/component.cpp
 )
 
 # Link gtest and other libraries to  executable
@@ -33,7 +32,6 @@ target_link_libraries(state_fusion_exec
 target_include_directories(
     state_fusion_exec PUBLIC 
     ${SRC_DIR}/state_fusion_node/include
-    ${SRC_DIR}/robot/include
 )
 
 ament_target_dependencies(state_fusion_exec scion_types rclcpp rclcpp_action std_srvs std_msgs sensor_msgs)
