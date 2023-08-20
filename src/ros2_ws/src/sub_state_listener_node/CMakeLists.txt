@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.5)
-project(listener_node)
+project(sub_state_listener_node)
 
 get_filename_component(SRC_DIR "${CMAKE_CURRENT_SOURCE_DIR}" DIRECTORY)
 get_filename_component(ROS_DIR "${SRC_DIR}" DIRECTORY)
@@ -18,27 +18,27 @@ add_subdirectory(${ROOT_DIR}/classes/src/dependency_library ${CMAKE_BINARY_DIR}/
 
 # Add your package's source files
 add_executable(
-    listener_exec 
-    ${SRC_DIR}/listener_node/src/listener_node.cpp
-    ${SRC_DIR}/listener_node/src/main.cpp
+    sub_state_listener_exec 
+    ${SRC_DIR}/sub_state_listener_node/src/sub_state_listener_node.cpp
+    ${SRC_DIR}/sub_state_listener_node/src/main.cpp
 )
 
-# Link gtest and other libraries to executable
-target_link_libraries(listener_exec
+# Link gtest and other libraries to  executable
+target_link_libraries(sub_state_listener_exec
   dependency_library
   ${rclcpp_LIBRARIES}
 )
 
 target_include_directories(
-    listener_exec PUBLIC 
-    ${SRC_DIR}/listener_node/include
+    sub_state_listener_exec PUBLIC 
+    ${SRC_DIR}/sub_state_listener_node/include
 )
 
-ament_target_dependencies(listener_exec scion_types rclcpp rclcpp_action std_srvs std_msgs sensor_msgs)
+ament_target_dependencies(sub_state_listener_exec scion_types rclcpp rclcpp_action std_srvs std_msgs sensor_msgs)
 
 # Install the executable
-install(TARGETS listener_exec
+install(TARGETS sub_state_listener_exec
   DESTINATION lib/${PROJECT_NAME}
 )
 
-ament_package()
+ament_package() 

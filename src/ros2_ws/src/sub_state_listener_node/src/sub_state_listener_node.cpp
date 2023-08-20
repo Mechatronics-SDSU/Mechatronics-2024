@@ -1,6 +1,6 @@
-#include "listener_node.hpp"
+#include "sub_state_listener_node.hpp"
 
-ListenerNode::ListenerNode() : Component("listener_node")
+SubStateListenerNode::SubStateListenerNode() : Component("sub_state_listener_node")
 {
     submarine_state_sub = this->create_subscription<scion_types::msg::SubState>("submarine_state", 10, [this](const scion_types::msg::SubState::SharedPtr msg)
     {
