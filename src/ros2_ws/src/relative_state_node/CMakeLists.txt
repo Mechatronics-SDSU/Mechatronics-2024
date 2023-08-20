@@ -14,7 +14,9 @@ find_package(std_srvs REQUIRED)
 find_package(std_msgs REQUIRED)
 find_package(sensor_msgs REQUIRED)
 
-add_subdirectory(${ROOT_DIR}/classes/src/dependency_library ${CMAKE_BINARY_DIR}/classes-build)
+if (NOT TARGET dependency_library)
+    add_subdirectory(${ROOT_DIR}/classes/src/dependency_library ${CMAKE_BINARY_DIR}/classes-build)
+endif()
 
 # Add your package's source files
 add_executable(

@@ -15,7 +15,9 @@ get_filename_component(SRC_DIR "${CMAKE_CURRENT_SOURCE_DIR}" DIRECTORY)
 get_filename_component(ROS_DIR "${SRC_DIR}" DIRECTORY)
 get_filename_component(ROOT_DIR "${ROS_DIR}" DIRECTORY)
 
-add_subdirectory(${ROOT_DIR}/classes/src/dependency_library ${CMAKE_BINARY_DIR}/classes-build)
+if (NOT TARGET dependency_library)
+    add_subdirectory(${ROOT_DIR}/classes/src/dependency_library ${CMAKE_BINARY_DIR}/classes-build)
+endif()
 
 find_package(ament_cmake REQUIRED)
 find_package(rclcpp REQUIRED)
