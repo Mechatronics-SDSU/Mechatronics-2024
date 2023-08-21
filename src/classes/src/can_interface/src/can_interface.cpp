@@ -57,7 +57,7 @@ void CanInterface::CanClient::allClear()
     CanInterface::CanClient::sendFrame(0x00A, 0, 0);
 }
 
-std::vector<int> CanInterface::CanClient::make_motor_request(std::vector<float>& thrusts, int motor_count, int max_power)
+std::vector<int> CanInterface::CanClient::make_motor_request(const std::vector<float>& thrusts, int motor_count, int max_power)
 {
     #define MOTOR_ID 0x010
     /* Thrusts come out of PID as a float between -1 and 1; motors need int value from -100 to 100 */

@@ -25,6 +25,9 @@ find_package(sensor_msgs REQUIRED)
 
 if (NOT TARGET dependency_library)
     add_subdirectory(${ROOT_DIR}/classes/src/dependency_library ${CMAKE_BINARY_DIR}/classes-build)
+endif()
+
+if (NOT TARGET unified_can_driver_library)
     add_subdirectory(${SRC_DIR}/unified_can_driver ${CMAKE_BINARY_DIR}/unified-can-driver-build)
 endif()
 

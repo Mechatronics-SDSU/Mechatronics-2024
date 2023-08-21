@@ -5,6 +5,8 @@ get_filename_component(SRC_DIR "${CMAKE_CURRENT_SOURCE_DIR}" DIRECTORY)
 get_filename_component(ROS_DIR "${SRC_DIR}" DIRECTORY)
 get_filename_component(ROOT_DIR "${ROS_DIR}" DIRECTORY)
 
+add_definitions(-DCONFIG_PATH="${SRC_DIR}/robot/config.json")
+
 set(CMAKE_CXX_STANDARD 20)
 find_package(ament_cmake REQUIRED)
 find_package(rclcpp REQUIRED)
@@ -15,6 +17,7 @@ find_package(std_msgs REQUIRED)
 find_package(sensor_msgs REQUIRED)
 
 add_subdirectory(${ROOT_DIR}/classes/src/dependency_library ${CMAKE_BINARY_DIR}/classes-build)
+add_subdirectory(${ROOT_DIR}/ros2_ws/src/robot_library ${CMAKE_BINARY_DIR}/robot-build)
 
 # Add your package's source files
 add_executable(
@@ -26,6 +29,7 @@ add_executable(
 # Link gtest and other libraries to  executable
 target_link_libraries(pid_exec
   dependency_library
+  robot_library
   ${rclcpp_LIBRARIES}
 )
 

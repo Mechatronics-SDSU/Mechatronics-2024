@@ -1,9 +1,12 @@
 #include "pid_node.hpp"
+#include "robot_factory.hpp"
 
 int main(int argc, char * argv[])
 {
     rclcpp::init(argc, argv);
-    rclcpp::spin(std::make_shared<PidNode>());
+    std::unique_ptr<Configuration> configuration = std::make_unique<Configuration>(CONFIG_PATH); // Declared in CMakeLists.txt
+    std::shared_ptr<Robot> robot = RobotFactory::createRobot(*configuration);
+    rclcpp::spin(std::make_shared<PidNode>(*robot));
     rclcpp::shutdown();
     return 0;
 }

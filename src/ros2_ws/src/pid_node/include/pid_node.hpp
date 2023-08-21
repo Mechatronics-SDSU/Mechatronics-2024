@@ -5,17 +5,19 @@
 #include "scion_pid_controller.hpp"   
 #include "pid_params.hpp"
 #include "vector_operations.hpp"
+#include "robot.hpp"
 #include "component.hpp"
 #include <memory>
 
 class PidNode : public Component
 {
     public:
-        PidNode();
-    private:
+        PidNode(Robot& robot);
+    protected:
         Interface::state_sub_t current_state_sub;
         Scion_Position_PID_Controller controller;
         PID_Params pid_params_object;                      // Passed to controller for tuning
+        Robot& robot;
 };
 
 #endif

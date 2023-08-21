@@ -9,10 +9,7 @@ namespace
         Interface::RobotState desired_state;
         return rosOperations::copyRobotState(response, desired_state);
     }
-}
 
-namespace
-{
     Interface::RobotState getCurrentState(const scion_types::msg::State::SharedPtr msg)
     {
         Interface::RobotState current_state;
@@ -38,34 +35,27 @@ namespace
     {
         return desired_state - current_state;
     }    
+
+    vector<float> ctrlValsToThrusts(const Interface::matrix_t& thrust_mapper, const vector<float>& ctrl_vals)
+    {
+        return thrust_mapper * ctrl_vals;
+    }
 }
 
-PidNode::PidNode() : Component("pid_node")
+namespace
+{
+    #define UPDATE_RATE 20
+    #define MAX_POWER 100
+}
+
+PidNode::PidNode(Robot& robot) : Component("pid_node"), robot{robot}
 {
     controller = Scion_Position_PID_Controller(pid_params_object.get_pid_params());
-    current_state_sub = this->create_subscription<scion_types::msg::State>("pid_data", 10, [this](const scion_types::msg::State::SharedPtr msg)
+    current_state_sub = this->create_subscription<scion_types::msg::State>("pid_data", 10, [this, &robot](const scion_types::msg::State::SharedPtr msg)
     {
-        std::vector<float> errors = getErrors(convertFromStateToVector(getCurrentState(msg)), convertFromStateToVector(getDesiredState()));
-        std::vector<float> ctrl_vals = controller.update(errors, .10);
+        robot.getCanClient()->make_motor_request(
+            ctrlValsToThrusts(robot.getThrustMapper(), controller.update(
+            getErrors(convertFromStateToVector(getCurrentState(msg)), convertFromStateToVector(getDesiredState()))
+            , 1/UPDATE_RATE)), robot.getMotorCount(), MAX_POWER);
     });
 }
-
-
-
-
-// vector<float> Controller::getThrusts(vector<float>& current_state, vector<float>& desired_state)
-// {
-//     vector<float> errors                   {0.0F,0.0F,0.0F,0.0F,0.0F,0.0F}; 
-//     vector<float> adjustedErrors           {0.0F,0.0F,0.0F,0.0F,0.0F,0.0F};
-//     vector<float> ctrl_vals                {0.0F,0.0F,0.0F,0.0F,0.0F,0.0F}; 
-
-//     errors = getErrors(current_state,  desired_state);
-//     adjustedErrors = adjustErrors(errors);
-//     ctrl_vals = this->controller_.update(adjustedErrors, (float)UPDATE_PERIOD_RAW / 1000);
-//     return ctrlValsToThrusts(ctrl_vals);
-// }    
-
-// vector<float> Controller::ctrlValsToThrusts(vector<float>& ctrl_vals)
-// {
-//     return this->thrust_mapper_ * ctrl_vals;
-// }

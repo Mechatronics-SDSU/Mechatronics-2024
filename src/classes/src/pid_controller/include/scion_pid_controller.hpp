@@ -45,7 +45,7 @@ class Scion_Position_PID_Controller
         // Request control values from each PID
         vector<float> update
         (
-            vector<float> errors,
+            const vector<float>& errors,
             float dt
         );
 

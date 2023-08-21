@@ -83,7 +83,7 @@ Scion_Position_PID_Controller::Scion_Position_PID_Controller(map<string, map<str
 
     vector<float> Scion_Position_PID_Controller::update
     (
-        vector<float> errors,
+        const vector<float>& errors,
         float dt
     ) 
     {
