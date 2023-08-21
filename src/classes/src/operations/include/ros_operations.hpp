@@ -11,7 +11,7 @@ namespace rosOperations
     scion_types::srv::ChangeDesiredState::Response copyRobotState(const Interface::RobotState& robot_state, scion_types::srv::ChangeDesiredState::Response& response);
     Interface::RobotState copyRobotState(const scion_types::srv::GetDesiredState::Response response, Interface::RobotState& robot_state);
     Interface::RobotState copyRobotState(const scion_types::srv::ChangeDesiredState::Response response, Interface::RobotState& robot_state);
-    scion_types::srv::GetDesiredState::Response getDesiredState(std::string requester_name, std::string temp_client_name);
+    scion_types::srv::GetDesiredState::Response getDesiredState(rclcpp::Node* node, std::string requester_name);
 }
 
 #endif

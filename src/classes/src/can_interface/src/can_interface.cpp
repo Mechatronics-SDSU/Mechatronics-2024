@@ -19,6 +19,7 @@ void CanInterface::CanClient::sendFrame(int32_t can_id, int8_t can_dlc, unsigned
     );
     auto can_future = can_client->async_send_request(can_request);
     rclcpp::spin_until_future_complete(node, can_future);
+    RCLCPP_INFO(node->get_logger(), "[CanSendService::client] Client Sent Message With Id %03x", can_id);
 }
 
 void CanInterface::CanClient::sendNothing()
