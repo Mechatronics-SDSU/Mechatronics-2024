@@ -72,7 +72,9 @@ namespace Interface
     typedef rclcpp::Service<std_srvs::srv::SetBool>::SharedPtr                              ros_bool_service_t;
     typedef rclcpp::Service<scion_types::srv::SendFrame>::SharedPtr                         ros_sendframe_service_t;
     typedef rclcpp::Service<scion_types::srv::GetDesiredState>::SharedPtr                   get_desired_state_service_t;
-    typedef rclcpp::Service<scion_types::srv::ChangeDesiredState>::SharedPtr                change_desired_state_service_t;        
+    typedef rclcpp::Service<scion_types::srv::ChangeDesiredState>::SharedPtr                change_desired_state_service_t;
+    typedef rclcpp::Client<scion_types::srv::GetDesiredState>::SharedPtr                    get_desired_state_client_t;
+    typedef rclcpp::Client<scion_types::srv::ChangeDesiredState>::SharedPtr                 change_desired_state_client_t;           
     typedef rclcpp::Subscription<std_msgs::msg::String>::SharedPtr                          string_sub_t;
     typedef rclcpp::Subscription<std_msgs::msg::Int32>::SharedPtr                           int_sub_t;
     typedef rclcpp::Subscription<scion_types::msg::PidTuning>::SharedPtr                    tune_pid_sub_t;

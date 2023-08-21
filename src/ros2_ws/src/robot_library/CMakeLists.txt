@@ -33,6 +33,7 @@ add_library(
     robot_library 
     ${SRC_DIR}/absolute_state_node/src/absolute_state_node.cpp
     ${SRC_DIR}/controller_node/src/controller_node.cpp
+    ${SRC_DIR}/desired_state_node/src/desired_state_node.cpp
     ${SRC_DIR}/gui_node/src/mainwindow.cpp
     ${SRC_DIR}/gui_node/src/mainwindow.ui
     ${SRC_DIR}/gui_node/include/mainwindow.hpp
@@ -69,6 +70,7 @@ target_include_directories(
     robot_library PUBLIC 
     ${SRC_DIR}/absolute_state_node/include
     ${SRC_DIR}/controller_node/include
+    ${SRC_DIR}/desired_state_node/include
     ${SRC_DIR}/gui_listener_node/include
     ${SRC_DIR}/gui_node/include
     ${SRC_DIR}/robot/include
@@ -79,6 +81,7 @@ target_include_directories(
 target_include_directories(
     robot PUBLIC 
     ${SRC_DIR}/absolute_state_node/include
+    ${SRC_DIR}/desired_state_node/include
     ${SRC_DIR}/controller_node/include
     ${SRC_DIR}/gui_listener_node/include
     ${SRC_DIR}/gui_node/include

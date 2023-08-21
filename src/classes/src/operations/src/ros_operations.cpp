@@ -1,6 +1,6 @@
 #include "ros_operations.hpp"
 
-/* move from left -> right*/
+/* move from left hand side -> right hand side*/
 Interface::RobotState rosOperations::copyRobotState(const scion_types::msg::State::SharedPtr msg, Interface::RobotState& robot_state)
 {
     if (msg->orientation.yaw.set)   {robot_state.orientation.yaw = msg->orientation.yaw.value;}
