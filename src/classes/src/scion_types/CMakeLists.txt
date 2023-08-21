@@ -28,6 +28,8 @@ rosidl_generate_interfaces(${PROJECT_NAME}
   "msg/VisionObject.msg"
   "msg/ZedObject.msg"
   "srv/CanCommand.srv"
+  "srv/ChangeDesiredState.srv"
+  "srv/GetDesiredState.srv"
   "srv/SendFrame.srv"
   "srv/Boolean.srv"
   "action/PID.action"

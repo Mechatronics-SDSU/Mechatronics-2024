@@ -11,6 +11,8 @@
 #include "std_srvs/srv/trigger.hpp"
 #include "std_srvs/srv/set_bool.hpp"
 #include "scion_types/srv/send_frame.hpp"
+#include "scion_types/srv/get_desired_state.hpp"
+#include "scion_types/srv/change_desired_state.hpp"
 #include "scion_types/msg/idea.hpp"
 #include "scion_types/msg/state.hpp"
 #include "scion_types/msg/position.hpp"
@@ -69,6 +71,8 @@ namespace Interface
     typedef rclcpp::Service<std_srvs::srv::Trigger>::SharedPtr                              ros_trigger_service_t;
     typedef rclcpp::Service<std_srvs::srv::SetBool>::SharedPtr                              ros_bool_service_t;
     typedef rclcpp::Service<scion_types::srv::SendFrame>::SharedPtr                         ros_sendframe_service_t;
+    typedef rclcpp::Service<scion_types::srv::GetDesiredState>::SharedPtr                   get_desired_state_service_t;
+    typedef rclcpp::Service<scion_types::srv::ChangeDesiredState>::SharedPtr                change_desired_state_service_t;        
     typedef rclcpp::Subscription<std_msgs::msg::String>::SharedPtr                          string_sub_t;
     typedef rclcpp::Subscription<std_msgs::msg::Int32>::SharedPtr                           int_sub_t;
     typedef rclcpp::Subscription<scion_types::msg::PidTuning>::SharedPtr                    tune_pid_sub_t;
@@ -95,6 +99,10 @@ namespace Interface
     
     typedef std::shared_ptr<std_srvs::srv::Trigger::Request>                                trigger_request_t;
     typedef std::shared_ptr<std_srvs::srv::Trigger::Response>                               trigger_response_t;
+    typedef std::shared_ptr<scion_types::srv::GetDesiredState::Request>                     get_desired_state_request_t;
+    typedef std::shared_ptr<scion_types::srv::GetDesiredState::Response>                    get_desired_state_response_t;
+    typedef std::shared_ptr<scion_types::srv::ChangeDesiredState::Request>                  change_desired_state_request_t;
+    typedef std::shared_ptr<scion_types::srv::ChangeDesiredState::Response>                 change_desired_state_response_t;
 }
 
 #endif
