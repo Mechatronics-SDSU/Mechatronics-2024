@@ -33,16 +33,16 @@ namespace Interface
 
     struct Orientation
     {
-        float yaw;
-        float pitch;
-        float roll;
+        float yaw = 0;
+        float pitch = 0;
+        float roll = 0;
     };
 
     struct Position
     {
-        float x_pos;
-        float y_pos;
-        float z_pos;  
+        float x_pos = 0;
+        float y_pos = 0;
+        float z_pos = 0;  
     };
 
     struct RobotState

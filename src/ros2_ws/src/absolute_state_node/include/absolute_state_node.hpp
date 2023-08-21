@@ -14,15 +14,16 @@
 /* Subscribe to all relevant sensor information and consolidate it for the other nodes to subscribe to */
 class AbsoluteStateNode : public Component
 {
-  public:
-      AbsoluteStateNode();
-      void publishAbsoluteState();
-  protected:
-      Interface::RobotState               absolute_robot_state;
-      Interface::state_pub_t              absolute_state_pub;
-      Interface::state_sub_t              ahrs_state_sub;
-      Interface::state_sub_t              a50_state_sub;
-      Interface::state_sub_t              zed_pos_state_sub;
+    public:
+        AbsoluteStateNode();
+        void publishAbsoluteState(const Interface::RobotState& robot_state);
+        Interface::state_sub_t createStateSubscription(AbsoluteStateNode* node, std::string topic_name, Interface::RobotState& robot_state);
+    protected:
+        Interface::RobotState               absolute_robot_state;
+        Interface::state_pub_t              absolute_state_pub;
+        Interface::state_sub_t              ahrs_state_sub;
+        Interface::state_sub_t              a50_state_sub;
+        Interface::state_sub_t              zed_pos_state_sub;
 };
 
 #endif

@@ -5,7 +5,7 @@
 namespace rosOperations
 {
     Interface::RobotState copyRobotState(const scion_types::msg::State::SharedPtr msg, Interface::RobotState& robot_state);
-    scion_types::msg::State copyRobotState(const Interface::RobotState& robot_state, scion_types::msg::State msg);
+    scion_types::msg::State copyRobotState(const Interface::RobotState& robot_state, scion_types::msg::State& msg);
 }
 
 #endif

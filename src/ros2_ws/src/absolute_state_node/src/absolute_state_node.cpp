@@ -1,17 +1,14 @@
 #include "absolute_state_node.hpp"
-#include "state_copy_helper.hpp"
+#include "ros_operations.hpp"
 /* Subscribe to all relevant sensor information and consolidate it for the PID Node to subscribe to */
 
-namespace
+Interface::state_sub_t AbsoluteStateNode::createStateSubscription(AbsoluteStateNode* node, std::string topic_name, Interface::RobotState& robot_state)
 {
-    Interface::state_sub_t createStateSubscription(Interface::node_t& node, std::string topic_name, Interface::RobotState& robot_state)
+    return node->create_subscription<scion_types::msg::State>(topic_name, 1, 
+    [this, &node, &robot_state](const scion_types::msg::State::SharedPtr msg)
     {
-        return node->create_subscription<scion_types::msg::State>(topic_name, 1, 
-        [node, &robot_state](const scion_types::msg::State::SharedPtr msg)
-        {
-            copyRobotState(msg, robot_state);
-        });
-    }
+        publishAbsoluteState(rosOperations::copyRobotState(msg, robot_state));
+    });
 }
 
 AbsoluteStateNode::AbsoluteStateNode() : Component("absolute_state_node")
@@ -22,10 +19,9 @@ AbsoluteStateNode::AbsoluteStateNode() : Component("absolute_state_node")
     zed_pos_state_sub =     createStateSubscription(this, "zed_pos_state_data", this->absolute_robot_state);
 }
 
-void AbsoluteStateNode::publishAbsoluteState()
+void AbsoluteStateNode::publishAbsoluteState(const Interface::RobotState& robot_state)
 {
-    scion_types::msg::State absolute_state = scion_types::msg::State();
-    copyRobotState(this->absolute_state, absolute_state);
-    this->absolute_state_pub->publish(absolute_state);
+    scion_types::msg::State absolute_state_msg = scion_types::msg::State();
+    rosOperations::copyRobotState(robot_state, absolute_state_msg);
+    this->absolute_state_pub->publish(absolute_state_msg);
 }
-

@@ -11,7 +11,7 @@ Interface::RobotState rosOperations::copyRobotState(const scion_types::msg::Stat
     return robot_state;
 }
 
-scion_types::msg::State rosOperations::copyRobotState(const Interface::RobotState& robot_state, scion_types::msg::State msg)
+scion_types::msg::State rosOperations::copyRobotState(const Interface::RobotState& robot_state, scion_types::msg::State& msg)
 {
     msg.orientation.yaw.value =    robot_state.orientation.yaw;
     msg.orientation.pitch.value =  robot_state.orientation.pitch;

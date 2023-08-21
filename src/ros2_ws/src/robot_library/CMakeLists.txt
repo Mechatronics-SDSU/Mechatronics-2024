@@ -31,17 +31,18 @@ endif()
 # Add your package's source files
 add_library(
     robot_library 
+    ${SRC_DIR}/absolute_state_node/src/absolute_state_node.cpp
+    ${SRC_DIR}/controller_node/src/controller_node.cpp
+    ${SRC_DIR}/gui_node/src/mainwindow.cpp
+    ${SRC_DIR}/gui_node/src/mainwindow.ui
+    ${SRC_DIR}/gui_node/include/mainwindow.hpp
+    ${SRC_DIR}/gui_listener_node/src/gui_listener_node.cpp
     ${SRC_DIR}/robot/src/robot.cpp
     ${SRC_DIR}/robot/src/robot_factory.cpp
     ${SRC_DIR}/robot/src/configuration.cpp
     ${SRC_DIR}/robot/src/junebug.cpp
     ${SRC_DIR}/robot/src/percy.cpp
     ${SRC_DIR}/robot/src/components.cpp
-    ${SRC_DIR}/gui_node/src/mainwindow.cpp
-    ${SRC_DIR}/gui_node/src/mainwindow.ui
-    ${SRC_DIR}/gui_node/include/mainwindow.hpp
-    ${SRC_DIR}/gui_listener_node/src/gui_listener_node.cpp
-    ${SRC_DIR}/controller_node/src/controller_node.cpp
 )
 
 add_executable(
@@ -66,20 +67,22 @@ target_link_libraries(robot
 
 target_include_directories(
     robot_library PUBLIC 
-    ${SRC_DIR}/robot/include
+    ${SRC_DIR}/absolute_state_node/include
     ${SRC_DIR}/controller_node/include
-    ${SRC_DIR}/gui_node/include
     ${SRC_DIR}/gui_listener_node/include
+    ${SRC_DIR}/gui_node/include
+    ${SRC_DIR}/robot/include
     ${SRC_DIR}/unified_can_driver/include
     ${SRC_DIR}/unified_can_driver/include/module
 )
 
 target_include_directories(
     robot PUBLIC 
-    ${SRC_DIR}/robot/include
-    ${SRC_DIR}/gui_node/include
+    ${SRC_DIR}/absolute_state_node/include
     ${SRC_DIR}/controller_node/include
     ${SRC_DIR}/gui_listener_node/include
+    ${SRC_DIR}/gui_node/include
+    ${SRC_DIR}/robot/include
     ${SRC_DIR}/unified_can_driver/include
     ${SRC_DIR}/unified_can_driver/include/module
 )

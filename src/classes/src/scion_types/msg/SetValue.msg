@@ -1,2 +1,2 @@
-float32 value   0.001
+float32 value   0
 bool    set     false
