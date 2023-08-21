@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.5)
-project(current_state_node)
+project(absolute_state_node)
 
 get_filename_component(SRC_DIR "${CMAKE_CURRENT_SOURCE_DIR}" DIRECTORY)
 get_filename_component(ROS_DIR "${SRC_DIR}" DIRECTORY)
@@ -20,26 +20,26 @@ endif()
 
 # Add your package's source files
 add_executable(
-    current_state_exec 
-    ${SRC_DIR}/current_state_node/src/current_state_node.cpp
-    ${SRC_DIR}/current_state_node/src/main.cpp
+    absolute_state_exec 
+    ${SRC_DIR}/absolute_state_node/src/absolute_state_node.cpp
+    ${SRC_DIR}/absolute_state_node/src/main.cpp
 )
 
 # Link gtest and other libraries to  executable
-target_link_libraries(current_state_exec
+target_link_libraries(absolute_state_exec
   dependency_library
   ${rclcpp_LIBRARIES}
 )
 
 target_include_directories(
-    current_state_exec PUBLIC 
-    ${SRC_DIR}/current_state_node/include
+    absolute_state_exec PUBLIC 
+    ${SRC_DIR}/absolute_state_node/include
 )
 
-ament_target_dependencies(current_state_exec scion_types rclcpp rclcpp_action std_srvs std_msgs sensor_msgs)
+ament_target_dependencies(absolute_state_exec scion_types rclcpp rclcpp_action std_srvs std_msgs sensor_msgs)
 
 # Install the executable
-install(TARGETS current_state_exec
+install(TARGETS absolute_state_exec
   DESTINATION lib/${PROJECT_NAME}
 )
 

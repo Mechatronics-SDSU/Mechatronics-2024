@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.5)
-project(test_operations)
+project(test_absolute_state_node)
 
 get_filename_component(SRC_DIR "${CMAKE_CURRENT_SOURCE_DIR}" DIRECTORY)
 get_filename_component(ROS_DIR "${SRC_DIR}" DIRECTORY)
@@ -30,13 +30,13 @@ add_subdirectory(${ROOT_DIR}/src/ros2_ws/src/robot_library robot_library_binary/
 
 # Add your package's source files
 add_executable(
-    test_operations 
-    ${SRC_DIR}/test_operations/src/test_ros_operations.cpp
-    ${SRC_DIR}/test_operations/src/main.cpp
+    test_absolute_state_node 
+    ${SRC_DIR}/test_absolute_state_node/src/test_absolute_state_node.cpp
+    ${SRC_DIR}/test_absolute_state_node/src/main.cpp
 )
 
 # Link gtest and other libraries to  executable
-target_link_libraries(test_operations
+target_link_libraries(test_absolute_state_node
   robot_library
   gtest
   gmock
@@ -45,14 +45,14 @@ target_link_libraries(test_operations
 )
 
 target_include_directories(
-    test_operations PUBLIC 
-    ${SRC_DIR}/test_operations/include
+    test_absolute_state_node PUBLIC 
+    ${SRC_DIR}/test_absolute_state_node/include
 )
 
-ament_target_dependencies(test_operations scion_types rclcpp rclcpp_action std_srvs std_msgs)
+ament_target_dependencies(test_absolute_state_node scion_types rclcpp rclcpp_action std_srvs std_msgs)
 
 # Install the executable
-install(TARGETS test_operations
+install(TARGETS test_absolute_state_node
   DESTINATION lib/${PROJECT_NAME}
 )
 

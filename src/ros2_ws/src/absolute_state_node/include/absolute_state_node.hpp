@@ -1,5 +1,5 @@
-#ifndef CURRENT_STATE_NODE_H
-#define CURRENT_STATE_NODE_H
+#ifndef ABSOLUTE_STATE_NODE_H
+#define ABSOLUTE_STATE_NODE_H
 
 #include <memory>
 #include <vector>
@@ -12,10 +12,10 @@
 #include "component.hpp"
 
 /* Subscribe to all relevant sensor information and consolidate it for the other nodes to subscribe to */
-class CurrentStateNode : public Component
+class AbsoluteStateNode : public Component
 {
   public:
-      CurrentStateNode();
+      AbsoluteStateNode();
       void publishAbsoluteState();
   protected:
       Interface::RobotState               absolute_robot_state;
