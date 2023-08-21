@@ -1,6 +1,5 @@
 #include "absolute_state_node.hpp"
 #include "ros_operations.hpp"
-/* Subscribe to all relevant sensor information and consolidate it for the PID Node to subscribe to */
 
 Interface::state_sub_t AbsoluteStateNode::createStateSubscription(AbsoluteStateNode* node, std::string topic_name, Interface::RobotState& robot_state)
 {
