@@ -23,14 +23,14 @@ scion_types::msg::State rosOperations::copyRobotState(const Interface::RobotStat
     return msg;
 }
 
-Interface::get_desired_state_response_t rosOperations::copyRobotState(const Interface::RobotState& robot_state, const Interface::get_desired_state_response_t& response)
+scion_types::srv::GetDesiredState::Response rosOperations::copyRobotState(const Interface::RobotState& robot_state, scion_types::srv::GetDesiredState::Response& response)
 {
-    response->desired_state.orientation.yaw.value =    robot_state.orientation.yaw;
-    response->desired_state.orientation.pitch.value =  robot_state.orientation.pitch;
-    response->desired_state.orientation.roll.value =   robot_state.orientation.roll;
-    response->desired_state.position.x_pos.value =     robot_state.position.x_pos;
-    response->desired_state.position.y_pos.value =     robot_state.position.y_pos;
-    response->desired_state.position.z_pos.value =     robot_state.position.z_pos;
+    response.desired_state.orientation.yaw.value =    robot_state.orientation.yaw;
+    response.desired_state.orientation.pitch.value =  robot_state.orientation.pitch;
+    response.desired_state.orientation.roll.value =   robot_state.orientation.roll;
+    response.desired_state.position.x_pos.value =     robot_state.position.x_pos;
+    response.desired_state.position.y_pos.value =     robot_state.position.y_pos;
+    response.desired_state.position.z_pos.value =     robot_state.position.z_pos;
     return response;
 }
 
@@ -45,13 +45,13 @@ Interface::RobotState rosOperations::copyRobotState(const Interface::change_desi
     return robot_state;
 }
 
-Interface::change_desired_state_response_t rosOperations::copyRobotState(const Interface::RobotState& robot_state, const Interface::change_desired_state_response_t& response)
+scion_types::srv::ChangeDesiredState::Response rosOperations::copyRobotState(const Interface::RobotState& robot_state, scion_types::srv::ChangeDesiredState::Response& response)
 {
-    response->desired_state.orientation.yaw.value =    robot_state.orientation.yaw;
-    response->desired_state.orientation.pitch.value =  robot_state.orientation.pitch;
-    response->desired_state.orientation.roll.value =   robot_state.orientation.roll;
-    response->desired_state.position.x_pos.value =     robot_state.position.x_pos;
-    response->desired_state.position.y_pos.value =     robot_state.position.y_pos;
-    response->desired_state.position.z_pos.value =     robot_state.position.z_pos;
+    response.desired_state.orientation.yaw.value =    robot_state.orientation.yaw;
+    response.desired_state.orientation.pitch.value =  robot_state.orientation.pitch;
+    response.desired_state.orientation.roll.value =   robot_state.orientation.roll;
+    response.desired_state.position.x_pos.value =     robot_state.position.x_pos;
+    response.desired_state.position.y_pos.value =     robot_state.position.y_pos;
+    response.desired_state.position.z_pos.value =     robot_state.position.z_pos;
     return response;
 }

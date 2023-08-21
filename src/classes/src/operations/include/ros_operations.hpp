@@ -6,9 +6,9 @@ namespace rosOperations
 {
     Interface::RobotState copyRobotState(const scion_types::msg::State::SharedPtr msg, Interface::RobotState& robot_state);
     scion_types::msg::State copyRobotState(const Interface::RobotState& robot_state, scion_types::msg::State& msg);
-    Interface::get_desired_state_response_t copyRobotState(const Interface::RobotState& robot_state, const Interface::get_desired_state_response_t& response);
+    scion_types::srv::GetDesiredState::Response copyRobotState(const Interface::RobotState& robot_state, scion_types::srv::GetDesiredState::Response& response);
     Interface::RobotState copyRobotState(const Interface::change_desired_state_request_t request, Interface::RobotState& robot_state);
-    Interface::change_desired_state_response_t copyRobotState(const Interface::RobotState& robot_state, const Interface::change_desired_state_response_t& response);
+    scion_types::srv::ChangeDesiredState::Response copyRobotState(const Interface::RobotState& robot_state, scion_types::srv::ChangeDesiredState::Response& response);
 }
 
 #endif
