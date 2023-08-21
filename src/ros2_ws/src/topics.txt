@@ -111,6 +111,9 @@ ALL TOPICS
 /* Instructions to send one command to test PID */
 ros2 topic pub -1 ahrs_orientation scion_types/msg/Orientation "{orientation: [10.5,15,20]}"                <--- Send dummy data for "actual" orientation, the PID will show the ctrl vals it would output
 ros2 topic pub -1 position_data scion_types/msg/Position "{position: [0,0,1]}"
+
+ros2 topic pub -1 ahrs_state_data scion_types/msg/State "{orientation: {yaw: {value: 10, set: true}}}"
+
 --------------------------------------------------
 
 /* If you want to send at a certain frequency */ 

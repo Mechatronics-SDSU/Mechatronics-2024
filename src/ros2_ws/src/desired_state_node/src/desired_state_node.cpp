@@ -6,6 +6,7 @@ Interface::get_desired_state_service_t DesiredStateNode::createGetDesiredStateSe
     return this->create_service<scion_types::srv::GetDesiredState>("get_desired_state", [this]
     (Interface::get_desired_state_request_t request, Interface::get_desired_state_response_t response)
     {
+        RCLCPP_INFO(this->get_logger(), "%s requested desired state", request->requester_name.c_str());
         rosOperations::copyRobotState(this->desired_state, *response);
     });
 }

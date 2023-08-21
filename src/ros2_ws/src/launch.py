@@ -28,6 +28,9 @@ def generate_launch_description():
         #  launch_ros.actions.Node(
         #      package='a50_node', executable='a50_exec', output='screen'
         #      ),
+        launch_ros.actions.Node(
+            package='absolute_state_node', executable='absolute_state_exec', output='screen'
+            ),  
         # launch_ros.actions.Node(
         #     package='ahrs_node', executable='ahrs_exec', output='screen'
         #     ),
@@ -48,23 +51,23 @@ def generate_launch_description():
         #                 ]
         #     ),  
         launch_ros.actions.Node(
-            package='gui_node', executable='gui_exec', output='screen'
+            package='desired_state_node', executable='desired_state_exec', output='screen'
             ),  
-        launch_ros.actions.Node(
-            package='joy', executable='joy_node', output='screen'
-            ),  
-        launch_ros.actions.Node(
-            package='can_listener', executable='can_listener', output='screen' 
-            ),
+        # launch_ros.actions.Node(
+        #     package='gui_node', executable='gui_exec', output='screen'
+        #     ),  
+        # launch_ros.actions.Node(
+        #     package='joy', executable='joy_node', output='screen'
+        #     ),  
+        # launch_ros.actions.Node(
+        #     package='can_listener', executable='can_listener', output='screen' 
+        #     ),
         # launch_ros.actions.Node(
         #     package='mediator_node', executable='mediator_exec', output='screen' 
         #     ),  
-        # launch_ros.actions.Node(
-        #     package='pid_node', executable='pid_exec', output='screen',
-        #     parameters= [
-        #                     {"thrust_mapper": "percy"}
-        #                 ]
-        #     ),    
+        launch_ros.actions.Node(
+            package='pid_node', executable='pid_exec', output='screen',
+            ),    
         # launch_ros.actions.Node(
         #     package='robot_library', executable='robot', output='screen' 
         #     ),  
