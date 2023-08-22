@@ -52,4 +52,3 @@ PidNode::PidNode(Robot& robot) : Component("pid_node"), robot{robot}
             , 1/UPDATE_RATE)), robot.getMotorCount(), MAX_POWER);
     });
 }
-

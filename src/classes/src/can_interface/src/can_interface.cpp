@@ -37,9 +37,9 @@ void CanInterface::CanClient::setBotInSafeMode()
 void CanInterface::CanClient::turnOnLight() 
 {
     std::vector<unsigned char> lightEnable{0x04, 0x00, 0x00, 0x00, 0x01};
-    CanInterface::CanClient::sendFrame(0x22, 5, lightEnable.data());
+    CanInterface::CanClient::sendFrame(0x22, lightEnable.size(), lightEnable.data());
     std::vector<unsigned char> lightOn{0x04, 0x00, 0x04, 0x00, 0x64};
-    CanInterface::CanClient::sendFrame(0x22, 5, lightOn.data());
+    CanInterface::CanClient::sendFrame(0x22, lightEnable.size(), lightOn.data());
 }
 
 void CanInterface::CanClient::turnOffLight() 
