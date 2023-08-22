@@ -41,7 +41,7 @@ namespace
     #define MAX_POWER 100
 }
 
-PidNode::PidNode(Robot& robot) : Component("pid_node"), robot{robot}
+PidNode::PidNode(const Robot& robot) : Component("pid_node"), robot{robot}
 {
     controller = Scion_Position_PID_Controller(pid_params_object.get_pid_params());
     current_state_sub = this->create_subscription<scion_types::msg::State>("absolute_state_data", 10, [this, &robot](const scion_types::msg::State::SharedPtr msg)

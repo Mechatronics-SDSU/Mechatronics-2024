@@ -41,6 +41,7 @@ add_library(
     ${SRC_DIR}/gui_node/src/mainwindow.ui
     ${SRC_DIR}/gui_node/include/mainwindow.hpp
     ${SRC_DIR}/gui_listener_node/src/gui_listener_node.cpp
+    ${SRC_DIR}/pid_node/src/pid_node.cpp
     ${SRC_DIR}/robot/src/robot.cpp
     ${SRC_DIR}/robot/src/robot_factory.cpp
     ${SRC_DIR}/robot/src/configuration.cpp
@@ -76,6 +77,7 @@ target_include_directories(
     ${SRC_DIR}/desired_state_node/include
     ${SRC_DIR}/gui_listener_node/include
     ${SRC_DIR}/gui_node/include
+    ${SRC_DIR}/pid_node/include
     ${SRC_DIR}/robot/include
     ${SRC_DIR}/unified_can_driver/include
     ${SRC_DIR}/unified_can_driver/include/module
@@ -88,6 +90,7 @@ target_include_directories(
     ${SRC_DIR}/controller_node/include
     ${SRC_DIR}/gui_listener_node/include
     ${SRC_DIR}/gui_node/include
+    ${SRC_DIR}/pid_node/include
     ${SRC_DIR}/robot/include
     ${SRC_DIR}/unified_can_driver/include
     ${SRC_DIR}/unified_can_driver/include/module
