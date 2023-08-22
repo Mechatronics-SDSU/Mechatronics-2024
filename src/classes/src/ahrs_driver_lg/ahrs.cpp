@@ -5,6 +5,7 @@
 #include <unistd.h>
 #include <termios.h>
 #include <fcntl.h>
+#include <map>
 
 class SpartonAHRSDataPackets {
 public:
@@ -44,7 +45,7 @@ public:
             double roll = (static_cast<int16_t>((pitch_roll_data[2] << 8) | pitch_roll_data[3])) * (180.0 / 4096.0);
             return {pitch, roll};
         }
-        return {NAN, NAN}; // Indicate failure
+        return {0, 0}; // Indicate failure
     }
 
 private:

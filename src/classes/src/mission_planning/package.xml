@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<?xml-model href="http://download.ros.org/schema/package_format3.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
+<package format="3">
+<name>mission_planning</name>
+<version>0.0.0</version>
+<description>Package for mission_planning</description>
+<maintainer email="mechatronics.sdsu@gmail.com">Zix</maintainer>
+<license>MIT</license>
+
+<export>
+    <build_type>ament_cmake</build_type>
+</export>
+</package>
