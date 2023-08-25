@@ -14,7 +14,8 @@
 #include <sys/socket.h>
 
 const std::string canInterface = "can0"; 
-const int targetSignalID = 0x04;       
+const int targetSignalID = 0x07;
+const int targetSignalData = 0x04;       
 
 void startTargetProgram() {
     const char* programPath = ROBOT_PROGRAM_PATH; // Defined in CMakeLists.txt
@@ -48,7 +49,7 @@ int main() {
             perror("Read error");
             break;
         }
-        if (frame.can_id == targetSignalID) {
+        if (frame.can_id == targetSignalID && frame.data[0] == 0x04) {
             printf("Button press signal received! Starting robot...\n");
             startTargetProgram();
         }
