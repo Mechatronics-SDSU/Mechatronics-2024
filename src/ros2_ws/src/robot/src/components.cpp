@@ -5,6 +5,7 @@
 #include "controller_node.hpp"
 #include "unified_can_driver.hpp"
 #include "pid_node.hpp"
+#include "sub_state_listener_node.hpp"
 
 namespace
 {
@@ -18,6 +19,7 @@ namespace
     {
         if (component_name == "gui_listener")           {return std::make_shared<GUI_Listener>();}
         if (component_name == "unified_can_driver")     {return std::make_shared<UnifiedCanDriver>();}
+        if (component_name == "sub_state_listener")     {return std::make_shared<SubStateListenerNode>();}
         if (component_name == "controller_node")        {return std::make_shared<Controller>(robot);}
         if (component_name == "pid_node")               {return std::make_shared<PidNode>(robot);}
         fprintf(stderr, "\nInvalid node given in JSON file, exception thrown at %s at line # %d - Sincerely, Zix ;)\n", __FILE__,__LINE__);

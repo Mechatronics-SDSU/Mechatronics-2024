@@ -48,6 +48,7 @@ add_library(
     ${SRC_DIR}/robot/src/junebug.cpp
     ${SRC_DIR}/robot/src/percy.cpp
     ${SRC_DIR}/robot/src/components.cpp
+    ${SRC_DIR}/sub_state_listener_node/src/sub_state_listener_node.cpp
 )
 
 add_executable(
@@ -79,6 +80,7 @@ target_include_directories(
     ${SRC_DIR}/gui_node/include
     ${SRC_DIR}/pid_node/include
     ${SRC_DIR}/robot/include
+    ${SRC_DIR}/sub_state_listener_node/include
     ${SRC_DIR}/unified_can_driver/include
     ${SRC_DIR}/unified_can_driver/include/module
 )
@@ -92,6 +94,7 @@ target_include_directories(
     ${SRC_DIR}/gui_node/include
     ${SRC_DIR}/pid_node/include
     ${SRC_DIR}/robot/include
+    ${SRC_DIR}/sub_state_listener_node/include
     ${SRC_DIR}/unified_can_driver/include
     ${SRC_DIR}/unified_can_driver/include/module
 )

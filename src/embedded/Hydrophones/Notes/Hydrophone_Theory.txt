@@ -1,0 +1,65 @@
+Hydrophone Theory
+Joseph A De Vico
+8/24/2023
+
+
+Hydrophones in the context of this club act as underwater microphones. This is a transducer blah blah blah
+All scenarios and maths assume standard units (seconds, meters, meters per second, degrees).
+All scenarios assume a single point sound source at a fixed frequency.
+Code is all pseudocode, don't copy paste and expect it to work.
+
+The following array size of N hydrophones can determine the following given a single point sound source:
+
+N   Detection
+_____________________________________
+0   Not a whole lot...
+1   Relativistic Distance Changes Over Time
+2   ^ & Angle relative to sound source
+3   ^^ & Triangulate distance to sound source
+4   ^^^ & 3 axis localization + COS error correction for yaw
+
+This assumes in plane up to 3 (equilateral triangle orientation), the 4th forming a tetrahedral array.
+
+
+This can be seen in the following cases:
+
+1 TRANSDUCER:
+    We can only determine the distance to a transducer in a relativistic sense given strong knowledge of both
+    the period of transmission from the transducer.
+
+    In the Robosub case we know the model of sound source (pinger) used, and can determine the selected rate of
+    successive pings is 2.048 seconds. If our detection algorithm is able to trigger on the same point of a ping
+    we can set a start point, at the next ping we can compare t1 to t0 to 2.048 seconds (T_ping).
+    Given a longer period between pings we know we have moved some distance further, and given a shorter period
+    we know me have moved some distance closer.
+
+    This distance is possible to measure, but only if the speed of sound in the medium is understood well. In that
+    case we can perform:
+
+        DISTANCE_CHANGE = (t1 - t0) * SPEED_OF_SOUND 
+
+
+2 TRANSDUCERS:
+    Adding a second sensor allows phase or ToA differences to be determined, giving angle of incidence data on the
+    wavefront vs. the transducer array's long axis. Phase calculations are in depth and covered in their own paper.
+    Time difference to angle is found simply as:
+
+        td_0 = 0
+        td_1 = !0
+
+        Wavefront_Angle = acos( (td_1 - td_0) / (ARRAY_LONG_AXIS_DISTANCE_ON_CENTER / SPEED_OF_SOUND) )
+
+        AngleOfIncidence = Wavefront_Angle - 90
+
+    We can still perform the same relativistic measurements as we did with one transducer.
+
+3 TRANSDUCERS:
+    We can additionally perform ToA or phase difference between a reference waveform, such that:
+        Transducer A is first detection, Transducer B is 2nd, transducer C is 3rd.
+    
+    Then we need to remember the theory and not be in class. I'll finish this later.
+    
+
+
+
+

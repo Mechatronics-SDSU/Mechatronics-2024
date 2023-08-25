@@ -1,21 +1,21 @@
 #pragma once
+#include "mission.hpp"
+#include "task_state.hpp"
 
 class Task;
 class TaskState;
-
-class TaskState
-{
-    public:
-        virtual ~TaskState() {}
-        virtual void perform(Task& task) = 0;
-};
+class Mission;
 
 class Task
 {
     public:
-        Task(std::string name);
+        Task(const Mission& mission);
+        Task(const Task& nextTask);
         virtual ~Task() {};
-        virtual void perform(Task& Task);
+        virtual void perform(const Task& Task) = 0;
+        virtual void transition(const TaskState& nextState) = 0;
     protected:
+        const Mission& mission;
         std::unique_ptr<TaskState> state;
 };
+
