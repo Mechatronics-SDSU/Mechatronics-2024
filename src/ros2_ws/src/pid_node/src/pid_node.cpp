@@ -8,9 +8,9 @@ namespace
         Interface::RobotState current_state; return rosOperations::copyRobotState(msg, current_state);
     }  
 
-    Interface::RobotState getDesiredState(rclcpp::Node* node)
+    Interface::RobotState getDesiredState(Interface::get_desired_state_client_t& client)
     {
-        scion_types::srv::GetDesiredState::Response response = rosOperations::getDesiredState(node, "PID Node");
+        scion_types::srv::GetDesiredState::Response response = rosOperations::getDesiredState(client, "PID Node");
         Interface::RobotState desired_state; return rosOperations::copyRobotState(response, desired_state);
     }
 }
@@ -44,11 +44,12 @@ namespace
 PidNode::PidNode(const Robot& robot) : Component("pid_node"), robot{robot}
 {
     controller = Scion_Position_PID_Controller(pid_params_object.get_pid_params());
+    get_desired_state_node_client =  this->create_client<scion_types::srv::GetDesiredState>("get_desired_state");
     current_state_sub = this->create_subscription<scion_types::msg::State>("absolute_state_data", 10, [this, &robot](const scion_types::msg::State::SharedPtr msg)
     {
         robot.getCanClient()->make_motor_request(
             ctrlValsToThrusts(robot.getThrustMapper(), controller.update(
-            getErrors(convertFromStateToVector(getCurrentState(msg)), convertFromStateToVector(getDesiredState(this)))
+            getErrors(convertFromStateToVector(getCurrentState(msg)), convertFromStateToVector(getDesiredState(get_desired_state_node_client)))
             , 1/UPDATE_RATE)), robot.getMotorCount(), MAX_POWER);
     });
 }

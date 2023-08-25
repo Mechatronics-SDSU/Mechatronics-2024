@@ -15,6 +15,7 @@ class PidNode : public Component
         PidNode(const Robot& robot);
     protected:
         Interface::state_sub_t current_state_sub;
+        Interface::get_desired_state_client_t get_desired_state_node_client;
         Scion_Position_PID_Controller controller;
         PID_Params pid_params_object;                      // Passed to controller for tuning
         const Robot& robot;
