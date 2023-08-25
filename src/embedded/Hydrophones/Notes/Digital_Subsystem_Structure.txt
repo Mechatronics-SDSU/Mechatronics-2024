@@ -1,0 +1,54 @@
+Digital Subsystem Structure
+Joseph A De Vico
+8/24/2023
+
+
+This structure begins at the ADC and ends at data output. CMOS (3V3) logic levels are assumed.
+
+The digital subsystem must collect, organize, and process a high number of input data channels.
+
+For practical purposes (predominantly cost and time) the channels planned for will be limited
+to 4. The hardware structure will consist of the RP2040 MCU and the LTC2324-12 ADC (or equivalent.)
+
+At these high datarates simultaneously sampling ADCs are intended for use with CPLD/FPGA/DSP (in the
+Blackshark processor sense) systems instead of microcontrollers, and typically offer parallel serial
+data outputs that are difficult to process with standard microcontrollers.
+The RP2040 PIO system allows some bandwidth in the ability to dynamically form a 4x SPI compliant
+interface such that external glue logic isn't required.
+
+As such the PIO must be able to:
+- Trigger off the CLKOUT of the ADC
+- Read in 4 channels worth of data
+- Preform the 4 read words
+- Pass data thru output FIFO
+
+At the output FIFO and ISR triggered DMA handling chain will move this data into preallocated arrays.
+There will be 2 of these arrays preallocated, the start addresses of which are offered to the DMA in
+sequence every time the DMA chain reaches the end of the transfer (ie. max samples have been moved)
+
+Once the DMA chain has expired the Core 1 should begin preprocessing.
+Once the preprocess has finished the base address of the array will be passed through the inter-core FIFO
+and Core 0 will finish the processing. At this point the array being filled with samples must be switched to
+the other array such that overwrite of data being finally processed is impossible.
+
+Once data has been processed it should be sent over USB (VCOM, TMI USB, etc..) and/or over the debug 3V3 UART
+debug interface.
+
+
+Sampling is initiated by an external trigger, which waits for a preset voltage threshold to set the shot.
+The signal pulse time is ~4ms and begins full amplitude a few microseconds after detection. As such the
+trigger should be set such that initial artifacts are not sampled.
+
+Sampling will maintain for {TBD but something high 2^X} samples. This is driven by the output clock sent to
+the ADC, this may also be PIO controlled but isn't really necessary. Core 1 should be pacing the transmission
+and generating the ADC clock.
+
+The output should include relevant outputs for the number of hydrophones/transducers in the array.
+
+A debug menu or set of commands via UART/VCOMM should be provided, and this is run by Core 0.
+This menu should allow configuration of some features that have not yet been determined
+
+Very likely the digital section will return raw time difference data or phase difference data as well.
+This should probably be configurable. This will allow further/better processing host-side.
+
+For trig either LUTs or CORDIC in fixed point should be used.
