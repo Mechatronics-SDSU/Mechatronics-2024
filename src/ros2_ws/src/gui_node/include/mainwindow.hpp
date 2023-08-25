@@ -44,6 +44,11 @@ private slots:
     void on_start_nodes_clicked();
     void on_new_launch_file_clicked();
     void on_select_file_clicked();
+    void update_nodes_list(QString path);
+    void launch_nodes_selected();
+    void print_launch_nodes_list();
+
+    std::vector<std::string> getRosPackageNames(const std::string& directoryPath);
 
 
 
@@ -52,11 +57,19 @@ private:
     MissionPlanning _mission_planner;
     PIDController _pid_controller;
 
+
     using json = nlohmann::json;
     json jsonArray = json::array();
     json json_string;
 
+    json jsonLaunchArray = json::array();
+    json launch_nodes_string;
+
+
     rclcpp::Node::SharedPtr json_gui_node;
     rclcpp::Publisher<scion_types::msg::JsonString>::SharedPtr json_string_publisher;
+
+    rclcpp::Node::SharedPtr json_launch_node;
+    rclcpp::Publisher<scion_types::msg::JsonString>::SharedPtr json_launch_node_publisher;
 };
 #endif // MAINWINDOW_H

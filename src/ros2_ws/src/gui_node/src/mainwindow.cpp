@@ -1,11 +1,19 @@
 #include "mainwindow.hpp"
 #include "./ui_mainwindow.h"
 #include <iostream>
+#include <filesystem>
+#include <vector>
 #include <nlohmann/json.hpp>
 #include <QString>
 #include "scion_types/msg/json_string.hpp"
 #include <QFileDialog>
 #include <QTextStream>
+#include <QGroupBox>
+#include <QCheckBox>
+#include <QVBoxLayout>
+
+
+
 
 
 MainWindow::MainWindow(QWidget *parent)
@@ -20,11 +28,18 @@ MainWindow::MainWindow(QWidget *parent)
 
     QString styleSheet = "color: #607cff; background-color: #242526;";
     ui->nodes_to_enable->setStyleSheet(styleSheet);
+    ui->enabled_launch_nodes->setStyleSheet(styleSheet);
 //    connect(&_pid_controller, SIGNAL(HomeClicked()), this, SLOT(moveHome()));
 //    connect(&_mission_planner, SIGNAL(HomeClicked()), this, SLOT(moveHome()));
 
     this->json_gui_node = rclcpp::Node::make_shared("json_gui_node");
     this->json_string_publisher = json_gui_node->create_publisher<scion_types::msg::JsonString>("gui_data", 10);
+
+
+    this->json_launch_node = rclcpp::Node::make_shared("json_launch_node");
+    this->json_launch_node_publisher = json_launch_node->create_publisher<scion_types::msg::JsonString>("launch_node_data", 10);
+
+    connect(ui->launch_nodes,QOverload<int>::of(&QComboBox::activated), this, &MainWindow::launch_nodes_selected);
 
 }
 
@@ -143,11 +158,13 @@ void MainWindow::on_new_launch_file_clicked()
                     "   return LaunchDescription([])\n";
             file.close();
         }
-        QFileInfo fileInfo(file.fileName()); // Get the file info
-        QString justFileName = fileInfo.fileName(); // Extract the file
+        QFileInfo info(file.fileName()); // Get the file info
+        QString justFileName = info.fileName(); // Extract the file
         // set_current_file(justFileName);
         ui->fileSelected->setText(justFileName);
+        update_nodes_list(info.path());
     }
+
 
 }
 
@@ -159,5 +176,47 @@ void MainWindow::on_select_file_clicked()
     QFileInfo info(filename); // Get the file info
     // set_current_file(justFileName);
     ui->fileSelected->setText(info.fileName());
+    update_nodes_list(info.path());
 
 }
+
+namespace fs = std::filesystem;
+
+std::vector<std::string> MainWindow::getRosPackageNames(const std::string& directoryPath) {
+    std::vector<std::string> packageNames;
+
+    for (const auto& entry : fs::directory_iterator(directoryPath)) {
+        if (fs::is_directory(entry) && fs::exists(entry.path() / "package.xml")) {
+            packageNames.push_back(entry.path().filename());
+        }
+    }
+
+    return packageNames;
+}
+
+void MainWindow::update_nodes_list(QString path){
+    std::vector<std::string> packageNames = getRosPackageNames(path.toStdString());
+    ui->launch_nodes->clear();
+    for (const std::string& packageName : packageNames){
+        ui->launch_nodes->addItem(QString::fromStdString(packageName));
+    }
+
+}
+
+void MainWindow::launch_nodes_selected(){
+    // ui->enabled_launch_nodes->append(ui->launch_nodes->currentText());
+
+    this->jsonLaunchArray.push_back(ui->launch_nodes->currentText().toStdString());
+    // this->jsonLaunchArray.erase(std::remove(this->jsonLaunchArray.begin(), this->jsonLaunchArray.end(), 
+    //                     ui->launch_nodes->currentText().toStdString()), this->jsonLaunchArray.end());
+
+    print_launch_nodes_list();
+}
+
+
+void MainWindow::print_launch_nodes_list(){
+    this->launch_nodes_string["launch_nodes_to_enable"] = this->jsonLaunchArray;
+    ui->enabled_launch_nodes->setPlainText(QString::fromStdString(this->launch_nodes_string.dump(4)));
+}
+
+
