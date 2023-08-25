@@ -140,13 +140,24 @@ void MainWindow::on_new_launch_file_clicked()
         }
         QFileInfo fileInfo(file.fileName()); // Get the file info
         QString justFileName = fileInfo.fileName(); // Extract the file
-        set_current_file(justFileName);
-
+        // set_current_file(justFileName);
+        ui->fileSelected->setText(justFileName);
     }
 
 }
 
-void MainWindow::set_current_file(QString fileName){
-        ui->file_selected->addItem(fileName);
-        ui->file_selected->setCurrentIndex(ui->file_selected->count() - 1);
+void MainWindow::on_select_file_clicked()
+{
+    QString filename = QFileDialog::getOpenFileName(this, "Open Python File",
+                       "/home/mechatronics/gui-halie/src/ros2_ws/src", "Python Files (*.py)");
+
+    QFileInfo info(filename); // Get the file info
+    // set_current_file(justFileName);
+    ui->fileSelected->setText(info.fileName());
+
 }
+
+// void MainWindow::set_current_file(QString fileName){
+//         ui->file_selected->addItem(fileName);
+//         ui->file_selected->setCurrentIndex(ui->file_selected->count() - 1);
+// }
