@@ -44,7 +44,7 @@ private slots:
     void on_start_nodes_clicked();
     void on_new_launch_file_clicked();
     void on_select_file_clicked();
-    // void set_current_file(QString fileName);
+
 
 
 private:

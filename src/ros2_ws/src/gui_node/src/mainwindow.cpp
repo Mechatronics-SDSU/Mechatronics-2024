@@ -135,7 +135,12 @@ void MainWindow::on_new_launch_file_clicked()
         QFile file(filename);
         if (file.open(QIODevice::WriteOnly | QIODevice::Text)) {
             QTextStream stream(&file);
-            stream << "Hello, new file!";
+            stream << "from launch import LaunchDescription\n"
+                    "import launch_ros.actions\n"
+                    "from launch_ros.actions import Node\n"
+                    "import subprocess\n\n"
+                    "def generate_launch_description():\n"
+                    "   return LaunchDescription([])\n";
             file.close();
         }
         QFileInfo fileInfo(file.fileName()); // Get the file info
@@ -156,8 +161,3 @@ void MainWindow::on_select_file_clicked()
     ui->fileSelected->setText(info.fileName());
 
 }
-
-// void MainWindow::set_current_file(QString fileName){
-//         ui->file_selected->addItem(fileName);
-//         ui->file_selected->setCurrentIndex(ui->file_selected->count() - 1);
-// }
