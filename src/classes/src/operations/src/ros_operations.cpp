@@ -78,15 +78,14 @@ Interface::RobotState rosOperations::copyRobotState(const scion_types::srv::Chan
     return robot_state;
 }
 
-scion_types::srv::GetDesiredState::Response rosOperations::getDesiredState(rclcpp::Node* node, std::string requester_name)
+scion_types::srv::GetDesiredState::Response rosOperations::getDesiredState(Interface::get_desired_state_client_t& client, std::string requester_name)
 {
     auto response_received_callback = [&](rclcpp::Client<scion_types::srv::GetDesiredState>::SharedFuture future) {
         auto response = future.get();
         return *response; 
     };
-    Interface::get_desired_state_client_t get_desired_state_node_client =  node->create_client<scion_types::srv::GetDesiredState>("get_desired_state");
     auto get_desired_state_request = std::make_shared<scion_types::srv::GetDesiredState::Request>();
     get_desired_state_request->requester_name = requester_name;
-    auto future = get_desired_state_node_client->async_send_request(get_desired_state_request, response_received_callback);
+    auto future = client->async_send_request(get_desired_state_request, response_received_callback);
     return scion_types::srv::GetDesiredState::Response();
 }
