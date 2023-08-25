@@ -4,6 +4,8 @@
 #include <nlohmann/json.hpp>
 #include <QString>
 #include "scion_types/msg/json_string.hpp"
+#include <QFileDialog>
+#include <QTextStream>
 
 
 MainWindow::MainWindow(QWidget *parent)
@@ -116,4 +118,35 @@ void MainWindow::on_start_nodes_clicked()
     auto message = scion_types::msg::JsonString();
     message.data = this->json_string.dump(4);
     this->json_string_publisher->publish(message);
+}
+
+void MainWindow::on_new_launch_file_clicked()
+{
+    QString filename = QFileDialog::getSaveFileName(this, "Open Python File",
+                       "/home/mechatronics/gui-halie/src/ros2_ws/src", "Python Files (*.py)");
+    
+    // QFileInfo info(filename);
+    // info.open( QIODevice::WriteOnly );
+    // QTextStream stream(&info);
+    // stream << "Hello, new file!";
+    // info.close();
+
+    if (!filename.isEmpty()) {
+        QFile file(filename);
+        if (file.open(QIODevice::WriteOnly | QIODevice::Text)) {
+            QTextStream stream(&file);
+            stream << "Hello, new file!";
+            file.close();
+        }
+        QFileInfo fileInfo(file.fileName()); // Get the file info
+        QString justFileName = fileInfo.fileName(); // Extract the file
+        set_current_file(justFileName);
+
+    }
+
+}
+
+void MainWindow::set_current_file(QString fileName){
+        ui->file_selected->addItem(fileName);
+        ui->file_selected->setCurrentIndex(ui->file_selected->count() - 1);
 }
