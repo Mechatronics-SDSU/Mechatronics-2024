@@ -130,9 +130,18 @@ void MainWindow::on_pid_toggled(bool checked)
 
 void MainWindow::on_start_nodes_clicked()
 {
+    //publish json string for main nodes
     auto message = scion_types::msg::JsonString();
     message.data = this->json_string.dump(4);
     this->json_string_publisher->publish(message);
+
+
+    //publish json string for launh nodes
+    auto msg = scion_types::msg::JsonString();
+    msg.data = this->launch_nodes_string.dump(4);
+    this->json_launch_node_publisher->publish(msg);
+
+
 }
 
 void MainWindow::on_new_launch_file_clicked()
@@ -206,9 +215,22 @@ void MainWindow::update_nodes_list(QString path){
 void MainWindow::launch_nodes_selected(){
     // ui->enabled_launch_nodes->append(ui->launch_nodes->currentText());
 
-    this->jsonLaunchArray.push_back(ui->launch_nodes->currentText().toStdString());
-    // this->jsonLaunchArray.erase(std::remove(this->jsonLaunchArray.begin(), this->jsonLaunchArray.end(), 
-    //                     ui->launch_nodes->currentText().toStdString()), this->jsonLaunchArray.end());
+    auto it = std::find(this->jsonLaunchArray.begin(), this->jsonLaunchArray.end(), ui->launch_nodes->currentText().toStdString());
+
+    bool itemAlreadyExists = (it != this->jsonLaunchArray.end());
+
+    if (itemAlreadyExists) {// The item already exists in the JSON array
+        // Perform your desired action
+        this->jsonLaunchArray.erase(std::remove(this->jsonLaunchArray.begin(), this->jsonLaunchArray.end(), 
+        ui->launch_nodes->currentText().toStdString()), this->jsonLaunchArray.end());
+
+    } else {
+        // The item doesn't exist in the JSON array
+        // Perform another action
+        this->jsonLaunchArray.push_back(ui->launch_nodes->currentText().toStdString());
+    }
+
+
 
     print_launch_nodes_list();
 }
@@ -216,7 +238,22 @@ void MainWindow::launch_nodes_selected(){
 
 void MainWindow::print_launch_nodes_list(){
     this->launch_nodes_string["launch_nodes_to_enable"] = this->jsonLaunchArray;
+    ui->enabled_launch_nodes->setReadOnly(false); // Allow modifications
     ui->enabled_launch_nodes->setPlainText(QString::fromStdString(this->launch_nodes_string.dump(4)));
+    ui->enabled_launch_nodes->setReadOnly(true); // Restore read-only mode
 }
+
+
+// void MainWindow::print_nodes_list(){
+//     this->json_string["nodes_to_enable"] = this->jsonArray;
+//     // QString styleSheet = "color: #607cff; background-color: #242526;";
+//     // ui->nodes_to_enable->setStyleSheet(styleSheet);
+//     ui->nodes_to_enable->setReadOnly(false); // Allow modifications
+//     ui->nodes_to_enable->setPlainText(QString::fromStdString(this->json_string.dump(4)));
+//     ui->nodes_to_enable->setReadOnly(true); // Restore read-only mode
+// }
+
+
+// void print_nodes_list(std::string key, json json_string, json jsonArray, QTextEdit output)
 
 
