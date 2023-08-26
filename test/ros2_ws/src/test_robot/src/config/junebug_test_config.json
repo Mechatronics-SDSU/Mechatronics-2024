@@ -1,7 +1,0 @@
-{
-    "robot" : "junebug",
-    "nodes" : [
-        "controller_node",
-        "gui_listener"
-    ] 
-}
