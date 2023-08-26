@@ -1,8 +1,0 @@
-{
-    "robot" : "junebug",
-    "nodes" : [
-        "controller_node",
-        "gui_listener",
-        "sub_state_listener"
-    ]
-}
