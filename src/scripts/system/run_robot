@@ -1,3 +1,0 @@
-cd src/ros2_ws
-. s
-ros2 run robot_library robot

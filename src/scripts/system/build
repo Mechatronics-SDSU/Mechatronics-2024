@@ -1,2 +1,0 @@
-colcon build --packages-select $1
-. install/setup.bash

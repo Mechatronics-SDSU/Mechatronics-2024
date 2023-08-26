@@ -1,8 +1,0 @@
-repo="SDSU-Mechatronics/looking-at-something.git"
-
-# Set the username and password
-username="mechatronics.sdsu@edu"
-
-token="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"
-
-git clone --depth 5 https://${token}@github.com/${repo} "$1"

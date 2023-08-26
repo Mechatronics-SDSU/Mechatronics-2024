@@ -1,4 +1,0 @@
-build $1_node
-source /opt/ros/{$ROS_DISTRO}/setup.bash
-source install/setup.bash
-ros2 run $1_node $1_exec
