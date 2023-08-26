@@ -11,6 +11,7 @@
 #include <QGroupBox>
 #include <QCheckBox>
 #include <QVBoxLayout>
+#include <QTextEdit>
 
 
 
@@ -93,19 +94,9 @@ void MainWindow::on_brain_toggled(bool checked)
         this->jsonArray.erase(std::remove(this->jsonArray.begin(), this->jsonArray.end(), 
                               ui->brain->text().toStdString()), this->jsonArray.end());
     }
-    print_nodes_list();
+    print_nodes_list("nodes_to_enable", this->json_string, this->jsonArray, ui->nodes_to_enable);
     // std::cout << "List of nodes to initiate after modifying the array: \n" << this->json_string.dump(4) << std::endl;
 }
-
-void MainWindow::print_nodes_list(){
-    this->json_string["nodes_to_enable"] = this->jsonArray;
-    // QString styleSheet = "color: #607cff; background-color: #242526;";
-    // ui->nodes_to_enable->setStyleSheet(styleSheet);
-    ui->nodes_to_enable->setReadOnly(false); // Allow modifications
-    ui->nodes_to_enable->setPlainText(QString::fromStdString(this->json_string.dump(4)));
-    ui->nodes_to_enable->setReadOnly(true); // Restore read-only mode
-}
-
 void MainWindow::on_mediator_toggled(bool checked)
 {
     if (checked){
@@ -114,7 +105,7 @@ void MainWindow::on_mediator_toggled(bool checked)
         this->jsonArray.erase(std::remove(this->jsonArray.begin(), this->jsonArray.end(), 
                               ui->mediator->text().toStdString()), this->jsonArray.end());
     }
-    print_nodes_list();
+    print_nodes_list("nodes_to_enable", this->json_string, this->jsonArray, ui->nodes_to_enable);
 }
 
 void MainWindow::on_pid_toggled(bool checked)
@@ -125,7 +116,7 @@ void MainWindow::on_pid_toggled(bool checked)
         this->jsonArray.erase(std::remove(this->jsonArray.begin(), this->jsonArray.end(), 
                               ui->pid->text().toStdString()), this->jsonArray.end());
     }
-    print_nodes_list();
+    print_nodes_list("nodes_to_enable", this->json_string, this->jsonArray, ui->nodes_to_enable);
 }
 
 void MainWindow::on_start_nodes_clicked()
@@ -230,30 +221,18 @@ void MainWindow::launch_nodes_selected(){
         this->jsonLaunchArray.push_back(ui->launch_nodes->currentText().toStdString());
     }
 
-
-
-    print_launch_nodes_list();
+    // print_launch_nodes_list();
+    print_nodes_list("launch_nodes_to_enable", this->launch_nodes_string,
+                      this->jsonLaunchArray, ui->enabled_launch_nodes);
 }
 
 
-void MainWindow::print_launch_nodes_list(){
-    this->launch_nodes_string["launch_nodes_to_enable"] = this->jsonLaunchArray;
-    ui->enabled_launch_nodes->setReadOnly(false); // Allow modifications
-    ui->enabled_launch_nodes->setPlainText(QString::fromStdString(this->launch_nodes_string.dump(4)));
-    ui->enabled_launch_nodes->setReadOnly(true); // Restore read-only mode
+void MainWindow::print_nodes_list(const std::string& key, nlohmann::json& json_string, 
+                                  const nlohmann::json& jsonArray, QTextEdit* output) {
+    json_string[key] = jsonArray;
+    output->setReadOnly(false); // Allow modifications
+    output->setPlainText(QString::fromStdString(json_string.dump(4)));
+    output->setReadOnly(true); // Restore read-only mode
 }
-
-
-// void MainWindow::print_nodes_list(){
-//     this->json_string["nodes_to_enable"] = this->jsonArray;
-//     // QString styleSheet = "color: #607cff; background-color: #242526;";
-//     // ui->nodes_to_enable->setStyleSheet(styleSheet);
-//     ui->nodes_to_enable->setReadOnly(false); // Allow modifications
-//     ui->nodes_to_enable->setPlainText(QString::fromStdString(this->json_string.dump(4)));
-//     ui->nodes_to_enable->setReadOnly(true); // Restore read-only mode
-// }
-
-
-// void print_nodes_list(std::string key, json json_string, json jsonArray, QTextEdit output)
 
 
