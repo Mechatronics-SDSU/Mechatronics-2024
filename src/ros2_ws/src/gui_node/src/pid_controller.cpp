@@ -17,9 +17,9 @@ PIDController::PIDController(QWidget *parent) :
     ui(new Ui::PIDController)
 {
     this->node = rclcpp::Node::make_shared("gui_node");
-    this->kp_publisher = node->create_publisher<scion_types::msg::PidTuning>("kp_dial_data", 10);
-    this->ki_publisher = node->create_publisher<scion_types::msg::PidTuning>("ki_dial_data", 10);
-    this->kd_publisher = node->create_publisher<scion_types::msg::PidTuning>("kd_dial_data", 10);
+    this->kp_publisher = node->create_publisher<scion_types::msg::PidTuning>("kp_data", 10);
+    this->ki_publisher = node->create_publisher<scion_types::msg::PidTuning>("ki_data", 10);
+    this->kd_publisher = node->create_publisher<scion_types::msg::PidTuning>("kd_data", 10);
 
     ui->setupUi(this);
 
@@ -56,52 +56,35 @@ PIDController::~PIDController()
 
 void PIDController::on_KpValue_editingFinished()
 {
-    this->kpVal = ui->kp_val->text().toFloat();
-    auto message = scion_types::msg::PidTuning();
-    message.data = this->kpVal;
-    message.axis = this->axis;
-    kp_publisher->publish(message);
-    ui->kp_val->setPlaceholderText(ui->kp_val->text());
-    // ui->kp_progressBar->setValue(ui->kp_val->text().toInt() * 100);
-    // ui->kp_progressBar->setValue(this->kpPlaceholderVal.toInt() * 100);
-    ui->kp_val->clear();
-    executeCommands(ui->kpOutput, message);
+    sendPIDVals(this->kpVal, ui->kp_val, ui->kpOutput, kp_publisher);
 }
 
 void PIDController::on_KiValue_editingFinished()
 {
-    this->kiVal = ui->ki_val->text().toFloat();
-
-    auto message = scion_types::msg::PidTuning();
-    message.data = this->kiVal;
-    message.axis = this->axis;
-    ki_publisher->publish(message);
-    ui->ki_val->setPlaceholderText(ui->ki_val->text());
-    ui->ki_progressBar->setValue(ui->ki_val->text().toInt() * 100);
-    ui->ki_val->clear();
-    executeCommands(ui->kiOutput, message);
+    sendPIDVals(this->kiVal, ui->ki_val, ui->kiOutput, ki_publisher);
 }
 
 void PIDController::on_KdValue_editingFinished()
 {
-    this->kdVal = ui->kd_val->text().toFloat();
-
-    auto message = scion_types::msg::PidTuning();
-    message.data = this->kdVal;
-    message.axis = this->axis;
-    kd_publisher->publish(message);
-    ui->kd_val->setPlaceholderText(ui->kd_val->text());
-    ui->kd_progressBar->setValue(ui->kd_val->text().toInt() * 100);
-    ui->kd_val->clear();
-    executeCommands(ui->kdOutput, message);
+    sendPIDVals(this->kdVal, ui->kd_val, ui->kdOutput, kd_publisher);
 }
 
-//string brain = "brain";
-//string mediator = "mediator";
-//string[] array = ["brain", "mediator"]
+void PIDController::sendPIDVals(float pidVal, QLineEdit* lineEdit, QTextEdit* output, 
+                                rclcpp::Publisher<scion_types::msg::PidTuning>::SharedPtr publisher){
 
-//json_string["nodes_to_enable"] = array;
-//return json_string
+    pidVal = lineEdit->text().toFloat();
+
+    auto message = scion_types::msg::PidTuning();
+    message.data = pidVal;
+    message.axis = this->axis;
+    publisher->publish(message);
+
+    lineEdit->setPlaceholderText(lineEdit->text());
+    lineEdit->clear();
+
+    executeCommands(output, message);   
+
+}
 
 void PIDController::on_Tuning_Axis_currentIndexChanged(int index)
 {
@@ -166,7 +149,6 @@ void PIDController::keyPressEvent(QKeyEvent *event)
 
     }
 }
-
 
 void PIDController::navigateFocus(Qt::Key key)
 {

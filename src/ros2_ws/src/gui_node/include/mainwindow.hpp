@@ -9,7 +9,7 @@
 #include <vector>
 #include <string>
 #include "scion_types/msg/json_string.hpp"
-
+#include <QCheckBox> 
 
 QT_BEGIN_NAMESPACE
 namespace Ui
@@ -48,7 +48,8 @@ private slots:
     void on_select_file_clicked();
     void update_nodes_list(QString path);
     void launch_nodes_selected();
-    // void print_launch_nodes_list();
+    void update_json_nodes(bool checked, QCheckBox* node);
+
 
     std::vector<std::string> getRosPackageNames(const std::string &directoryPath);
 
@@ -58,16 +59,16 @@ private:
     PIDController _pid_controller;
 
     using json = nlohmann::json;
-    json jsonArray = json::array();
-    json json_string;
+    json jsonMainArray = json::array();
+    json main_nodes_string;
 
     json jsonLaunchArray = json::array();
     json launch_nodes_string;
 
-    rclcpp::Node::SharedPtr json_gui_node;
-    rclcpp::Publisher<scion_types::msg::JsonString>::SharedPtr json_string_publisher;
+    rclcpp::Node::SharedPtr json_main_node;
+    rclcpp::Publisher<scion_types::msg::JsonString>::SharedPtr main_nodes_publisher;
 
     rclcpp::Node::SharedPtr json_launch_node;
-    rclcpp::Publisher<scion_types::msg::JsonString>::SharedPtr json_launch_node_publisher;
+    rclcpp::Publisher<scion_types::msg::JsonString>::SharedPtr launch_nodes_publisher;
 };
 #endif // MAINWINDOW_H

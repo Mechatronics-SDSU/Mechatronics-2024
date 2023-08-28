@@ -4,6 +4,8 @@
 #include "scion_types/msg/pid_tuning.hpp"
 #include <QWidget>
 #include <QTextEdit> 
+#include <QLineEdit> 
+
 
 namespace Ui {
 class PIDController;
@@ -40,6 +42,8 @@ private slots:
     void on_KpValue_editingFinished();
     void on_KiValue_editingFinished();
     void on_KdValue_editingFinished();
+    void sendPIDVals(float pidVal, QLineEdit* lineEdit, QTextEdit* output,
+                     rclcpp::Publisher<scion_types::msg::PidTuning>::SharedPtr publisher);
     void on_Tuning_Axis_currentIndexChanged(int index);
     void executeCommands(QTextEdit* textBoxObject, const scion_types::msg::PidTuning& output);
     void on_kpClearButton_clicked();

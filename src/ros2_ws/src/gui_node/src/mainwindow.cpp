@@ -25,7 +25,6 @@ MainWindow::MainWindow(QWidget *parent)
     ui->stackedWidget->insertWidget(1, &_pid_controller);
     ui->stackedWidget->insertWidget(2, &_mission_planner);
     ui->nodes_to_enable->setReadOnly(true);
-    // this->json_string["nodes_to_enable"] = this->jsonArray;
 
     QString styleSheet = "color: #607cff; background-color: #242526;";
     ui->nodes_to_enable->setStyleSheet(styleSheet);
@@ -33,12 +32,11 @@ MainWindow::MainWindow(QWidget *parent)
 //    connect(&_pid_controller, SIGNAL(HomeClicked()), this, SLOT(moveHome()));
 //    connect(&_mission_planner, SIGNAL(HomeClicked()), this, SLOT(moveHome()));
 
-    this->json_gui_node = rclcpp::Node::make_shared("json_gui_node");
-    this->json_string_publisher = json_gui_node->create_publisher<scion_types::msg::JsonString>("gui_data", 10);
-
+    this->json_main_node = rclcpp::Node::make_shared("json_main_node");
+    this->main_nodes_publisher = json_main_node->create_publisher<scion_types::msg::JsonString>("main_nodes_data", 10);
 
     this->json_launch_node = rclcpp::Node::make_shared("json_launch_node");
-    this->json_launch_node_publisher = json_launch_node->create_publisher<scion_types::msg::JsonString>("launch_node_data", 10);
+    this->launch_nodes_publisher = json_launch_node->create_publisher<scion_types::msg::JsonString>("launch_nodes_data", 10);
 
     connect(ui->launch_nodes,QOverload<int>::of(&QComboBox::activated), this, &MainWindow::launch_nodes_selected);
 
@@ -70,67 +68,44 @@ void MainWindow::on_homeButton_clicked()
     ui->stackedWidget->setCurrentIndex(0);
 }
 
-// void executeTerminalCommand(const char* command) {
-//     int result = std::system(command);
-    
-//     if (result == 0) {
-//         std::cout << "Command executed successfully." << std::endl;
-//     } else {
-//         std::cerr << "Command execution failed." << std::endl;
-//     }
-// }
-
-// void MainWindow::on_visionButton_clicked()
-// {
-//     executeTerminalCommand("python3 ~/master/scripts/vision/make_dataset.py");
-// }
-
-
 void MainWindow::on_brain_toggled(bool checked)
 {
-    if (checked){
-        this->jsonArray.push_back(ui->brain->text().toStdString());
-    } else {
-        this->jsonArray.erase(std::remove(this->jsonArray.begin(), this->jsonArray.end(), 
-                              ui->brain->text().toStdString()), this->jsonArray.end());
-    }
-    print_nodes_list("nodes_to_enable", this->json_string, this->jsonArray, ui->nodes_to_enable);
-    // std::cout << "List of nodes to initiate after modifying the array: \n" << this->json_string.dump(4) << std::endl;
+    update_json_nodes(checked, ui->brain);
 }
 void MainWindow::on_mediator_toggled(bool checked)
 {
-    if (checked){
-        this->jsonArray.push_back(ui->mediator->text().toStdString());
-    } else {
-        this->jsonArray.erase(std::remove(this->jsonArray.begin(), this->jsonArray.end(), 
-                              ui->mediator->text().toStdString()), this->jsonArray.end());
-    }
-    print_nodes_list("nodes_to_enable", this->json_string, this->jsonArray, ui->nodes_to_enable);
+    update_json_nodes(checked, ui->mediator);
 }
 
 void MainWindow::on_pid_toggled(bool checked)
 {
+    update_json_nodes(checked, ui->pid);
+}
+
+void MainWindow::update_json_nodes(bool checked, QCheckBox* node){
+
     if (checked){
-        this->jsonArray.push_back(ui->pid->text().toStdString());
+        this->jsonMainArray.push_back(node->text().toStdString());
     } else {
-        this->jsonArray.erase(std::remove(this->jsonArray.begin(), this->jsonArray.end(), 
-                              ui->pid->text().toStdString()), this->jsonArray.end());
+        this->jsonMainArray.erase(std::remove(this->jsonMainArray.begin(), this->jsonMainArray.end(), 
+                              node->text().toStdString()), this->jsonMainArray.end());
     }
-    print_nodes_list("nodes_to_enable", this->json_string, this->jsonArray, ui->nodes_to_enable);
+    print_nodes_list("nodes_to_enable", this->main_nodes_string, this->jsonMainArray, ui->nodes_to_enable); 
+
 }
 
 void MainWindow::on_start_nodes_clicked()
 {
     //publish json string for main nodes
     auto message = scion_types::msg::JsonString();
-    message.data = this->json_string.dump(4);
-    this->json_string_publisher->publish(message);
+    message.data = this->main_nodes_string.dump(4);
+    this->main_nodes_publisher->publish(message);
 
 
     //publish json string for launh nodes
     auto msg = scion_types::msg::JsonString();
     msg.data = this->launch_nodes_string.dump(4);
-    this->json_launch_node_publisher->publish(msg);
+    this->launch_nodes_publisher->publish(msg);
 
 
 }
@@ -140,12 +115,6 @@ void MainWindow::on_new_launch_file_clicked()
     QString filename = QFileDialog::getSaveFileName(this, "Open Python File",
                        "/home/mechatronics/gui-halie/src/ros2_ws/src", "Python Files (*.py)");
     
-    // QFileInfo info(filename);
-    // info.open( QIODevice::WriteOnly );
-    // QTextStream stream(&info);
-    // stream << "Hello, new file!";
-    // info.close();
-
     if (!filename.isEmpty()) {
         QFile file(filename);
         if (file.open(QIODevice::WriteOnly | QIODevice::Text)) {
@@ -160,7 +129,6 @@ void MainWindow::on_new_launch_file_clicked()
         }
         QFileInfo info(file.fileName()); // Get the file info
         QString justFileName = info.fileName(); // Extract the file
-        // set_current_file(justFileName);
         ui->fileSelected->setText(justFileName);
         update_nodes_list(info.path());
     }
@@ -174,7 +142,6 @@ void MainWindow::on_select_file_clicked()
                        "/home/mechatronics/gui-halie/src/ros2_ws/src", "Python Files (*.py)");
 
     QFileInfo info(filename); // Get the file info
-    // set_current_file(justFileName);
     ui->fileSelected->setText(info.fileName());
     update_nodes_list(info.path());
 
@@ -204,7 +171,6 @@ void MainWindow::update_nodes_list(QString path){
 }
 
 void MainWindow::launch_nodes_selected(){
-    // ui->enabled_launch_nodes->append(ui->launch_nodes->currentText());
 
     auto it = std::find(this->jsonLaunchArray.begin(), this->jsonLaunchArray.end(), ui->launch_nodes->currentText().toStdString());
 
