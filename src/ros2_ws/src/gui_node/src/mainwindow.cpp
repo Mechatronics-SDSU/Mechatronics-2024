@@ -13,10 +13,6 @@
 #include <QVBoxLayout>
 #include <QTextEdit>
 
-
-
-
-
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
@@ -32,11 +28,8 @@ MainWindow::MainWindow(QWidget *parent)
 //    connect(&_pid_controller, SIGNAL(HomeClicked()), this, SLOT(moveHome()));
 //    connect(&_mission_planner, SIGNAL(HomeClicked()), this, SLOT(moveHome()));
 
-    this->json_main_node = rclcpp::Node::make_shared("json_main_node");
-    this->main_nodes_publisher = json_main_node->create_publisher<scion_types::msg::JsonString>("main_nodes_data", 10);
-
-    this->json_launch_node = rclcpp::Node::make_shared("json_launch_node");
-    this->launch_nodes_publisher = json_launch_node->create_publisher<scion_types::msg::JsonString>("launch_nodes_data", 10);
+    this->json_string = rclcpp::Node::make_shared("json_gui_nodes");
+    this->json_string_publisher = json_string->create_publisher<scion_types::msg::JsonString>("gui_data", 10);
 
     connect(ui->launch_nodes,QOverload<int>::of(&QComboBox::activated), this, &MainWindow::launch_nodes_selected);
 
@@ -98,15 +91,9 @@ void MainWindow::on_start_nodes_clicked()
 {
     //publish json string for main nodes
     auto message = scion_types::msg::JsonString();
-    message.data = this->main_nodes_string.dump(4);
-    this->main_nodes_publisher->publish(message);
-
-
-    //publish json string for launh nodes
-    auto msg = scion_types::msg::JsonString();
-    msg.data = this->launch_nodes_string.dump(4);
-    this->launch_nodes_publisher->publish(msg);
-
+    message.main_nodes = this->main_nodes_string.dump(4);
+    message.launch_nodes = this->launch_nodes_string.dump(4);
+    this->json_string_publisher->publish(message);
 
 }
 

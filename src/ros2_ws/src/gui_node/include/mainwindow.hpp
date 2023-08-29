@@ -65,10 +65,8 @@ private:
     json jsonLaunchArray = json::array();
     json launch_nodes_string;
 
-    rclcpp::Node::SharedPtr json_main_node;
-    rclcpp::Publisher<scion_types::msg::JsonString>::SharedPtr main_nodes_publisher;
+    rclcpp::Node::SharedPtr json_string;
+    rclcpp::Publisher<scion_types::msg::JsonString>::SharedPtr json_string_publisher;
 
-    rclcpp::Node::SharedPtr json_launch_node;
-    rclcpp::Publisher<scion_types::msg::JsonString>::SharedPtr launch_nodes_publisher;
 };
 #endif // MAINWINDOW_H

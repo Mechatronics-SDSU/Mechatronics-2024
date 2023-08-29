@@ -69,6 +69,7 @@ void PIDController::on_KdValue_editingFinished()
     sendPIDVals(this->kdVal, ui->kd_val, ui->kdOutput, kd_publisher);
 }
 
+//publishing pid data to ros topics
 void PIDController::sendPIDVals(float pidVal, QLineEdit* lineEdit, QTextEdit* output, 
                                 rclcpp::Publisher<scion_types::msg::PidTuning>::SharedPtr publisher){
 
@@ -86,11 +87,20 @@ void PIDController::sendPIDVals(float pidVal, QLineEdit* lineEdit, QTextEdit* ou
 
 }
 
+/*update pid axis to index changed in action combobox:
+ (yaw = 0,
+  pitch = 1, 
+  roll = 2, 
+  x_pos = 3, 
+  y_pos = 4, 
+  z_pos = 5)
+*/
 void PIDController::on_Tuning_Axis_currentIndexChanged(int index)
 {
-    this->axis = index;
+    this->axis = index; 
 }
 
+//print tuned pid data into pid text boxes 
  void PIDController::executeCommands(QTextEdit* textBoxObject, const scion_types::msg::PidTuning& output) 
     {
         QString textToDisplay = "Data: " + QString::number(output.data) +
@@ -101,21 +111,25 @@ void PIDController::on_Tuning_Axis_currentIndexChanged(int index)
         textBoxObject->setReadOnly(true); // Restore read-only mode
     }
 
+//clear kp val content from kp text box
 void PIDController::on_kpClearButton_clicked()
 {
     ui->kpOutput->clear();
 }
 
+//clear ki val content from ki text box
 void PIDController::on_kiClearButton_clicked()
 {
     ui->kiOutput->clear();
 }
 
+//clear kd val content from kd text box
 void PIDController::on_kdClearButton_clicked()
 {
     ui->kdOutput->clear();
 }
 
+//clear all contents from three text boxes that display tuned pid values
 void PIDController::on_clearAllButton_clicked()
 {
     on_kpClearButton_clicked();
@@ -123,10 +137,11 @@ void PIDController::on_clearAllButton_clicked()
     on_kdClearButton_clicked();
 }
 
+//display ros topic list
 void PIDController::on_topicListButton_clicked()
 {
     QProcess process;
-    process.setWorkingDirectory("/home/mechatronics/check-gui/ros2_ws"); // Set the desired working directory
+    process.setWorkingDirectory("/home/mechatronics/gui-halie/src/ros2_ws"); // Set the desired working directory
     QStringList arguments;
     arguments << "-c" << "source /opt/ros/foxy/setup.bash && source install/setup.bash && ros2 topic list";
 
@@ -139,6 +154,7 @@ void PIDController::on_topicListButton_clicked()
     ui->topicList->setText(output);
 }
 
+//detecting up/down key pressed --> call navigate function
 void PIDController::keyPressEvent(QKeyEvent *event)
 {
     switch (event->key()) {
@@ -150,6 +166,7 @@ void PIDController::keyPressEvent(QKeyEvent *event)
     }
 }
 
+//Allows navigation between line edits for tuning pid using up/down arrow keys
 void PIDController::navigateFocus(Qt::Key key)
 {
     if (ui->kp_val->hasFocus()) {
