@@ -30,27 +30,30 @@ find_package(rclcpp REQUIRED)
 find_package(scion_types REQUIRED)
 find_package(std_msgs REQUIRED)
 
- include_directories(include)
+include_directories(include)
 
 
-  #  add_library(gui_node SHARED
-  #    src/main.cpp
-  #    src/mainwindow.cpp
-  #    include/mainwindow.h
-  #    include/mission_planning.h
-  #    mainwindow.ui
-  #  )
+add_library(gui_node SHARED
+  src/main.cpp
+  src/mainwindow.cpp
+  include/mainwindow.h
+  include/mission_planning.h
+  mainwindow.ui
+)
 add_executable(gui_exec
   src/main.cpp
   src/mainwindow.cpp
   src/mission_planning.cpp
   src/pid_controller.cpp
+  src/launch_window.cpp
   include/mainwindow.hpp
   include/pid_controller.hpp
   include/mission_planning.hpp
+  include/launch_window.hpp
   src/mainwindow.ui
   src/mission_planning.ui
   src/pid_controller.ui
+  src/launch_window.ui
 
 )
 

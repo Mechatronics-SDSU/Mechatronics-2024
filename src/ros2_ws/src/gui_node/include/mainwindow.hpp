@@ -5,6 +5,7 @@
 #include <QMainWindow>
 #include <mission_planning.hpp>
 #include <pid_controller.hpp>
+#include <launch_window.hpp>
 #include <nlohmann/json.hpp>
 #include <vector>
 #include <string>
@@ -49,6 +50,7 @@ private slots:
     void update_nodes_list(QString path);
     void launch_nodes_selected();
     void update_json_nodes(bool checked, QCheckBox* node);
+    void on_launchNodesEdit_clicked();
 
 
     std::vector<std::string> getRosPackageNames(const std::string &directoryPath);

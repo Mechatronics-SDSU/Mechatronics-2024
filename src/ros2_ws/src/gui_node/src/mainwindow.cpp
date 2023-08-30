@@ -118,6 +118,8 @@ void MainWindow::on_new_launch_file_clicked()
         QString justFileName = info.fileName(); // Extract the file
         ui->fileSelected->setText(justFileName);
         update_nodes_list(info.path());
+    } else {
+        return;
     }
 
 
@@ -127,7 +129,9 @@ void MainWindow::on_select_file_clicked()
 {
     QString filename = QFileDialog::getOpenFileName(this, "Open Python File",
                        "/home/mechatronics/gui-halie/src/ros2_ws/src", "Python Files (*.py)");
-
+     if (filename.isEmpty()){
+        return;
+     }
     QFileInfo info(filename); // Get the file info
     ui->fileSelected->setText(info.fileName());
     update_nodes_list(info.path());
@@ -186,6 +190,12 @@ void MainWindow::print_nodes_list(const std::string& key, nlohmann::json& json_s
     output->setReadOnly(false); // Allow modifications
     output->setPlainText(QString::fromStdString(json_string.dump(4)));
     output->setReadOnly(true); // Restore read-only mode
+}
+
+void MainWindow::on_launchNodesEdit_clicked(){
+    LaunchWindow *launchWindow = new LaunchWindow; // Create on the heap
+    launchWindow->show();
+
 }
 
 
