@@ -13,7 +13,6 @@ LaunchEdit::LaunchEdit(QWidget *parent) :
 
     QString styleSheet = "color: #607cff; background-color: #242526;";
     ui->launch_description->setStyleSheet(styleSheet);
-    // connect(ui->death_button,&QPushButton::clicked, this, &LaunchEdit::on_death_button_clicked);
 
 }
 
@@ -25,6 +24,7 @@ LaunchEdit::~LaunchEdit()
 void LaunchEdit::printLaunchFile(const std::string& content){
     ui->launch_description->setReadOnly(false);
     ui->launch_description->setPlainText(QString::fromStdString(content));
+    ui->launch_description->append(QString::fromStdString(getLaunchParamsVecAsString()));
 }
 
 
@@ -37,7 +37,9 @@ void LaunchEdit::on_saveLaunchDescription_clicked()
         std::cout<< "Failed to open python file." << std::endl;
     }
 
-    pythonFile << this->launchDescription << std::endl;
+    std::string launchFileString = ui->launch_description->toPlainText().toStdString();
+
+    pythonFile << launchFileString << std::endl;
 
 }
 
@@ -48,22 +50,51 @@ void LaunchEdit::on_saveClose_clicked()
 
 }
 
-// void LaunchEdit::addNodeString(const std::string& pkgName, const std::string& execName,
-//                                const std::vector<std::map<std::string, std::string>>& params = {})
-// {
-//     nodeList += "    package='" + pkgName + "', ";
-//     nodeList += "executable='" + execName + "', ";
-//     nodeList += "output='screen'\n";
+std::string LaunchEdit::addNodeString(const LaunchParameters& node)
+{
+    std::string nodeString;
+    nodeString = "        launch_ros.actions.Node(\n";
+    nodeString += "            package='" + node.pkgName + "', ";
+    nodeString += "executable='" + node.execName + "', ";
+    nodeString += "output='" + node.output + "',\n";
 
-//     if(!params.empty()){
-//         nodeList += "    parameters=[";
-//         for (const auto& param : params){
-//             vbasduikfbnisu ten toi la rose do
-//             toi la ky su
-//         }
-//         nodeList += "]";
-//     }
+    if(!node.params.empty()){
+        nodeString += "            parameters= [\n";
+        for (const auto& pair : node.params){
+            nodeString += "                            {";
+            nodeString += "\"" + pair.first + "\": ";
+            if (std::holds_alternative<std::string>(pair.second)) {
+                nodeString += "\"" + std::get<std::string>(pair.second) + "\""; // Handle string type
+            } else if (std::holds_alternative<bool>(pair.second)) {
+                nodeString += std::get<bool>(pair.second) ? "True" : "False"; // Handle bool type
+            } else if (std::holds_alternative<int>(pair.second)) {
+                nodeString += std::to_string(std::get<int>(pair.second)); // Handle int type
+            } else {
+                nodeString += "Unsupported type"; // Handle unsupported types
+            }
+            nodeString += "},\n";
 
-//     nodeList += "    ),\n";
+        }
+        nodeString += "                        ]\n";
+    }
 
-// }
+    nodeString += "            ),\n";
+
+    return nodeString;
+
+}
+
+
+
+std::string LaunchEdit::getLaunchParamsVecAsString() {
+
+    std::string nodeList = "";
+
+    for (const auto& params : launchParamsVec) {
+        nodeList += addNodeString(params);
+    }
+        
+    nodeList += "    ])";
+
+    return nodeList;
+}

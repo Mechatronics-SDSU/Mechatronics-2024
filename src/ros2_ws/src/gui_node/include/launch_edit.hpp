@@ -42,15 +42,11 @@ def generate_launch_description():
     This is what Ros2 will actually call when you run the launch file,
     all the nodes are placed here as well as Zed Node launch arguments
     """
-    return LaunchDescription([
-)";
+    return LaunchDescription([)";
 
     std::string pythonFilePath = "";
-    std::string nodeList = "";
-    std::vector<std::map<std::string, std::string>> nodeArray;
     void printLaunchFile(const std::string& content);
-    // void addNodeString(const std::string& pkgName, const std::string& execName
-    //                    std::vector<std::map<std::string, std::string>> params);
+    void printLaunchParamsVec();
 
 private slots:
 
@@ -59,6 +55,61 @@ private slots:
 
 private:
     Ui::LaunchEdit *ui;
+    struct LaunchParameters {
+        std::string pkgName;
+        std::string execName;
+        std::string output;
+        std::map<std::string, std::variant <std::string, bool, int>> params = {};
+
+            // Constructor that accepts string literals
+        LaunchParameters(const char* pkg, const char* exec, const char* out,
+                         const std::map<std::string, std::variant<std::string, bool, int>>& p = {})
+            :pkgName(pkg), execName(exec), output(out), params(p){}
+
+    };
+
+    std::string addNodeString(const LaunchParameters& node);   
+
+    std::vector<LaunchParameters> launchParamsVec = {
+        {"a50_node",            "a50_exec",            "screen"},
+        {"absolute_state_node", "absolute_state_exec", "screen"},
+        {"ahrs_node",           "ahrs_exec",           "screen"},
+        {"brain_node",          "brain_exec",          "screen"},
+        {"desired_state_node",   "desired_state_exec", "screen"},
+        {"gui_node",             "gui_exec",           "screen"},
+        {"joy",                  "joy_node",           "screen"},
+        {"can_listener",         "can_listener",       "screen"},
+        {"mediator_node",        "mediator_exec",      "screen"},
+        {"pid_node",             "pid_exec",           "screen"},
+        {"robot_library",        "robot",              "screen"},
+        {"test_node",            "test_exec",          "screen"},
+        {"zed_orientation_node", "zed_orientation_exec",  "log"},
+        {"zed_pos_node",         "zed_pos_exec",          "log"},
+        {"zed_vision_node",      "zed_vision_exec",       "log"},
+
+        {"controller_node",      "controller_exec",     "screen", 
+            {
+                {"thrust_mapper", std::string("percy")}
+            }
+        },
+
+        {"current_state_node",   "current_state_exec",  "screen",
+            {
+                {"use_position_tracking", true},
+                {"use_orientation_tracking", true} 
+            }
+        },
+
+        {"unified_can_driver",  "unified_can_driver",   "screen",
+            {
+                {"can_bus_interface", std::string("can0")},
+                {"do_module_polling", false},
+                {"module_bitfield", 0}
+            }
+        }
+    };
+
+    std::string getLaunchParamsVecAsString();
 
 };
 
