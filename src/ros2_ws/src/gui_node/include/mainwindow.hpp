@@ -5,7 +5,7 @@
 #include <QMainWindow>
 #include <mission_planning.hpp>
 #include <pid_controller.hpp>
-#include <launch_window.hpp>
+#include <launch_edit.hpp>
 #include <nlohmann/json.hpp>
 #include <vector>
 #include <string>
@@ -66,9 +66,10 @@ private:
 
     json jsonLaunchArray = json::array();
     json launch_nodes_string;
+    QString launchFileName = "";
 
     rclcpp::Node::SharedPtr json_string;
     rclcpp::Publisher<scion_types::msg::JsonString>::SharedPtr json_string_publisher;
 
 };
-#endif // MAINWINDOW_H
+#endif // MAINWINDOW_H    

@@ -325,45 +325,28 @@
               <string>Launch nodes</string>
              </property>
              <layout class="QGridLayout" name="gridLayout_4">
-              <item row="0" column="0" rowspan="2">
-               <layout class="QVBoxLayout" name="verticalLayout_3">
+              <item row="0" column="0">
+               <layout class="QVBoxLayout" name="verticalLayout">
                 <item>
-                 <layout class="QVBoxLayout" name="verticalLayout">
-                  <item>
-                   <widget class="QLabel" name="label_2">
-                    <property name="text">
-                     <string>Launch nodes</string>
-                    </property>
-                   </widget>
-                  </item>
-                  <item>
-                   <widget class="QComboBox" name="launch_nodes">
-                    <property name="maximumSize">
-                     <size>
-                      <width>200</width>
-                      <height>16777215</height>
-                     </size>
-                    </property>
-                   </widget>
-                  </item>
-                 </layout>
+                 <widget class="QLabel" name="label_2">
+                  <property name="text">
+                   <string>Launch nodes</string>
+                  </property>
+                 </widget>
                 </item>
                 <item>
-                 <spacer name="verticalSpacer_7">
-                  <property name="orientation">
-                   <enum>Qt::Vertical</enum>
-                  </property>
-                  <property name="sizeHint" stdset="0">
+                 <widget class="QComboBox" name="launch_nodes">
+                  <property name="maximumSize">
                    <size>
-                    <width>20</width>
-                    <height>288</height>
+                    <width>200</width>
+                    <height>16777215</height>
                    </size>
                   </property>
-                 </spacer>
+                 </widget>
                 </item>
                </layout>
               </item>
-              <item row="0" column="1">
+              <item row="1" column="0">
                <widget class="QTextEdit" name="enabled_launch_nodes">
                 <property name="maximumSize">
                  <size>
@@ -373,7 +356,7 @@
                 </property>
                </widget>
               </item>
-              <item row="1" column="1">
+              <item row="2" column="0">
                <layout class="QHBoxLayout" name="horizontalLayout">
                 <item>
                  <spacer name="horizontalSpacer">

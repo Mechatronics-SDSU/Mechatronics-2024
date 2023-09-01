@@ -38,6 +38,7 @@ add_library(gui_node SHARED
   src/mainwindow.cpp
   include/mainwindow.h
   include/mission_planning.h
+  include/launch_edit.h
   mainwindow.ui
 )
 add_executable(gui_exec
@@ -45,15 +46,15 @@ add_executable(gui_exec
   src/mainwindow.cpp
   src/mission_planning.cpp
   src/pid_controller.cpp
-  src/launch_window.cpp
+  src/launch_edit.cpp
   include/mainwindow.hpp
   include/pid_controller.hpp
   include/mission_planning.hpp
-  include/launch_window.hpp
+  include/launch_edit.hpp
   src/mainwindow.ui
   src/mission_planning.ui
   src/pid_controller.ui
-  src/launch_window.ui
+  src/launch_edit.ui
 
 )
 

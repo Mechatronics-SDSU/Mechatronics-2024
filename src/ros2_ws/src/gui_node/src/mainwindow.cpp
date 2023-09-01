@@ -99,11 +99,11 @@ void MainWindow::on_start_nodes_clicked()
 
 void MainWindow::on_new_launch_file_clicked()
 {
-    QString filename = QFileDialog::getSaveFileName(this, "Open Python File",
+    launchFileName = QFileDialog::getSaveFileName(this, "Open Python File",
                        "/home/mechatronics/gui-halie/src/ros2_ws/src", "Python Files (*.py)");
     
-    if (!filename.isEmpty()) {
-        QFile file(filename);
+    if (!launchFileName.isEmpty()) {
+        QFile file(launchFileName);
         if (file.open(QIODevice::WriteOnly | QIODevice::Text)) {
             QTextStream stream(&file);
             stream << "from launch import LaunchDescription\n"
@@ -127,12 +127,12 @@ void MainWindow::on_new_launch_file_clicked()
 
 void MainWindow::on_select_file_clicked()
 {
-    QString filename = QFileDialog::getOpenFileName(this, "Open Python File",
+    launchFileName = QFileDialog::getOpenFileName(this, "Open Python File",
                        "/home/mechatronics/gui-halie/src/ros2_ws/src", "Python Files (*.py)");
-     if (filename.isEmpty()){
+     if (launchFileName.isEmpty()){
         return;
      }
-    QFileInfo info(filename); // Get the file info
+    QFileInfo info(launchFileName); // Get the file info
     ui->fileSelected->setText(info.fileName());
     update_nodes_list(info.path());
 
@@ -168,13 +168,10 @@ void MainWindow::launch_nodes_selected(){
     bool itemAlreadyExists = (it != this->jsonLaunchArray.end());
 
     if (itemAlreadyExists) {// The item already exists in the JSON array
-        // Perform your desired action
         this->jsonLaunchArray.erase(std::remove(this->jsonLaunchArray.begin(), this->jsonLaunchArray.end(), 
         ui->launch_nodes->currentText().toStdString()), this->jsonLaunchArray.end());
 
-    } else {
-        // The item doesn't exist in the JSON array
-        // Perform another action
+    } else {// The item doesn't exist in the JSON array
         this->jsonLaunchArray.push_back(ui->launch_nodes->currentText().toStdString());
     }
 
@@ -193,9 +190,13 @@ void MainWindow::print_nodes_list(const std::string& key, nlohmann::json& json_s
 }
 
 void MainWindow::on_launchNodesEdit_clicked(){
-    LaunchWindow *launchWindow = new LaunchWindow; // Create on the heap
-    launchWindow->show();
+
+    LaunchEdit *launchEdit = new LaunchEdit; // Create on the heap
+    launchEdit->pythonFilePath = this->launchFileName.toStdString();
+    launchEdit->printLaunchFile(launchEdit->launchDescription);
+    launchEdit->show();
 
 }
+
 
 
