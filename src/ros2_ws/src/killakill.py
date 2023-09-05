@@ -27,12 +27,5 @@ def generate_launch_description():
         launch_ros.actions.Node(
             package='a50_node', executable='a50_exec', output='screen',
             ),
-        launch_ros.actions.Node(
-            package='unified_can_driver', executable='unified_can_driver', output='screen',
-            parameters= [
-                            {"can_bus_interface": "can0"},
-                            {"do_module_polling": False},
-                            {"module_bitfield": 0},
-                        ]
-            ),
+
     ])

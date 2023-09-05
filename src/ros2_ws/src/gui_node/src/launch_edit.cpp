@@ -21,19 +21,32 @@ LaunchEdit::~LaunchEdit()
     delete ui;
 }
 
-void LaunchEdit::printLaunchFile(const std::string& content){
+void LaunchEdit::printLaunchFile(){
+    std::ifstream pythonFile;
+    pythonFile.open(pythonFilePath); // Open for reading, no need for std::ios::trunc
+    if(!pythonFile.is_open()){
+        std::cout<< "Failed to open python file." << std::endl;
+        return;
+    }
+
     ui->launch_description->setReadOnly(false);
-    ui->launch_description->setPlainText(QString::fromStdString(content));
-    // ui->launch_description->append(QString::fromStdString(getLaunchParamsVecAsString()));
+
+    std::string line;
+    while(std::getline(pythonFile, line)){
+        ui->launch_description->append(QString::fromStdString(line));
+    }
+
+    pythonFile.close();
+    // ui->launch_description->setPlainText(QString::fromStdString(this->launchFileString));
 
 }
-
-std::string LaunchEdit::getLaunchString(){
-    return this->launchFile;
-}
-
 
 void LaunchEdit::updateLaunchFile(const nlohmann::json& jsonArray){
+
+    this->launchFileString = this->launchDescription;
+    this->launchFileString += createLaunchNodes(jsonArray);
+    ui->launch_description->setPlainText(QString::fromStdString(this->launchFileString));
+    
     std::ofstream pythonFile;
     pythonFile.open(pythonFilePath, std::ios::trunc);
 
@@ -41,12 +54,9 @@ void LaunchEdit::updateLaunchFile(const nlohmann::json& jsonArray){
         std::cout<< "Failed to open python file." << std::endl;
     }
 
-    std::string launchFileString = this->launchDescription;
-    launchFileString += createLaunchNodes(jsonArray);
-    // printLaunchFile(launchFileString);
-    this->launchFile = launchFileString;
+    pythonFile << this->launchFileString << std::endl;
 
-    pythonFile << launchFileString << std::endl;
+    pythonFile.close();
 
 
 }

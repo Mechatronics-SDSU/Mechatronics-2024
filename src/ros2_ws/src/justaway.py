@@ -25,12 +25,6 @@ def generate_launch_description():
     """
     return LaunchDescription([
         launch_ros.actions.Node(
-            package='robot_library', executable='robot', output='screen',
-            ),
-        launch_ros.actions.Node(
-            package='pid_node', executable='pid_exec', output='screen',
-            ),
-        launch_ros.actions.Node(
-            package='brain_node', executable='brain_exec', output='screen',
+            package='a50_node', executable='a50_exec', output='screen',
             ),
     ])

@@ -171,6 +171,10 @@ void MainWindow::launch_nodes_selected(){
         this->jsonLaunchArray.push_back(ui->launch_nodes->currentText().toStdString());
     }
 
+    LaunchEdit *launch = new LaunchEdit;
+    launch->pythonFilePath = this->launchFileName.toStdString();
+    launch->updateLaunchFile(this->jsonLaunchArray);
+
     // print_launch_nodes_list();
     print_nodes_list("launch_nodes_to_enable", this->launch_nodes_string,
                       this->jsonLaunchArray, ui->enabled_launch_nodes);
@@ -178,9 +182,6 @@ void MainWindow::launch_nodes_selected(){
 
 void MainWindow::print_nodes_list(const std::string& key, nlohmann::json& json_string, 
                                   const nlohmann::json& jsonArray, QTextEdit* output) {
-    LaunchEdit *launch = new LaunchEdit;
-    launch->pythonFilePath = this->launchFileName.toStdString();
-    launch->updateLaunchFile(jsonArray);
     json_string[key] = jsonArray;
     output->setReadOnly(false); // Allow modifications
     output->setPlainText(QString::fromStdString(json_string.dump(4)));
@@ -191,8 +192,7 @@ void MainWindow::on_launchNodesEdit_clicked(){
 
     LaunchEdit *launchEdit = new LaunchEdit; // Create on the heap
     launchEdit->pythonFilePath = this->launchFileName.toStdString();
-    // launchEdit->printLaunchFile(launchEdit->getLaunchString());
-    launchEdit->printLaunchFile(launchEdit->launchDescription);
+    launchEdit->printLaunchFile();
     launchEdit->show();
 
 }

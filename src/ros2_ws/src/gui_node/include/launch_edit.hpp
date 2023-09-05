@@ -48,7 +48,7 @@ def generate_launch_description():
 
     std::string pythonFilePath = "";
     std::string getLaunchString();
-    void printLaunchFile(const std::string& content);
+    void printLaunchFile();
     void printLaunchParamsVec();
     void updateLaunchFile(const nlohmann::json& jsonArray);
 
@@ -59,7 +59,7 @@ private slots:
 
 private:
     Ui::LaunchEdit *ui;
-    std::string launchFile = "";
+    std::string launchFileString = "Neo Armstrong Cyclone Jet Armstrong Cannon";
     struct LaunchParameters {
         std::string pkgName;
         std::string execName;
