@@ -3,6 +3,7 @@
 
 #include <QWidget>
 #include <mainwindow.hpp>
+#include <nlohmann/json.hpp>
 #include <map>
 
 namespace Ui {
@@ -16,6 +17,7 @@ class LaunchEdit : public QWidget
 public:
     explicit LaunchEdit(QWidget *parent = nullptr);
     ~LaunchEdit();
+    using json = nlohmann::json;
 
     std::string launchDescription = R"("""
     @author Conner Sommerfield - Zix on Discord
@@ -45,8 +47,10 @@ def generate_launch_description():
     return LaunchDescription([)";
 
     std::string pythonFilePath = "";
+    std::string getLaunchString();
     void printLaunchFile(const std::string& content);
     void printLaunchParamsVec();
+    void updateLaunchFile(const nlohmann::json& jsonArray);
 
 private slots:
 
@@ -55,6 +59,7 @@ private slots:
 
 private:
     Ui::LaunchEdit *ui;
+    std::string launchFile = "";
     struct LaunchParameters {
         std::string pkgName;
         std::string execName;
@@ -67,8 +72,6 @@ private:
             :pkgName(pkg), execName(exec), output(out), params(p){}
 
     };
-
-    std::string addNodeString(const LaunchParameters& node);   
 
     std::vector<LaunchParameters> launchParamsVec = {
         {"a50_node",            "a50_exec",            "screen"},
@@ -110,6 +113,9 @@ private:
     };
 
     std::string getLaunchParamsVecAsString();
+    std::string addNodeString(const LaunchParameters& node); 
+    std::string createLaunchNodes(const nlohmann::json& nodesArray);
+
 
 };
 

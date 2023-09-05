@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1233</width>
-    <height>773</height>
+    <width>1478</width>
+    <height>910</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -325,6 +325,16 @@
               <string>Launch nodes</string>
              </property>
              <layout class="QGridLayout" name="gridLayout_4">
+              <item row="1" column="0">
+               <widget class="QTextEdit" name="enabled_launch_nodes">
+                <property name="maximumSize">
+                 <size>
+                  <width>500</width>
+                  <height>5000</height>
+                 </size>
+                </property>
+               </widget>
+              </item>
               <item row="0" column="0">
                <layout class="QVBoxLayout" name="verticalLayout">
                 <item>
@@ -345,16 +355,6 @@
                  </widget>
                 </item>
                </layout>
-              </item>
-              <item row="1" column="0">
-               <widget class="QTextEdit" name="enabled_launch_nodes">
-                <property name="maximumSize">
-                 <size>
-                  <width>500</width>
-                  <height>5000</height>
-                 </size>
-                </property>
-               </widget>
               </item>
               <item row="2" column="0">
                <layout class="QHBoxLayout" name="horizontalLayout">

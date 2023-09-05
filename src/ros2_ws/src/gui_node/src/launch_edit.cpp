@@ -24,7 +24,31 @@ LaunchEdit::~LaunchEdit()
 void LaunchEdit::printLaunchFile(const std::string& content){
     ui->launch_description->setReadOnly(false);
     ui->launch_description->setPlainText(QString::fromStdString(content));
-    ui->launch_description->append(QString::fromStdString(getLaunchParamsVecAsString()));
+    // ui->launch_description->append(QString::fromStdString(getLaunchParamsVecAsString()));
+
+}
+
+std::string LaunchEdit::getLaunchString(){
+    return this->launchFile;
+}
+
+
+void LaunchEdit::updateLaunchFile(const nlohmann::json& jsonArray){
+    std::ofstream pythonFile;
+    pythonFile.open(pythonFilePath, std::ios::trunc);
+
+    if(!pythonFile.is_open() || !pythonFile.good()){
+        std::cout<< "Failed to open python file." << std::endl;
+    }
+
+    std::string launchFileString = this->launchDescription;
+    launchFileString += createLaunchNodes(jsonArray);
+    // printLaunchFile(launchFileString);
+    this->launchFile = launchFileString;
+
+    pythonFile << launchFileString << std::endl;
+
+
 }
 
 
@@ -97,4 +121,20 @@ std::string LaunchEdit::getLaunchParamsVecAsString() {
     nodeList += "    ])";
 
     return nodeList;
+}
+
+
+std::string LaunchEdit::createLaunchNodes(const nlohmann::json& nodesArray){
+    std::string launchFileString = "\n";
+    for (const auto& nodeName: nodesArray){
+        for (const auto& nodeParams:  launchParamsVec){
+            if (nodeName == nodeParams.pkgName){
+                launchFileString += addNodeString(nodeParams);
+                break;
+            }
+        }
+    }
+
+    launchFileString += "    ])";
+    return launchFileString;
 }

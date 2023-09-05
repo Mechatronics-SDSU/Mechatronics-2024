@@ -28,6 +28,7 @@ MainWindow::MainWindow(QWidget *parent)
 //    connect(&_pid_controller, SIGNAL(HomeClicked()), this, SLOT(moveHome()));
 //    connect(&_mission_planner, SIGNAL(HomeClicked()), this, SLOT(moveHome()));
 
+
     this->json_string = rclcpp::Node::make_shared("json_gui_nodes");
     this->json_string_publisher = json_string->create_publisher<scion_types::msg::JsonString>("gui_data", 10);
 
@@ -106,12 +107,7 @@ void MainWindow::on_new_launch_file_clicked()
         QFile file(launchFileName);
         if (file.open(QIODevice::WriteOnly | QIODevice::Text)) {
             QTextStream stream(&file);
-            stream << "from launch import LaunchDescription\n"
-                    "import launch_ros.actions\n"
-                    "from launch_ros.actions import Node\n"
-                    "import subprocess\n\n"
-                    "def generate_launch_description():\n"
-                    "   return LaunchDescription([])\n";
+            stream << "Hello";
             file.close();
         }
         QFileInfo info(file.fileName()); // Get the file info
@@ -180,9 +176,11 @@ void MainWindow::launch_nodes_selected(){
                       this->jsonLaunchArray, ui->enabled_launch_nodes);
 }
 
-
 void MainWindow::print_nodes_list(const std::string& key, nlohmann::json& json_string, 
                                   const nlohmann::json& jsonArray, QTextEdit* output) {
+    LaunchEdit *launch = new LaunchEdit;
+    launch->pythonFilePath = this->launchFileName.toStdString();
+    launch->updateLaunchFile(jsonArray);
     json_string[key] = jsonArray;
     output->setReadOnly(false); // Allow modifications
     output->setPlainText(QString::fromStdString(json_string.dump(4)));
@@ -193,6 +191,7 @@ void MainWindow::on_launchNodesEdit_clicked(){
 
     LaunchEdit *launchEdit = new LaunchEdit; // Create on the heap
     launchEdit->pythonFilePath = this->launchFileName.toStdString();
+    // launchEdit->printLaunchFile(launchEdit->getLaunchString());
     launchEdit->printLaunchFile(launchEdit->launchDescription);
     launchEdit->show();
 

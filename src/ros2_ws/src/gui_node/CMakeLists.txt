@@ -66,14 +66,6 @@ ament_target_dependencies(gui_exec PUBLIC rclcpp scion_types std_msgs)
 
 target_link_libraries(gui_exec PRIVATE Qt5::Widgets)
 
-# set_target_properties(gui_exec PROPERTIES
-#    MACOSX_BUNDLE_GUI_IDENTIFIER my.example.com
-#    MACOSX_BUNDLE_BUNDLE_VERSION ${PROJECT_VERSION}
-#    MACOSX_BUNDLE_SHORT_VERSION_STRING ${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}
-#    MACOSX_BUNDLE TRUE
-#    WIN32_EXECUTABLE TRUE
-# )
-
 install(TARGETS gui_exec
     DESTINATION lib/${PROJECT_NAME}
     BUNDLE DESTINATION .
