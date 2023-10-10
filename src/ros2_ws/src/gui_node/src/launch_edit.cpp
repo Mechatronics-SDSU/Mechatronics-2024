@@ -1,5 +1,5 @@
 #include "launch_edit.hpp"
-#include "ui_launch_edit.h"
+#include "./ui_launch_edit.h"
 #include <iostream>
 #include <fstream>
 #include <QDialog>
@@ -37,15 +37,15 @@ void LaunchEdit::printLaunchFile(){
     }
 
     pythonFile.close();
-    // ui->launch_description->setPlainText(QString::fromStdString(this->launchFileString));
+    ui->launch_description->setReadOnly(true);
 
 }
 
 void LaunchEdit::updateLaunchFile(const nlohmann::json& jsonArray){
 
-    this->launchFileString = this->launchDescription;
-    this->launchFileString += createLaunchNodes(jsonArray);
-    ui->launch_description->setPlainText(QString::fromStdString(this->launchFileString));
+    std::string launchFileString = this->launchDescription;
+    launchFileString += createLaunchNodes(jsonArray);
+    ui->launch_description->setPlainText(QString::fromStdString(launchFileString));
     
     std::ofstream pythonFile;
     pythonFile.open(pythonFilePath, std::ios::trunc);
@@ -54,35 +54,34 @@ void LaunchEdit::updateLaunchFile(const nlohmann::json& jsonArray){
         std::cout<< "Failed to open python file." << std::endl;
     }
 
-    pythonFile << this->launchFileString << std::endl;
+    pythonFile << launchFileString << std::endl;
 
     pythonFile.close();
 
-
 }
 
 
-void LaunchEdit::on_saveLaunchDescription_clicked()
-{
-    std::ofstream pythonFile;
-    pythonFile.open(pythonFilePath, std::ios::trunc);
+// void LaunchEdit::on_saveLaunchDescription_clicked()
+// {
+//     std::ofstream pythonFile;
+//     pythonFile.open(pythonFilePath, std::ios::trunc);
 
-    if(!pythonFile.is_open() || !pythonFile.good()){
-        std::cout<< "Failed to open python file." << std::endl;
-    }
+//     if(!pythonFile.is_open() || !pythonFile.good()){
+//         std::cout<< "Failed to open python file." << std::endl;
+//     }
 
-    std::string launchFileString = ui->launch_description->toPlainText().toStdString();
+//     std::string launchFileString = ui->launch_description->toPlainText().toStdString();
 
-    pythonFile << launchFileString << std::endl;
+//     pythonFile << launchFileString << std::endl;
 
-}
+// }
 
-void LaunchEdit::on_saveClose_clicked()
-{
-    on_saveLaunchDescription_clicked();
-    this->close();
+// void LaunchEdit::on_saveClose_clicked()
+// {
+//     on_saveLaunchDescription_clicked();
+//     this->close();
 
-}
+// }
 
 std::string LaunchEdit::addNodeString(const LaunchParameters& node)
 {

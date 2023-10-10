@@ -23,14 +23,13 @@ def generate_launch_description():
     This is what Ros2 will actually call when you run the launch file,
     all the nodes are placed here as well as Zed Node launch arguments
     """
-    return LaunchDescription([
+    return LaunchDescription([        launch_ros.actions.Node(
+            package='brain_node', executable='brain_exec', output='screen',
+            ),
         launch_ros.actions.Node(
-            package='a50_node', executable='a50_exec', output='screen',
+            package='mediator_node', executable='mediator_exec', output='screen',
             ),
         launch_ros.actions.Node(
             package='pid_node', executable='pid_exec', output='screen',
-            ),
-        launch_ros.actions.Node(
-            package='desired_state_node', executable='desired_state_exec', output='screen',
             ),
     ])

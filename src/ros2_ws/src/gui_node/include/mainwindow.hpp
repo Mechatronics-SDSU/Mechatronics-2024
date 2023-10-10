@@ -50,7 +50,7 @@ private slots:
     void update_nodes_list(QString path);
     void launch_nodes_selected();
     void update_json_nodes(bool checked, QCheckBox* node);
-    void on_launchNodesEdit_clicked();
+    void on_launchNodesView_clicked();
 
 
     std::vector<std::string> getRosPackageNames(const std::string &directoryPath);

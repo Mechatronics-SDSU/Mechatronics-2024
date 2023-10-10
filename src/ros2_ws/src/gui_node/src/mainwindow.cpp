@@ -188,7 +188,7 @@ void MainWindow::print_nodes_list(const std::string& key, nlohmann::json& json_s
     output->setReadOnly(true); // Restore read-only mode
 }
 
-void MainWindow::on_launchNodesEdit_clicked(){
+void MainWindow::on_launchNodesView_clicked(){
 
     LaunchEdit *launchEdit = new LaunchEdit; // Create on the heap
     launchEdit->pythonFilePath = this->launchFileName.toStdString();

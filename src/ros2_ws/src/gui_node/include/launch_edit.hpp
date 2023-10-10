@@ -54,8 +54,8 @@ def generate_launch_description():
 
 private slots:
 
-    void on_saveLaunchDescription_clicked();
-    void on_saveClose_clicked();
+    // void on_saveLaunchDescription_clicked();
+    // void on_saveClose_clicked();
 
 private:
     Ui::LaunchEdit *ui;

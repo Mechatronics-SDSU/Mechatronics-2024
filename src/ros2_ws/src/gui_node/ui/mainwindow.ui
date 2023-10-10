@@ -372,9 +372,9 @@
                  </spacer>
                 </item>
                 <item>
-                 <widget class="QPushButton" name="launchNodesEdit">
+                 <widget class="QPushButton" name="launchNodesView">
                   <property name="text">
-                   <string>Edit</string>
+                   <string>View</string>
                   </property>
                  </widget>
                 </item>
