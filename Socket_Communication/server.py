@@ -31,9 +31,7 @@ class Server:
     def receive_and_display_images(self):
         server_socket, client_socket, data, payload_size = self.set_socket()
         print("Socket Connection Completed")
-        cv2.startWindowThread()
-        cv2.namedWindow("Image")
-        print("Created window")
+        self.display_window = cv2.namedWindow("Video Feed")
 
         while True:
             while len(data) < payload_size:
@@ -48,8 +46,18 @@ class Server:
             frame_data = data[:msg_size]
             data = data[msg_size:]
             frame = pickle.loads(frame_data)
-            cv2.imshow("Image", frame)
-            cv2.waitKey(3)
+
+            # Update the displayed frame in the same window
+            cv2.imshow("Video Feed", frame)
+            key = cv2.waitKey(1) & 0xFF # Update the frame without closing the window
+
+            if key == ord('q'):
+                print("Closing window")
+                # user has quit, release camera and close display window
+                cv2.destroyAllWindows()
+                
+                break
+            
 
 def main():
     host = '127.0.0.1'

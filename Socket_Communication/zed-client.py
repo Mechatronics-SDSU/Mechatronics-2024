@@ -1,13 +1,8 @@
-#opencv import
 import cv2
-#socket import
 import socket
-#import for packing
-import sys
 import pickle
 import struct
 import pyzed.sl as sl
-
 
 class Client:
     def __init__(self, host, port):
@@ -24,70 +19,45 @@ class Client:
             print(f"Connection error: {e}")
             self.client_socket = None
 
-    def send_video(self, zed_frame):
+    def send_video_feed(self):
         if self.client_socket is None:
-            print("Connection not established. Cannot send video.")
+            print("Connection not established. Cannot send video feed.")
             return
 
-        print("Video feed set")
-
         try:
-            while True:
-                _, frame = zed_frame
-                small_frame = cv2.resize(frame, None, fx=0.4, fy=0.4)
-                data = pickle.dumps(small_frame)
-                self.client_socket.sendall(struct.pack("=L", len(data)) + data)
+            zed = sl.Camera()
+            init_params = sl.InitParameters()
+            init_params.camera_resolution = sl.RESOLUTION.HD720
+            init_params.camera_fps = 60
+
+            if zed.open(init_params) == sl.ERROR_CODE.SUCCESS:
+                print("Initialized ZED camera")
+
+                while True:
+                    image_zed = sl.Mat()
+                    if zed.grab() == sl.ERROR_CODE.SUCCESS:
+                        zed.retrieve_image(image_zed, sl.VIEW.LEFT)
+                        image_ocv = image_zed.get_data()
+                        small_frame = cv2.resize(image_ocv, None, fx=0.4, fy=0.4)
+                        data = pickle.dumps(small_frame)
+                        self.client_socket.sendall(struct.pack("=L", len(data)) + data)
+            else:
+                print("Failed to open ZED camera.")
         except KeyboardInterrupt:
-            print("Video streaming stopped.")
+            print("Video feed stopped.")
         except Exception as e:
-            print(f"Error sending video data: {e}")
+            print(f"Error sending video feed: {e}")
         finally:
             self.client_socket.close()
+            zed.close()
 
 def main():
     host = '127.0.0.1'
     port = 8089
     client = Client(host, port)
     client.connect_to_server()
-    print("zed camera 1")
-    # Create a ZED camera object
-    zed = sl.Camera()
-    print("zed camera 2")
-    # Set configuration parameters
-    init_params = sl.InitParameters()
-    init_params.camera_resolution = sl.RESOLUTION.HD720
-    init_params.camera_fps = 30
-    print("zed camera 3")
-    # Open the camera
-    err = zed.open(init_params)
-    if err != sl.ERROR_CODE.SUCCESS:
-        exit(-1)
-    print("zed camera 4")
-        # Set the input from stream
-    init = sl.InitParameters()
+    client.send_video_feed()
     
-    # init.set_from_stream(host, port) # Specify the IP and port of the sender
-
-    print("Initialized zed camera")
-    while True:
-        # create image objesct
-        image_zed = sl.Mat()
-
-        # Zed image object exists
-        if zed.grab() == sl.ERROR_CODE.SUCCESS:
-
-            # image types can be changed below VIEW.(TYPE)
-            zed.retrieve_image(image_zed, sl.VIEW.LEFT)
-
-            # numpy data array for converting zed to open-cv
-            image_ocv = image_zed.get_data()
-
-            client.send_video(image_ocv)
-
-            
-
-    # Close the camera
-    zed.close()
 
 if __name__ == "__main__":
     main()
