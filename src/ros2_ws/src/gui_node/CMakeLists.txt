@@ -24,6 +24,7 @@ set(UI_FILES
     ui/mission_planning.ui
     ui/pid_controller.ui
     ui/launch_edit.ui
+    ui/vision.ui
 )
 
 QT5_WRAP_UI(UI_HEADERS ${UI_FILES})
@@ -33,10 +34,12 @@ src/mainwindow.cpp
 src/mission_planning.cpp
 src/pid_controller.cpp
 src/launch_edit.cpp
+src/vision.cpp
 include/mainwindow.hpp
 include/pid_controller.hpp
 include/mission_planning.hpp
 include/launch_edit.hpp
+include/vision.hpp
 ${UI_HEADERS}
 )
 

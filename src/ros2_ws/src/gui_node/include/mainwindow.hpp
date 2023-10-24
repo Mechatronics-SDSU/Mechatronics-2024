@@ -6,6 +6,7 @@
 #include <mission_planning.hpp>
 #include <pid_controller.hpp>
 #include <launch_edit.hpp>
+#include <vision.hpp>
 #include <nlohmann/json.hpp>
 #include <vector>
 #include <string>
@@ -31,6 +32,7 @@ private slots:
 
     void on_pid_controller_clicked();
     void on_mission_planning_clicked();
+    void on_visionButton_clicked();
     //    void moveHome();
 
     void on_homeButton_clicked();
@@ -59,6 +61,7 @@ private:
     Ui::MainWindow *ui;
     MissionPlanning _mission_planner;
     PIDController _pid_controller;
+    Vision _vision;
 
     using json = nlohmann::json;
     json jsonMainArray = json::array();

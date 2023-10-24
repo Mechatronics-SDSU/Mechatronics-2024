@@ -17,51 +17,11 @@
 					<DistClean command="/usr/bin/make -j12 -f &quot;/home/mechatronics/gui-halie/src/ros2_ws/src/build-gui_node-Desktop-Debug/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
-			<Target title="install/local">
-				<Option working_dir="/home/mechatronics/gui-halie/src/ros2_ws/src/build-gui_node-Desktop-Debug"/>
-				<Option type="4"/>
-				<MakeCommands>
-					<Build command="/usr/bin/make -j12 -f &quot;/home/mechatronics/gui-halie/src/ros2_ws/src/build-gui_node-Desktop-Debug/Makefile&quot;  VERBOSE=1 install/local"/>
-					<CompileFile command="/usr/bin/make -j12 -f &quot;/home/mechatronics/gui-halie/src/ros2_ws/src/build-gui_node-Desktop-Debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/make -j12 -f &quot;/home/mechatronics/gui-halie/src/ros2_ws/src/build-gui_node-Desktop-Debug/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/make -j12 -f &quot;/home/mechatronics/gui-halie/src/ros2_ws/src/build-gui_node-Desktop-Debug/Makefile&quot;  VERBOSE=1 clean"/>
-				</MakeCommands>
-			</Target>
-			<Target title="install">
-				<Option working_dir="/home/mechatronics/gui-halie/src/ros2_ws/src/build-gui_node-Desktop-Debug"/>
-				<Option type="4"/>
-				<MakeCommands>
-					<Build command="/usr/bin/make -j12 -f &quot;/home/mechatronics/gui-halie/src/ros2_ws/src/build-gui_node-Desktop-Debug/Makefile&quot;  VERBOSE=1 install"/>
-					<CompileFile command="/usr/bin/make -j12 -f &quot;/home/mechatronics/gui-halie/src/ros2_ws/src/build-gui_node-Desktop-Debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/make -j12 -f &quot;/home/mechatronics/gui-halie/src/ros2_ws/src/build-gui_node-Desktop-Debug/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/make -j12 -f &quot;/home/mechatronics/gui-halie/src/ros2_ws/src/build-gui_node-Desktop-Debug/Makefile&quot;  VERBOSE=1 clean"/>
-				</MakeCommands>
-			</Target>
-			<Target title="list_install_components">
-				<Option working_dir="/home/mechatronics/gui-halie/src/ros2_ws/src/build-gui_node-Desktop-Debug"/>
-				<Option type="4"/>
-				<MakeCommands>
-					<Build command="/usr/bin/make -j12 -f &quot;/home/mechatronics/gui-halie/src/ros2_ws/src/build-gui_node-Desktop-Debug/Makefile&quot;  VERBOSE=1 list_install_components"/>
-					<CompileFile command="/usr/bin/make -j12 -f &quot;/home/mechatronics/gui-halie/src/ros2_ws/src/build-gui_node-Desktop-Debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/make -j12 -f &quot;/home/mechatronics/gui-halie/src/ros2_ws/src/build-gui_node-Desktop-Debug/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/make -j12 -f &quot;/home/mechatronics/gui-halie/src/ros2_ws/src/build-gui_node-Desktop-Debug/Makefile&quot;  VERBOSE=1 clean"/>
-				</MakeCommands>
-			</Target>
 			<Target title="rebuild_cache">
 				<Option working_dir="/home/mechatronics/gui-halie/src/ros2_ws/src/build-gui_node-Desktop-Debug"/>
 				<Option type="4"/>
 				<MakeCommands>
 					<Build command="/usr/bin/make -j12 -f &quot;/home/mechatronics/gui-halie/src/ros2_ws/src/build-gui_node-Desktop-Debug/Makefile&quot;  VERBOSE=1 rebuild_cache"/>
-					<CompileFile command="/usr/bin/make -j12 -f &quot;/home/mechatronics/gui-halie/src/ros2_ws/src/build-gui_node-Desktop-Debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/make -j12 -f &quot;/home/mechatronics/gui-halie/src/ros2_ws/src/build-gui_node-Desktop-Debug/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/make -j12 -f &quot;/home/mechatronics/gui-halie/src/ros2_ws/src/build-gui_node-Desktop-Debug/Makefile&quot;  VERBOSE=1 clean"/>
-				</MakeCommands>
-			</Target>
-			<Target title="install/strip">
-				<Option working_dir="/home/mechatronics/gui-halie/src/ros2_ws/src/build-gui_node-Desktop-Debug"/>
-				<Option type="4"/>
-				<MakeCommands>
-					<Build command="/usr/bin/make -j12 -f &quot;/home/mechatronics/gui-halie/src/ros2_ws/src/build-gui_node-Desktop-Debug/Makefile&quot;  VERBOSE=1 install/strip"/>
 					<CompileFile command="/usr/bin/make -j12 -f &quot;/home/mechatronics/gui-halie/src/ros2_ws/src/build-gui_node-Desktop-Debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
 					<Clean command="/usr/bin/make -j12 -f &quot;/home/mechatronics/gui-halie/src/ros2_ws/src/build-gui_node-Desktop-Debug/Makefile&quot;  VERBOSE=1 clean"/>
 					<DistClean command="/usr/bin/make -j12 -f &quot;/home/mechatronics/gui-halie/src/ros2_ws/src/build-gui_node-Desktop-Debug/Makefile&quot;  VERBOSE=1 clean"/>
@@ -74,9 +34,7 @@
 				<Option type="1"/>
 				<Option compiler="gcc"/>
 				<Compiler>
-					<Add option="-DQT_WIDGETS_LIB"/>
-					<Add option="-DQT_GUI_LIB"/>
-					<Add option="-DQT_CORE_LIB"/>
+					<Add option="-DSTYLE_PATH=&quot;/home/mechatronics/gui-halie/src/ros2_ws/src/gui_node/styles/Darkeum.qss&quot;"/>
 					<Add directory="/home/mechatronics/gui-halie/src/ros2_ws/src/build-gui_node-Desktop-Debug"/>
 					<Add directory="/home/mechatronics/gui-halie/src/ros2_ws/src/gui_node"/>
 					<Add directory="/home/mechatronics/gui-halie/src/ros2_ws/src/build-gui_node-Desktop-Debug/gui_exec_autogen/include"/>
@@ -108,9 +66,7 @@
 				<Option type="1"/>
 				<Option compiler="gcc"/>
 				<Compiler>
-					<Add option="-DQT_WIDGETS_LIB"/>
-					<Add option="-DQT_GUI_LIB"/>
-					<Add option="-DQT_CORE_LIB"/>
+					<Add option="-DSTYLE_PATH=&quot;/home/mechatronics/gui-halie/src/ros2_ws/src/gui_node/styles/Darkeum.qss&quot;"/>
 					<Add directory="/home/mechatronics/gui-halie/src/ros2_ws/src/build-gui_node-Desktop-Debug"/>
 					<Add directory="/home/mechatronics/gui-halie/src/ros2_ws/src/gui_node"/>
 					<Add directory="/home/mechatronics/gui-halie/src/ros2_ws/src/build-gui_node-Desktop-Debug/gui_exec_autogen/include"/>
@@ -146,16 +102,25 @@
 				</MakeCommands>
 			</Target>
 			<Target title="gui_node">
-				<Option output="/home/mechatronics/gui-halie/src/ros2_ws/src/build-gui_node-Desktop-Debug/libgui_node.so" prefix_auto="0" extension_auto="0"/>
+				<Option output="/home/mechatronics/gui-halie/src/ros2_ws/src/build-gui_node-Desktop-Debug/libgui_node.a" prefix_auto="0" extension_auto="0"/>
 				<Option working_dir="/home/mechatronics/gui-halie/src/ros2_ws/src/build-gui_node-Desktop-Debug"/>
 				<Option object_output="./"/>
-				<Option type="3"/>
+				<Option type="2"/>
 				<Option compiler="gcc"/>
 				<Compiler>
+					<Add option="-DSTYLE_PATH=&quot;/home/mechatronics/gui-halie/src/ros2_ws/src/gui_node/styles/Darkeum.qss&quot;"/>
+					<Add option="-DQT_WIDGETS_LIB"/>
+					<Add option="-DQT_GUI_LIB"/>
+					<Add option="-DQT_CORE_LIB"/>
 					<Add directory="/home/mechatronics/gui-halie/src/ros2_ws/src/build-gui_node-Desktop-Debug"/>
 					<Add directory="/home/mechatronics/gui-halie/src/ros2_ws/src/gui_node"/>
 					<Add directory="/home/mechatronics/gui-halie/src/ros2_ws/src/build-gui_node-Desktop-Debug/gui_node_autogen/include"/>
 					<Add directory="/home/mechatronics/gui-halie/src/ros2_ws/src/gui_node/include"/>
+					<Add directory="/usr/include/aarch64-linux-gnu/qt5"/>
+					<Add directory="/usr/include/aarch64-linux-gnu/qt5/QtWidgets"/>
+					<Add directory="/usr/include/aarch64-linux-gnu/qt5/QtGui"/>
+					<Add directory="/usr/include/aarch64-linux-gnu/qt5/QtCore"/>
+					<Add directory="/usr/lib/aarch64-linux-gnu/qt5/mkspecs/linux-g++"/>
 					<Add directory="/usr/include/c++/9"/>
 					<Add directory="/usr/include/aarch64-linux-gnu/c++/9"/>
 					<Add directory="/usr/include/c++/9/backward"/>
@@ -172,16 +137,25 @@
 				</MakeCommands>
 			</Target>
 			<Target title="gui_node/fast">
-				<Option output="/home/mechatronics/gui-halie/src/ros2_ws/src/build-gui_node-Desktop-Debug/libgui_node.so" prefix_auto="0" extension_auto="0"/>
+				<Option output="/home/mechatronics/gui-halie/src/ros2_ws/src/build-gui_node-Desktop-Debug/libgui_node.a" prefix_auto="0" extension_auto="0"/>
 				<Option working_dir="/home/mechatronics/gui-halie/src/ros2_ws/src/build-gui_node-Desktop-Debug"/>
 				<Option object_output="./"/>
-				<Option type="3"/>
+				<Option type="2"/>
 				<Option compiler="gcc"/>
 				<Compiler>
+					<Add option="-DSTYLE_PATH=&quot;/home/mechatronics/gui-halie/src/ros2_ws/src/gui_node/styles/Darkeum.qss&quot;"/>
+					<Add option="-DQT_WIDGETS_LIB"/>
+					<Add option="-DQT_GUI_LIB"/>
+					<Add option="-DQT_CORE_LIB"/>
 					<Add directory="/home/mechatronics/gui-halie/src/ros2_ws/src/build-gui_node-Desktop-Debug"/>
 					<Add directory="/home/mechatronics/gui-halie/src/ros2_ws/src/gui_node"/>
 					<Add directory="/home/mechatronics/gui-halie/src/ros2_ws/src/build-gui_node-Desktop-Debug/gui_node_autogen/include"/>
 					<Add directory="/home/mechatronics/gui-halie/src/ros2_ws/src/gui_node/include"/>
+					<Add directory="/usr/include/aarch64-linux-gnu/qt5"/>
+					<Add directory="/usr/include/aarch64-linux-gnu/qt5/QtWidgets"/>
+					<Add directory="/usr/include/aarch64-linux-gnu/qt5/QtGui"/>
+					<Add directory="/usr/include/aarch64-linux-gnu/qt5/QtCore"/>
+					<Add directory="/usr/lib/aarch64-linux-gnu/qt5/mkspecs/linux-g++"/>
 					<Add directory="/usr/include/c++/9"/>
 					<Add directory="/usr/include/aarch64-linux-gnu/c++/9"/>
 					<Add directory="/usr/include/c++/9/backward"/>
@@ -224,44 +198,56 @@
 		<Unit filename="/home/mechatronics/gui-halie/src/ros2_ws/src/build-gui_node-Desktop-Debug/gui_node_autogen/mocs_compilation.cpp">
 			<Option target="gui_node"/>
 		</Unit>
+		<Unit filename="/home/mechatronics/gui-halie/src/ros2_ws/src/build-gui_node-Desktop-Debug/ui_launch_edit.h">
+			<Option target="gui_node"/>
+		</Unit>
+		<Unit filename="/home/mechatronics/gui-halie/src/ros2_ws/src/build-gui_node-Desktop-Debug/ui_mainwindow.h">
+			<Option target="gui_node"/>
+		</Unit>
+		<Unit filename="/home/mechatronics/gui-halie/src/ros2_ws/src/build-gui_node-Desktop-Debug/ui_mission_planning.h">
+			<Option target="gui_node"/>
+		</Unit>
+		<Unit filename="/home/mechatronics/gui-halie/src/ros2_ws/src/build-gui_node-Desktop-Debug/ui_pid_controller.h">
+			<Option target="gui_node"/>
+		</Unit>
 		<Unit filename="/home/mechatronics/gui-halie/src/ros2_ws/src/gui_node/include/launch_edit.hpp">
-			<Option target="gui_exec"/>
+			<Option target="gui_node"/>
 		</Unit>
 		<Unit filename="/home/mechatronics/gui-halie/src/ros2_ws/src/gui_node/include/mainwindow.hpp">
-			<Option target="gui_exec"/>
+			<Option target="gui_node"/>
 		</Unit>
 		<Unit filename="/home/mechatronics/gui-halie/src/ros2_ws/src/gui_node/include/mission_planning.hpp">
-			<Option target="gui_exec"/>
+			<Option target="gui_node"/>
 		</Unit>
 		<Unit filename="/home/mechatronics/gui-halie/src/ros2_ws/src/gui_node/include/pid_controller.hpp">
-			<Option target="gui_exec"/>
+			<Option target="gui_node"/>
 		</Unit>
 		<Unit filename="/home/mechatronics/gui-halie/src/ros2_ws/src/gui_node/src/launch_edit.cpp">
-			<Option target="gui_exec"/>
+			<Option target="gui_node"/>
 		</Unit>
 		<Unit filename="/home/mechatronics/gui-halie/src/ros2_ws/src/gui_node/src/main.cpp">
 			<Option target="gui_exec"/>
 		</Unit>
 		<Unit filename="/home/mechatronics/gui-halie/src/ros2_ws/src/gui_node/src/mainwindow.cpp">
-			<Option target="gui_exec"/>
-		</Unit>
-		<Unit filename="/home/mechatronics/gui-halie/src/ros2_ws/src/gui_node/src/mainwindow.ui">
-			<Option target="gui_exec"/>
+			<Option target="gui_node"/>
 		</Unit>
 		<Unit filename="/home/mechatronics/gui-halie/src/ros2_ws/src/gui_node/src/mission_planning.cpp">
-			<Option target="gui_exec"/>
-		</Unit>
-		<Unit filename="/home/mechatronics/gui-halie/src/ros2_ws/src/gui_node/src/mission_planning.ui">
-			<Option target="gui_exec"/>
+			<Option target="gui_node"/>
 		</Unit>
 		<Unit filename="/home/mechatronics/gui-halie/src/ros2_ws/src/gui_node/src/pid_controller.cpp">
-			<Option target="gui_exec"/>
-		</Unit>
-		<Unit filename="/home/mechatronics/gui-halie/src/ros2_ws/src/gui_node/src/pid_controller.ui">
-			<Option target="gui_exec"/>
+			<Option target="gui_node"/>
 		</Unit>
 		<Unit filename="/home/mechatronics/gui-halie/src/ros2_ws/src/gui_node/ui/launch_edit.ui">
-			<Option target="gui_exec"/>
+			<Option target="gui_node"/>
+		</Unit>
+		<Unit filename="/home/mechatronics/gui-halie/src/ros2_ws/src/gui_node/ui/mainwindow.ui">
+			<Option target="gui_node"/>
+		</Unit>
+		<Unit filename="/home/mechatronics/gui-halie/src/ros2_ws/src/gui_node/ui/mission_planning.ui">
+			<Option target="gui_node"/>
+		</Unit>
+		<Unit filename="/home/mechatronics/gui-halie/src/ros2_ws/src/gui_node/ui/pid_controller.ui">
+			<Option target="gui_node"/>
 		</Unit>
 		<Unit filename="/home/mechatronics/gui-halie/src/ros2_ws/src/gui_node/CMakeLists.txt">
 			<Option virtualFolder="CMake Files\"/>

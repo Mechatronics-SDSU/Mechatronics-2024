@@ -20,6 +20,7 @@ MainWindow::MainWindow(QWidget *parent)
     ui->setupUi(this);
     ui->stackedWidget->insertWidget(1, &_pid_controller);
     ui->stackedWidget->insertWidget(2, &_mission_planner);
+    ui->stackedWidget->insertWidget(3, &_vision);
     ui->nodes_to_enable->setReadOnly(true);
 
     QString styleSheet = "color: #607cff; background-color: #242526;";
@@ -56,6 +57,11 @@ void MainWindow::on_mission_planning_clicked()
 //{
 //        ui->stackedWidget->setCurrentIndex(0);
 //}
+
+void MainWindow::on_visionButton_clicked()
+{
+    ui->stackedWidget->setCurrentIndex(3);
+}
 
 void MainWindow::on_homeButton_clicked()
 {
