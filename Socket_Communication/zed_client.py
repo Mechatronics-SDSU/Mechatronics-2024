@@ -6,6 +6,7 @@ import socket
 import sys
 import pickle
 import struct
+import Yolov5Detection
 
 
 
