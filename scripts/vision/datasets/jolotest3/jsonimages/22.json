@@ -1,0 +1,51 @@
+{
+  "version": "2.0",
+  "schema_ref": "https://darwin-public.s3.eu-west-1.amazonaws.com/darwin_json/2.0/schema.json",
+  "item": {
+    "name": "22.jpg",
+    "path": "/",
+    "source_info": {
+      "dataset": {
+        "name": "joloV5",
+        "slug": "jolov5",
+        "dataset_management_url": "https://darwin.v7labs.com/datasets/696310/dataset-management"
+      },
+      "item_id": "018b58d8-6f64-74cd-b348-fab3820854fa",
+      "team": {
+        "name": "SDSU Mechatronics",
+        "slug": "sdsu-mechatronics"
+      },
+      "workview_url": "https://darwin.v7labs.com/workview?dataset=696310&item=018b58d8-6f64-74cd-b348-fab3820854fa"
+    },
+    "slots": [
+      {
+        "type": "image",
+        "slot_name": "0",
+        "width": 1280,
+        "height": 720,
+        "thumbnail_url": "https://darwin.v7labs.com/api/v2/teams/sdsu-mechatronics/files/651f17eb-8d26-49ff-923e-cab6f77820de/thumbnail",
+        "source_files": [
+          {
+            "file_name": "22.jpg",
+            "url": "https://darwin.v7labs.com/api/v2/teams/sdsu-mechatronics/uploads/552821da-ecdb-475c-8f3a-0be254bda80f"
+          }
+        ]
+      }
+    ]
+  },
+  "annotations": [
+    {
+      "bounding_box": {
+        "h": 112.04,
+        "w": 48.64,
+        "x": 551.41,
+        "y": 313.53
+      },
+      "id": "cfeb6dcc-625d-487e-8c03-e72ec9482c9d",
+      "name": "Redbull",
+      "slot_names": [
+        "0"
+      ]
+    }
+  ]
+}

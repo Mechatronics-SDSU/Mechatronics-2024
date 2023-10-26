@@ -1,0 +1,13 @@
+PREREQUISITES: 
+-images in new folder $FOLDER
+-ran python3 make_dataset.py -folder "$FOLDER"
+-downloaded $FOLDER.zip to Downloads folder (yolotxts from v7labs)
+-be in the directory that containst yoloscript.sh before calling it
+
+IMPLEMENTATION:
+- bash yoloscript.sh "<folder name here>" <# of epochs> "<weighting>" "<object #1>" "<object #2 (etc.)>"
+- If you aren't using any weighting, just enter empty quotes: ""
+- yoloscript will take any number of classes/objects greater than 0
+- run the following command to use camera (after plugging it in) once the script is done:
+python3 vision/models/<folder name>/yolov5/detect.py --weights vision/models/<folder name>/model.pt --data vision/models/<folder name>/yolov5/data/data.yaml --source 0
+
