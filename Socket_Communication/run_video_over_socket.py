@@ -16,7 +16,6 @@ def main():
     port = args.port
     show_boxes = args.show_boxes
     model_name = args.model_name
-    print(model_name)
 
     if host is None:
         host = '127.0.0.1'
@@ -28,7 +27,9 @@ def main():
         show_boxes = True
 
     if model_name is None:
-        model_name = 'yolov5m.pt'
+        model_name = './models_folder/yolov5m.pt'
+    else:
+        model_name = "./models_folder/" + model_name
 
     socket = zed_client.Client(host, port)
     socket.connect_to_server()
@@ -54,7 +55,14 @@ def main():
             image_ocv = image_zed.get_data()
 
             detection.detect_in_image(image_ocv, show_boxes)
-            socket.send_video(image_ocv)
+            
+            try:
+                socket.send_video(image_ocv)
+            except Exception as e:
+                print(e)
+                socket.client_socket.close()
+                break
+        
 
 
 if __name__ == '__main__':

@@ -13,6 +13,7 @@ class Client:
     def __init__(self, host, port):
         self.HOST = host
         self.PORT = port
+        self.client_socket = None
 
     def connect_to_server(self):
         try:
@@ -30,13 +31,9 @@ class Client:
             print("Connection not established. Cannot send video.")
             return
 
-        print("Video feed set")
-
         try:
             small_frame = cv2.resize(frame, None, fx=0.4, fy=0.4)
             data = pickle.dumps(small_frame)
             self.client_socket.sendall(struct.pack("=L", len(data)) + data)
-        except KeyboardInterrupt:
-            print("Video streaming stopped.")
         except Exception as e:
-            print(f"Error sending video data: {e}")
+            raise Exception(f"Error occurred while sending video data: {e}")

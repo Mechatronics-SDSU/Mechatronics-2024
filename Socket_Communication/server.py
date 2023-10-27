@@ -52,6 +52,7 @@ class Server:
             key = cv2.waitKey(1) & 0xFF # Update the frame without closing the window
 
             if key == ord('q'):
+                print("Keyboard interrupt")
                 print("Closing window")
                 # user has quit, release camera and close display window
                 cv2.destroyAllWindows()
