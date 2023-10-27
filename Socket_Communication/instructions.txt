@@ -1,0 +1,21 @@
+PREREQUISITES:
+- Make sure that the ZED camera is plugged into the client computer.
+
+STEPS:
+1. Open two terminal windows.
+2. In one of the windows, type this command in: "python3 server.py"
+    - This will run the server of the socket communication model. This will display the camera feed
+    to the specified host IP on the specified port.
+3. In another window, type this command in: "python3 run_video_over_socket.py -model_name <model>"
+    - <model> will be the name of a specified model inside of the "models_folder" folder inside of the
+    "socket_communciation" folder
+    - If <model> is "None", then the default "yolov5m.pt" model is used
+4. If there are no errors with binding the socket and establishing the communication with the server
+a Video Feed window will appear.
+5. Bounding boxes should appear around the object(s) that the model is trained on. yolov5m model is 
+trained on the COCO dataset.
+
+FUTURE PLANS:
+- We need to run the server script on the computer that will be hosting the C++ GUI.
+    - Ideally, we want to have the video feed be displayed IN the GUI window and not in a separate window
+    
