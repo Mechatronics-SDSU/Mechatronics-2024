@@ -2,7 +2,11 @@ import Yolov5Detection as yv5
 import zed_client
 import argparse
 import cv2
-import pyzed.sl as sl
+
+try:
+    import pyzed.sl as sl
+except:
+    print("Zed library not found")
 
 parser = argparse.ArgumentParser()
 parser.add_argument('-host_ip', help='ip to send images to', required=False)
@@ -11,8 +15,16 @@ parser.add_argument('-show_boxes',help='boolean to show object detection boxes',
 parser.add_argument('-model_name', help='model to run on', required=False)
 args = parser.parse_args()
 
-def draw_line(image, start, end):
-    cv2.line(image, start, end, (255, 255, 255), 5)
+def get_image_from_webcam(cap):
+    ret, frame = cap.read()
+    return frame
+
+def get_image_from_zed(zed, sl):
+    image_zed = sl.Mat()
+    zed.grab()
+    zed.retrieve_image(image_zed, sl.VIEW.LEFT)
+    image_ocv = image_zed.get_data()
+    return image_ocv
 
 
 def main():
@@ -29,6 +41,10 @@ def main():
 
     if show_boxes is None:
         show_boxes = True
+    elif show_boxes == 'False':
+        show_boxes = False
+    else:
+        show_boxes = True
 
     if model_name is None:
         model_name = './models_folder/yolov5m.pt'
@@ -39,38 +55,43 @@ def main():
     socket.connect_to_server()
     detection = yv5.ObjDetModel(model_name)
 
-    zed = sl.Camera()
-    init_params = sl.InitParameters()
-    init_params.camera_resolution = sl.RESOLUTION.HD720  # Comes in HD1080 , HD2K, HD720, VGA, LAST
-    init_params.camera_fps = 60  # FPS of 15, 30, 60, or 100
-    camera_state = zed.open(init_params)
+    zed = None
+    cap = None
+
+    try:
+        zed = sl.Camera()
+        init_params = sl.InitParameters()
+        init_params.camera_resolution = sl.RESOLUTION.HD720  # Comes in HD1080 , HD2K, HD720, VGA, LAST
+        init_params.camera_fps = 60  # FPS of 15, 30, 60, or 100
+        camera_state = zed.open(init_params)
+        runtime = sl.RuntimeParameters()
+    except:
+        print("Zed camera not found, using webcam")
+        cap = cv2.VideoCapture(0)
+    
 
 
     while True:
-        image_zed = sl.Mat()
-
-        # Zed image object exists
-        if zed.grab() == sl.ERROR_CODE.SUCCESS:
-
-            # image types can be changed below VIEW.(TYPE)
-            zed.retrieve_image(image_zed, sl.VIEW.LEFT)
-
-            # numpy data array for converting zed to open-cv
-            image_ocv = image_zed.get_data()
-
-            results = detection.detect_in_image(image_ocv)
-            
-
-
-            if show_boxes:
-                detection.draw_boxes(image_ocv, results)
-            
-            try:
-                socket.send_video(image_ocv)
-            except Exception as e:
-                print(e)
-                socket.client_socket.close()
-                break
+        image = None
+        if zed is not None:
+            image = get_image_from_zed(zed, sl)
+        elif cap is not None:
+            image = get_image_from_webcam(cap)
+        else:
+            print("No camera found, exiting")
+            break
+        
+        results = detection.detect_in_image(image)
+        if show_boxes:
+            detection.draw_boxes(image, results)
+            detection.draw_lines(image, results)
+        
+        try:
+            socket.send_video(image)
+        except Exception as e:
+            print(e)
+            socket.client_socket.close()
+            break
         
 
 

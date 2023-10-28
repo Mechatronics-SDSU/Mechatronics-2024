@@ -42,3 +42,13 @@ Found Solution
 ```
 pip uninstall opencv-python()
 pip3 install opencv-python
+
+`[WinError 10048] Only one usage of each socket address (protocol/network address/port) is normally permitted`
+
+Found Solution
+
+`netstat -ano|findstr (PORT)` eg `netstat -ano|findstr 8089`
+
+look for number at the very end(task id)
+
+`tskill (taskID)`
