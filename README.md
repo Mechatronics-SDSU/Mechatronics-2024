@@ -28,7 +28,7 @@
 `-model_name`   which model(expects.pt) do you want to load
 
 ### example command
-`python3 run_video_over_socket -host_ip 127.0.01 -port 8089 -show_boxes False -model_name best.pt`
+`python3 run_video_over_socket -host_ip 127.0.0.1 -port 8089 -show_boxes False -model_name best.pt`
 
 
 # Possible Errors
@@ -40,8 +40,9 @@ then re-run cmake or configure script in function 'cvNamedWindow'`
 
 Found Solution
 ```
-pip uninstall opencv-python()
+pip uninstall opencv-python
 pip3 install opencv-python
+```
 
 `[WinError 10048] Only one usage of each socket address (protocol/network address/port) is normally permitted`
 
