@@ -54,7 +54,9 @@ def main():
             # numpy data array for converting zed to open-cv
             image_ocv = image_zed.get_data()
 
-            detection.detect_in_image(image_ocv, show_boxes)
+            results = detection.detect_in_image(image_ocv)
+            if show_boxes:
+                detection.draw_boxes(image_ocv, results)
             
             try:
                 socket.send_video(image_ocv)
