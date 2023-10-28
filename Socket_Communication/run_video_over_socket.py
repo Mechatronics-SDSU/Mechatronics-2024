@@ -11,6 +11,10 @@ parser.add_argument('-show_boxes',help='boolean to show object detection boxes',
 parser.add_argument('-model_name', help='model to run on', required=False)
 args = parser.parse_args()
 
+def draw_line(image, start, end):
+    cv2.line(image, start, end, (255, 255, 255), 5)
+
+
 def main():
     host = args.host_ip
     port = args.port
@@ -55,6 +59,9 @@ def main():
             image_ocv = image_zed.get_data()
 
             results = detection.detect_in_image(image_ocv)
+            
+
+
             if show_boxes:
                 detection.draw_boxes(image_ocv, results)
             
