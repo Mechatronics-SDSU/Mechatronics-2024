@@ -29,6 +29,7 @@ example command
 The function is not implemented. Rebuild the library with Windows, GTK+ 2.x or Cocoa support. 
 If you are on Ubuntu or Debian, install libgtk2.0-dev and pkg-config, 
 then re-run cmake or configure script in function 'cvNamedWindow'`
+
 Found Solution
 `pip uninstall opencv-python`
 `pip3 install opencv-python`
