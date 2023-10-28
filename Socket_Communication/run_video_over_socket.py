@@ -8,7 +8,7 @@ parser = argparse.ArgumentParser()
 parser.add_argument('-host_ip', help='ip to send images to', required=False)
 parser.add_argument('-port', help='port to send images over', required=False)
 parser.add_argument('-show_boxes',help='boolean to show object detection boxes', required=False)
-parser.add_argument('-model_name', help='model to run on', required=True)
+parser.add_argument('-model_name', help='model to run on', required=False)
 args = parser.parse_args()
 
 def main():
