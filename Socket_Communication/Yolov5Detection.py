@@ -44,7 +44,7 @@ class ObjDetModel:
                     yB = int(box[3])
                     yA = int(box[1])
                     end = ((xB + xA) // 2, (yB + yA) // 2)
-        if end is not None:
-            cv2.line(image, start, end, (255, 255, 255), 5)
+                    if end is not None:
+                        cv2.line(image, start, end, (255, 255, 255), 5)
         return image
         

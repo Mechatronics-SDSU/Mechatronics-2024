@@ -3,6 +3,8 @@ import zed_client
 import argparse
 import cv2
 
+TARGET_SIZE = 640
+
 try:
     import pyzed.sl as sl
 except:
@@ -19,14 +21,6 @@ def get_image_from_webcam(cap):
     ret, frame = cap.read()
     return frame
 
-def get_image_from_zed(zed, sl):
-    image_zed = sl.Mat()
-    zed.grab()
-    zed.retrieve_image(image_zed, sl.VIEW.LEFT)
-    image_ocv = image_zed.get_data()
-    return image_ocv
-
-
 def main():
     host = args.host_ip
     port = args.port
@@ -39,7 +33,7 @@ def main():
     if port is None:
         port = 8089
 
-    if show_boxes is None or show_boxes is 'True':
+    if show_boxes is None or show_boxes == 'True':
         show_boxes = True
     else:
         show_boxes = False
@@ -55,30 +49,34 @@ def main():
 
     zed = None
     cap = None
+    state = None
 
-    try:
-        zed = sl.Camera()
-        init_params = sl.InitParameters()
-        init_params.camera_resolution = sl.RESOLUTION.HD720  # Comes in HD1080 , HD2K, HD720, VGA, LAST
-        init_params.camera_fps = 60  # FPS of 15, 30, 60, or 100
-        camera_state = zed.open(init_params)
-        runtime = sl.RuntimeParameters()
-    except:
+    zed = sl.Camera()
+    init_params = sl.InitParameters()
+    init_params.camera_resolution = sl.RESOLUTION.HD720  # Comes in HD1080 , HD2K, HD720, VGA, LAST
+    init_params.camera_fps = 60  # FPS of 15, 30, 60, or 100
+    state = zed.open(init_params)
+
+    if state != sl.ERROR_CODE.SUCCESS:
+        zed = None
         print("Zed camera not found, using webcam")
         cap = cv2.VideoCapture(0)
-    
 
 
     while True:
         image = None
         if zed is not None:
-            image = get_image_from_zed(zed, sl)
+            image_zed = sl.Mat()
+            if zed.grab() == sl.ERROR_CODE.SUCCESS:   
+                zed.retrieve_image(image_zed, sl.VIEW.LEFT)
+                image = image_zed.get_data()
+
         elif cap is not None:
             image = get_image_from_webcam(cap)
         else:
             print("No camera found, exiting")
             break
-        
+
         results = detection.detect_in_image(image)
         if show_boxes:
             detection.draw_boxes(image, results)
