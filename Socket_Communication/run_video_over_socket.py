@@ -39,12 +39,10 @@ def main():
     if port is None:
         port = 8089
 
-    if show_boxes is None:
+    if show_boxes is None or show_boxes is 'True':
         show_boxes = True
-    elif show_boxes == 'False':
-        show_boxes = False
     else:
-        show_boxes = True
+        show_boxes = False
 
     if model_name is None:
         model_name = './models_folder/yolov5m.pt'
