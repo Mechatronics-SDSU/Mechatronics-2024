@@ -27,7 +27,7 @@ class Server:
         except Exception as e:
             print(f"Socket setup error: {e}")
             return None, None, None, None
-
+ 
     def receive_and_display_images(self):
         server_socket, client_socket, data, payload_size = self.set_socket()
         print("Socket Connection Completed")
