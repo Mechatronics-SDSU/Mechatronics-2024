@@ -1,9 +1,13 @@
 import Yolov5Detection as yv5
-import zed_client
+import Socket_Client
 import argparse
 import cv2
+import copy
+from Zed_Wrapper import Zed
 
 TARGET_SIZE = 640
+show_depth = True
+get_depth = True
 
 try:
     import pyzed.sl as sl
@@ -15,13 +19,15 @@ parser.add_argument('-host_ip', help='ip to send images to', required=False)
 parser.add_argument('-port', help='port to send images over', required=False)
 parser.add_argument('-show_boxes',help='boolean to show object detection boxes', required=False)
 parser.add_argument('-model_name', help='model to run on', required=False)
+#parser.add_argument('-show_depth', help='show depth map', required=False)
+#parser.add_argument('-get_depth, help='get depth map', required=False)
 args = parser.parse_args()
 
 def get_image_from_webcam(cap):
     ret, frame = cap.read()
     return frame
 
-def main():
+def parse_arguments():
     host = args.host_ip
     port = args.port
     show_boxes = args.show_boxes
@@ -43,7 +49,12 @@ def main():
     else:
         model_name = "./models_folder/" + model_name
 
-    socket = zed_client.Client(host, port)
+    return host, port, show_boxes, model_name
+
+def main():
+    host, port, show_boxes, model_name = parse_arguments()
+
+    socket = Socket_Client.Client(host, port)
     socket.connect_to_server()
     detection = yv5.ObjDetModel(model_name)
 
@@ -51,26 +62,16 @@ def main():
     cap = None
     state = None
 
-    zed = sl.Camera()
-    init_params = sl.InitParameters()
-    init_params.camera_resolution = sl.RESOLUTION.HD720  # Comes in HD1080 , HD2K, HD720, VGA, LAST
-    init_params.camera_fps = 60  # FPS of 15, 30, 60, or 100
-    state = zed.open(init_params)
+    zed = Zed()
 
     if state != sl.ERROR_CODE.SUCCESS:
         zed = None
         print("Zed camera not found, using webcam")
         cap = cv2.VideoCapture(0)
 
-
     while True:
-        image = None
         if zed is not None:
-            image_zed = sl.Mat()
-            if zed.grab() == sl.ERROR_CODE.SUCCESS:   
-                zed.retrieve_image(image_zed, sl.VIEW.LEFT)
-                image = image_zed.get_data()
-
+            image = zed.get_image()
         elif cap is not None:
             image = get_image_from_webcam(cap)
         else:

@@ -3,7 +3,7 @@ import torch
 import cv2
 import numpy as np
 import urllib
-import zed_client
+import Socket_Client
 import pickle
 
 
@@ -20,7 +20,7 @@ class ObjDetModel:
         frame_cc = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
         
         # Run the YOLO model
-        results = self.model(frame_cc, 320)
+        results = self.model(frame_cc, 640)
         return results
         
     def draw_boxes(self, image, results):
