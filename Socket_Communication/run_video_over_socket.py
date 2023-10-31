@@ -63,6 +63,7 @@ def main():
     state = None
 
     zed = Zed()
+    state = zed.open()
 
     if state != sl.ERROR_CODE.SUCCESS:
         zed = None
@@ -72,6 +73,7 @@ def main():
     while True:
         if zed is not None:
             image = zed.get_image()
+            zed.get_min_depth(0, 0, 0, 0)
         elif cap is not None:
             image = get_image_from_webcam(cap)
         else:
@@ -79,6 +81,9 @@ def main():
             break
 
         results = detection.detect_in_image(image)
+
+        if show_depth:
+            image = zed.get_depth_image
         if show_boxes:
             detection.draw_boxes(image, results)
             detection.draw_lines(image, results)
