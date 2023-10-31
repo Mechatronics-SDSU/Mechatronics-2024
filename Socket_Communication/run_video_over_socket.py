@@ -6,7 +6,7 @@ import copy
 from Zed_Wrapper import Zed
 
 TARGET_SIZE = 640
-show_depth = True
+show_depth = False
 get_depth = True
 
 try:

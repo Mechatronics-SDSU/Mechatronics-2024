@@ -35,7 +35,11 @@ class ObjDetModel:
     
     def draw_lines(self, image, results):
         # Draw a line from the center of the image to the center of the detected object
-        start = (int(image.shape[1] / 2), int(image.shape[0] / 2))
+        start = (0, 0)
+        try:
+            start = (int(image.shape[1] / 2), int(image.shape[0] / 2))
+        except:
+            return
         end = None
         for box in results.xyxy[0]:
                 if box[5] == 0:
