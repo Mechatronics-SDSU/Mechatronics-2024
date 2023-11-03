@@ -10,9 +10,9 @@ class Zed:
     def __init__(self):
         self.zed = sl.Camera()
         self.init_params = sl.InitParameters()
-        self.init_params.camera_resolution = sl.RESOLUTION.HD720
+        self.init_params.camera_resolution = sl.RESOLUTION.HD1080
         self.init_params.camera_fps = 60
-        #self.init_params.depth_mode = sl.DEPTH_MODE.NEURAL
+        self.init_params.depth_mode = sl.DEPTH_MODE.NEURAL
 
     def open(self):
         state = self.zed.open(self.init_params)
@@ -53,19 +53,16 @@ class Zed:
         
         # Retrieve depth data (32-bit)
         self.zed.retrieve_measure(depth_zed, sl.MEASURE.DEPTH)
-        # Print the depth value at the center of the image
-        depth_list = list()
-        skip_size = 5
-        for x in range(x1, x2 - (skip_size), skip_size):
-            for y in range(y1, y2 - (skip_size), skip_size):
-                _, depth = depth_zed.get_value(x, y)
-                if not math.isnan(depth) and math.isfinite(depth):
-                    depth_list.append(int(depth))
+        #Print the depth value at the center of the image
+        depth = [None] * 5
+        _, depth[0] = depth_zed.get_value(int((x1 + x2) / 2), int((y1 + y2) / 2))
+        _, depth[1] = depth_zed.get_value(int((x1 + x2) / 4), int((y1 + y2) / 2))
+        _, depth[2] = depth_zed.get_value(int((x1 + x2) / 2), int((y1 + y2) / 4))
+        _, depth[3] = depth_zed.get_value(3 * int((x1 + x2) / 4), int((y1 + y2) / 2))
+        _, depth[4] = depth_zed.get_value(int((x1 + x2) / 2), 3 * int((y1 + y2) / 4))
 
-        if not depth_list:
-            return -1
-        median = statistics.median_low(depth_list)
-        #print(median)
+        median = statistics.median(depth)
+
         return median
     
 

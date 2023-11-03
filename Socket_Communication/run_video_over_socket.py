@@ -7,8 +7,6 @@ import copy
 from Zed_Wrapper import Zed
 
 TARGET_SIZE = 640
-show_depth = True
-get_depth = True
 
 try:
     import pyzed.sl as sl
@@ -31,8 +29,11 @@ def get_image_from_webcam(cap):
 def get_nearest_object(results, zed):
     nearest_object = math.inf
     for box in results.xyxy[0]:
-        if box[5] == 0:
-            median = zed.get_median_depth(int(box[0]), int(box[1]), int(box[2]), int(box[3]))
+        if box[5] != 0:
+            continue
+
+        median = zed.get_median_depth(int(box[0]), int(box[1]), int(box[2]), int(box[3]))
+        if not math.isnan(median) and not math.isinf(median) and not median <= 0:
             nearest_object = min(median, nearest_object)
             
     return nearest_object
@@ -60,12 +61,12 @@ def parse_arguments():
     if get_depth is None or get_depth == 'True':
         get_depth = True
     else:
-        get_depth = False
+        get_depth = True
 
     if show_depth is None or show_depth == 'False':
-        get_depth = False
+        show_depth = True
     else:
-        get_depth = True
+        show_depth = True
 
     if model_name is None:
         model_name = './models_folder/yolov5m.pt'
@@ -105,14 +106,14 @@ def main():
 
         results = detection.detect_in_image(image)
 
-        if zed is not None and get_depth:
+        if zed is not None:
             depth = get_nearest_object(results, zed)
+            print("depth: ", depth)
         if show_depth:
             image = zed.get_depth_image()
         if show_boxes:
             detection.draw_boxes(image, results)
             detection.draw_lines(image, results)
-        print(depth)
         
         try:
             socket.send_video(image)
