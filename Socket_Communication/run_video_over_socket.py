@@ -61,10 +61,10 @@ def parse_arguments():
     if get_depth is None or get_depth == 'True':
         get_depth = True
     else:
-        get_depth = True
+        get_depth = False
 
     if show_depth is None or show_depth == 'False':
-        show_depth = True
+        show_depth = False
     else:
         show_depth = True
 
@@ -106,7 +106,7 @@ def main():
 
         results = detection.detect_in_image(image)
 
-        if zed is not None:
+        if zed is not None and get_depth:
             depth = get_nearest_object(results, zed)
             print("depth: ", depth)
         if show_depth:
