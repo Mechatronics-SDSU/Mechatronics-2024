@@ -4,14 +4,17 @@ import argparse
 import math
 import cv2
 import copy
-from Zed_Wrapper import Zed
 
 TARGET_SIZE = 640
 
+import_success = True
+
 try:
     import pyzed.sl as sl
+    from Zed_Wrapper import Zed
 except:
     print("Zed library not found")
+    import_success = False
 
 parser = argparse.ArgumentParser()
 parser.add_argument('-host_ip', help='ip to send images to', required=False)
@@ -87,12 +90,16 @@ def main():
     state = None
     depth = 0
 
-    zed = Zed()
-    state = zed.open()
-
-    if state != sl.ERROR_CODE.SUCCESS:
+    if import_success:
+        zed = Zed()
+        state = zed.open()
+        if state != sl.ERROR_CODE.SUCCESS:
+            zed = None
+            print("Zed camera not found, using webcam")
+            cap = cv2.VideoCapture(0)
+    else:
         zed = None
-        print("Zed camera not found, using webcam")
+        print("camera library not found, using webcam")
         cap = cv2.VideoCapture(0)
 
     while True:
