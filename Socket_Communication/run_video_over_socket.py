@@ -3,9 +3,6 @@ import Socket_Client
 import argparse
 import math
 import cv2
-import copy
-
-TARGET_SIZE = 640
 
 import_success = True
 
@@ -116,7 +113,7 @@ def main():
         if zed is not None and get_depth:
             depth = get_nearest_object(results, zed)
             print("depth: ", depth)
-        if show_depth:
+        if zed is not None and show_depth:
             image = zed.get_depth_image()
         if show_boxes:
             detection.draw_boxes(image, results)
