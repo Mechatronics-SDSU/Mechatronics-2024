@@ -12,7 +12,13 @@ class Zed:
         self.init_params = sl.InitParameters()
         self.init_params.camera_resolution = sl.RESOLUTION.HD1080
         self.init_params.camera_fps = 60
-        self.init_params.depth_mode = sl.DEPTH_MODE.NEURAL
+        self.init_params.coordinate_system = sl.COORDINATE_SYSTEM.RIGHT_HANDED_Y_UP
+        #self.init_params.depth_mode = sl.DEPTH_MODE.NEURAL
+        self.tracking_parameters = sl.PositionalTrackingParameters()
+        self.tracking_parameters.enable_imu_fusion = True
+        self.runtime_parameters = sl.RuntimeParameters()
+        #self.err = self.zed.enable_positional_tracking(self.tracking_parameters)
+        self.py_translation = sl.Translation()
 
     def open(self):
         state = self.zed.open(self.init_params)
@@ -27,6 +33,24 @@ class Zed:
         if self.zed.grab() == sl.ERROR_CODE.SUCCESS:
             self.zed.retrieve_image(image_zed, sl.VIEW.RIGHT)
             return copy.deepcopy(image_zed.get_data())
+
+
+
+    def get_acceleration_and_velocity(self):
+        zed_pose = sl.Pose()
+        if self.zed.grab(self.runtime_parameters) != sl.ERROR_CODE.SUCCESS:
+            return None, None
+        
+        state = self.zed.get_position(zed_pose, sl.REFERENCE_FRAME.WORLD)
+        if state != sl.POSITIONAL_TRACKING_STATE.OK:
+            return "fps too low", "fps too low"
+        position = zed_pose.get_translation(self.py_translation)
+        position_text = str((round(position.get()[0], 2), round(position.get()[1], 2), round(position.get()[2], 2)))
+        rotation = zed_pose.get_rotation_vector()
+        return position_text, rotation
+
+        
+
 
 
     def get_depth_image(self):

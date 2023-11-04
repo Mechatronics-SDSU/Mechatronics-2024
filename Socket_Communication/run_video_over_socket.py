@@ -112,12 +112,15 @@ def main():
 
         if zed is not None and get_depth:
             depth = get_nearest_object(results, zed)
-            print("depth: ", depth)
+            #print("depth: ", depth)
         if zed is not None and show_depth:
             image = zed.get_depth_image()
         if show_boxes:
             detection.draw_boxes(image, results)
             detection.draw_lines(image, results)
+
+        accel, vel = zed.get_acceleration_and_velocity()
+        print("accel: ", accel, "\tvelocity: ", vel)
         
         try:
             socket.send_video(image)
