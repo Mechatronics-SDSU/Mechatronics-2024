@@ -10,7 +10,7 @@ class Zed:
     def __init__(self):
         self.zed = sl.Camera()
         self.init_params = sl.InitParameters()
-        self.init_params.camera_resolution = sl.RESOLUTION.HD1080
+        self.init_params.camera_resolution = sl.RESOLUTION.VGA
         self.init_params.camera_fps = 60
         self.init_params.coordinate_system = sl.COORDINATE_SYSTEM.RIGHT_HANDED_Y_UP
         #self.init_params.depth_mode = sl.DEPTH_MODE.NEURAL
@@ -34,25 +34,33 @@ class Zed:
             self.zed.retrieve_image(image_zed, sl.VIEW.RIGHT)
             return copy.deepcopy(image_zed.get_data())
 
-
-
-    def get_acceleration_and_velocity(self):
-        zed_pose = sl.Pose()
-        if self.zed.grab(self.runtime_parameters) != sl.ERROR_CODE.SUCCESS:
-            return None, None
+    # def get_acceleration_and_velocity(self):
+    #     zed_pose = sl.Pose()
+    #     if self.zed.grab(self.runtime_parameters) != sl.ERROR_CODE.SUCCESS:
+    #         return None, None
         
-        state = self.zed.get_position(zed_pose, sl.REFERENCE_FRAME.WORLD)
-        if state != sl.POSITIONAL_TRACKING_STATE.OK:
-            return "fps too low", "fps too low"
-        position = zed_pose.get_translation(self.py_translation)
-        position_text = str((round(position.get()[0], 2), round(position.get()[1], 2), round(position.get()[2], 2)))
-        rotation = zed_pose.get_rotation_vector()
-        return position_text, rotation
+    #     state = self.zed.get_position(zed_pose, sl.REFERENCE_FRAME.WORLD)
+    #     if state != sl.POSITIONAL_TRACKING_STATE.OK:
+    #         return "fps too low", "fps too low"
+    #     position = zed_pose.get_translation(self.py_translation)
+    #     position_text = str((round(position.get()[0], 2), round(position.get()[1], 2), round(position.get()[2], 2)))
+    #     rotation = zed_pose.get_rotation_vector()
+    #     return position_text, rotation
+
+    def get_imu(self):
+        sensors_data = sl.SensorsData()
+        if self.zed.grab() == sl.ERROR_CODE.SUCCESS:
+            self.zed.get_sensors_data(sensors_data, sl.TIME_REFERENCE.CURRENT)
+            quaternion = sensors_data.get_imu_data().get_pose().get_orientation().get()
+            #print("IMU Orientation: {}".format(quaternion))
+            linear_acceleration = sensors_data.get_imu_data().get_linear_acceleration()
+            #print("IMU Acceleration: {} [m/sec^2]".format(linear_acceleration))
+            angular_velocity = sensors_data.get_imu_data().get_angular_velocity()
+            #print("IMU Angular Velocity: {} [deg/sec]".format(angular_velocity))
+
+        return quaternion, linear_acceleration, angular_velocity
 
         
-
-
-
     def get_depth_image(self):
         image_zed = sl.Mat()
         if (self.zed.grab() == sl.ERROR_CODE.SUCCESS):
