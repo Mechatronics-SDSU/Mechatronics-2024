@@ -25,10 +25,7 @@ parser.add_argument('-show_depth', help='show depth map', required=False)
 parser.add_argument('-get_depth', help='get depth map', required=False)
 args = parser.parse_args()
 
-def get_image_from_webcam(cap):
-    ret, frame = cap.read()
-    return frame
-
+#gets median of all objects, then returns the closest ones
 def get_nearest_object(results, zed):
     nearest_object = math.inf
     for box in results.xyxy[0]:
@@ -40,14 +37,6 @@ def get_nearest_object(results, zed):
             nearest_object = min(median, nearest_object)
             
     return nearest_object
-
-def on_press(key):
-    try:
-        print('alphanumeric key {0} pressed'.format(
-            key.char))
-    except AttributeError:
-        print('special key {0} pressed'.format(
-            key))
 
 
 def parse_arguments():
@@ -86,9 +75,11 @@ def parse_arguments():
 
     return host, port, show_boxes, model_name, get_depth, show_depth
 
+#creates camera objects
 def create_camera_object():
     zed = None
     cap = None
+    #import success tests if zed sdk imported successfully
     if import_success:
         zed = Zed()
         state = zed.open()
@@ -103,7 +94,7 @@ def create_camera_object():
 
     return zed, cap
 
-
+#send image to socket, done as a process
 def send_image_to_socket(socket, image):
     try:
         socket.send_video(image)
@@ -111,16 +102,12 @@ def send_image_to_socket(socket, image):
         print(e)
         socket.client_socket.close()
 
-def create_gui_processes(image, results):
-    box_process = multiprocessing.Process(target = gui_helper.draw_boxes(image, results))
-    line_process = multiprocessing.Process(target = gui_helper.draw_lines(image, results))
-    return box_process, line_process
-
+#gets image from either zed or cv2 capture
 def get_image(zed, cap):
     if zed is not None:
         image = zed.get_image()
     elif cap is not None:
-        image = get_image_from_webcam(cap)
+        _, image = cap.read()
     else:
         print("No camera found, exiting")
     
@@ -135,11 +122,10 @@ def main():
     detection = yv5.ObjDetModel(model_name)
     depth = 0
 
+    #create camera objects
     zed, cap = create_camera_object()
 
-    image = get_image(zed, cap)
-    results = detection.detect_in_image(image)
-
+    #throwaway code for testing how swapping models
     test_start = time.time()
     not_swapped = True
 
@@ -159,14 +145,14 @@ def main():
         #get depth image from the zed if zed is initialized and user added the show depth argument
         if zed is not None and show_depth:
             image = zed.get_depth_image()
-        #if show 
+        #shows boxes (set to True by default)
         if show_boxes:
             image = gui_helper.draw_boxes(image, results)
             image = gui_helper.draw_lines(image, results)
-
+        #get depth of nearest object(set to True by default)
         if zed is not None and get_depth:
             depth = get_nearest_object(results, zed)
-            #print("depth: ", depth)
+            print("depth: ", depth)
         
         #starting imu code
         orientation, lin_acc, ang_vel = zed.get_imu()

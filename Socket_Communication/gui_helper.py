@@ -1,7 +1,7 @@
 import cv2
 
 
-
+#draws boxes on image
 def draw_boxes(image, results):
     for box in results.xyxy[0]:
         if box[5] == 0:
@@ -12,6 +12,7 @@ def draw_boxes(image, results):
             cv2.rectangle(image, (xA, yA), (xB, yB), (0, 255, 0), 2)
     return image
 
+#draws lines on image
 def draw_lines(image, results):
     # Draw a line from the center of the image to the center of the detected object
     start = (0, 0)
