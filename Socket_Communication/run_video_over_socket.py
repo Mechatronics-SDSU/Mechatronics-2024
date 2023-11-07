@@ -3,6 +3,9 @@ import Socket_Client
 import argparse
 import math
 import cv2
+import gui_helper
+import multiprocessing
+import time
 
 import_success = True
 
@@ -22,10 +25,7 @@ parser.add_argument('-show_depth', help='show depth map', required=False)
 parser.add_argument('-get_depth', help='get depth map', required=False)
 args = parser.parse_args()
 
-def get_image_from_webcam(cap):
-    ret, frame = cap.read()
-    return frame
-
+#gets median of all objects, then returns the closest ones
 def get_nearest_object(results, zed):
     nearest_object = math.inf
     for box in results.xyxy[0]:
@@ -75,19 +75,11 @@ def parse_arguments():
 
     return host, port, show_boxes, model_name, get_depth, show_depth
 
-def main():
-    host, port, show_boxes, model_name, get_depth, show_depth = parse_arguments()
-
-    socket = Socket_Client.Client(host, port)
-    socket.connect_to_server()
-    detection = yv5.ObjDetModel(model_name)
-
+#creates camera objects
+def create_camera_object():
     zed = None
     cap = None
-    state = None
-    depth = 0
-
-    
+    #import success tests if zed sdk imported successfully
     if import_success:
         zed = Zed()
         state = zed.open()
@@ -100,37 +92,80 @@ def main():
         print("camera library not found, using webcam")
         cap = cv2.VideoCapture(0)
 
+    return zed, cap
+
+#send image to socket, done as a process
+def send_image_to_socket(socket, image):
+    try:
+        socket.send_video(image)
+    except Exception as e:
+        print(e)
+        socket.client_socket.close()
+
+#gets image from either zed or cv2 capture
+def get_image(zed, cap):
+    if zed is not None:
+        image = zed.get_image()
+    elif cap is not None:
+        _, image = cap.read()
+    else:
+        print("No camera found, exiting")
+    
+    return image
+
+
+def main():
+    host, port, show_boxes, model_name, get_depth, show_depth = parse_arguments()
+
+    socket = Socket_Client.Client(host, port)
+    socket.connect_to_server()
+    detection = yv5.ObjDetModel(model_name)
+    depth = 0
+
+    #create camera objects
+    zed, cap = create_camera_object()
+
+    #throwaway code for testing how swapping models
+    test_start = time.time()
+    not_swapped = True
+
     while True:
-        if zed is not None:
-            image = zed.get_image()
-        elif cap is not None:
-            image = get_image_from_webcam(cap)
-        else:
-            print("No camera found, exiting")
-            break
+        start_time = time.perf_counter()
+        image = get_image(zed, cap)
 
-        # results = detection.detect_in_image(image)
-        
-        
-        
-        # if zed is not None and get_depth:
-        #     depth = get_nearest_object(results, zed)
-        #     #print("depth: ", depth)
-        # if zed is not None and show_depth:
-        #     image = zed.get_depth_image()
-        # if show_boxes:
-        #     detection.draw_boxes(image, results)
-        #     detection.draw_lines(image, results)
+        #testing hot swapping models
+        if time.time() - test_start> 10 and not_swapped:
+            print("swap")
+            detection.load_new_model('./models_folder/best.pt')
+            not_swapped = False
 
-        # accel, vel = zed.get_acceleration_and_velocity()
-        # print("accel: ", accel, "\tvelocity: ", vel)
+        #run yolo detection
+        results = detection.detect_in_image(image)
+
+        #get depth image from the zed if zed is initialized and user added the show depth argument
+        if zed is not None and show_depth:
+            image = zed.get_depth_image()
+        #shows boxes (set to True by default)
+        if show_boxes:
+            image = gui_helper.draw_boxes(image, results)
+            image = gui_helper.draw_lines(image, results)
+        #get depth of nearest object(set to True by default)
+        if zed is not None and get_depth:
+            depth = get_nearest_object(results, zed)
+            print("depth: ", depth)
         
-        try:
-            socket.send_video(image)
-        except Exception as e:
-            print(e)
-            socket.client_socket.close()
-            break
+        #starting imu code
+        orientation, lin_acc, ang_vel = zed.get_imu()
+        #print("orientation : \t", orientation)
+        #print("linear acceleration: \t", lin_acc)
+        #print("angular velocity: \t", ang_vel)
+
+
+        #send image over socket on another processor
+        send_process = multiprocessing.Process(target = send_image_to_socket(socket, image))
+        send_process.start()
+        end_time = time.perf_counter()
+        #print("loop time: ", end_time - start_time)
         
 
 
