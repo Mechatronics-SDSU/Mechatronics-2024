@@ -3,7 +3,7 @@ import sys
 from PyQt5 import QtWidgets
 from PyQt5.QtWidgets import QApplication, QWidget, QPushButton, QToolTip, QMessageBox, QDesktopWidget, QMainWindow
 from PyQt5.QtGui import QIcon, QFont, QImage, QPixmap
-from PyQt5.QtCore import QCoreApplication
+from PyQt5.QtCore import QCoreApplication, Qt
 
 import theme
 import video_player
@@ -36,7 +36,9 @@ class MainWindow(QtWidgets.QMainWindow):
 
     def update_image(self, image):
         if image is not None:
-            self.ui.label.setPixmap(QPixmap.fromImage(image))
+            pixmap = QPixmap.fromImage(image)
+            self.ui.label.setPixmap(pixmap.scaled(self.ui.label.size(), Qt.KeepAspectRatio, Qt.SmoothTransformation))
+            # self.ui.label.setPixmap(QPixmap.fromImage(image))
 
     def stop_video(self):
         self.ui.label.setText("No Feed")

@@ -10,7 +10,8 @@ import struct
 class VideoThread(QThread):
     image_signal = pyqtSignal(QImage)
     text_signal = pyqtSignal(str)
-    HOST = '127.0.0.1'
+    # HOST = '127.0.0.1'
+    HOST = "146.244.98.44"
     PORT = 8089
 
     def __init__(self):
@@ -52,8 +53,12 @@ class VideoThread(QThread):
             frame_data = self.data[:msg_size]
             self.data = self.data[msg_size:]
             frame = pickle.loads(frame_data)
-            final_image = QImage(frame.data, frame.shape[1], frame.shape[0], QImage.Format_RGB888)
+            frame_rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+            height, width, channel = frame_rgb.shape
+            bytes_per_line = channel * width
+            final_image = QImage(frame_rgb.data, frame.shape[1], frame.shape[0], bytes_per_line, QImage.Format_RGB888)
             self.image_signal.emit(final_image)
+
 
 
     def stop(self):
