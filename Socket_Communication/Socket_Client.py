@@ -14,6 +14,7 @@ class Client:
         self.HOST = host
         self.PORT = port
         self.client_socket = None
+        print("Set Client Variables")
 
     def connect_to_server(self):
         try:
