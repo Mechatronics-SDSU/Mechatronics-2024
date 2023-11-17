@@ -1,22 +1,30 @@
 import rclpy
 from rclpy.node import Node
-from std_msgs.msg import String
+from .msg import String
 from simple_pid import PID
 import time
+import numpy as np
 
-locP = 1
-locI = .05
-locD = .01
-angleP = 1
-angleI = .05
-angleD = .01
-desiredLocation = [0, 0] #[x, y]
-currLocation = [0, 0] #[x, y]
-desiredAngle = 0.0
-currAngle = 0.0
+yawP, yawI, yawD = .5, .1, .01
+pitchP, pitchI, pitchD = .5, .1, .01
+rollP, rollI, rollD = .5, .1, .01
+xP, xI, xD = .5, .1, .01
+yP, yI, yD = .5, .1, .01
+zP, zI, zD = .5, .1, .01
 
-locationPID = PID(locP, locI, locD, desiredLocation)
-anglePID = PID(angleP, angleI, angleD, desiredAngle)
+yawPID = PID(yawP, yawI, yawD, 0)
+pitchPID = PID(pitchP, pitchI, pitchD, 0)
+rollPID = PID(rollP, rollI, rollD, 0)
+xPID = PID(xP, xI, xD, 0)
+yPID = PID(yP, yI, yD, 0)
+zPID = PID(zP, zI, zD, 0)
+
+controlMatrix = np.array[[0], [0], [0], [0], [0], [0]] #{yaw, pitch, roll, x, y, z}
+
+motorControlMatrix = [[0], [0]]
+
+junebugMatrix = [[-1, 0, 0, 1, 0, 0], #motor1 [yaw, pitch, roll, x, y, z]
+                 [ 1, 0, 0, 1, 0, 0]] #motor2 [yaw, pitch, roll, x, y, z]
 
 
 class PID_Controller(Node):
@@ -30,22 +38,19 @@ class PID_Controller(Node):
         self.subscription  # prevent unused variable warning
 
     def listener_callback(self, msg):
-        self.get_logger().info('I heard: "%s"' % msg.data)
+        controlMatrix[0,0] = yawPID(msg.axes[0]) 
+        controlMatrix[1,0] = pitchPID(msg.axes[1])
+        controlMatrix[2,0] = rollPID(msg.axes[2])
+        controlMatrix[3,0] = xPID(msg.axes[3])
+        controlMatrix[4,0] = yPID(msg.axes[4])
+        controlMatrix[5,0] = zPID(msg.axes[5])
+
+        motorControlMatrix = np.dot(junebugMatrix, controlMatrix)
+
         
-        self.correctAngle()
-        self.moveTo()
 
-    def correctAngle(self):
-        global currAngle
-        while (currAngle != desiredAngle):
-            currAngle += anglePID(currAngle)
-            anglePID.reset()
-
-    def moveTo(self):
-        global currLocation
-        while(currLocation != desiredLocation):
-            currLocation += locationPID(currLocation)
-            locationPID.reset()
+        
+        
     
 def main(args = None):
     rclpy.init(args = args)
