@@ -1,9 +1,10 @@
 import rclpy
 from rclpy.node import Node
-from .msg import String
+from scion_types.msg import pidData
 from simple_pid import PID
 import time
 import numpy as np
+from can_client import Can_Client
 
 yawP, yawI, yawD = .5, .1, .01
 pitchP, pitchI, pitchD = .5, .1, .01
@@ -34,7 +35,7 @@ class PID_Controller(Node):
             String,
             'PID_Topic',
             self.listener_callback,
-            10)
+            1)
         self.subscription  # prevent unused variable warning
 
     def listener_callback(self, msg):
@@ -47,7 +48,7 @@ class PID_Controller(Node):
 
         motorControlMatrix = np.dot(junebugMatrix, controlMatrix)
 
-        
+        can_client.make_motor_request(ravel(motorControlMatrix))
 
         
         
