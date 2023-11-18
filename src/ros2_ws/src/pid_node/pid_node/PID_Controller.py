@@ -1,10 +1,13 @@
 import rclpy
 from rclpy.node import Node
+# from 
 # from scion_types.msg import pidData
 from simple_pid import PID
 import time
 import numpy as np
 from can_client import Can_Client
+# from
+
 
 PID_UPDATE_PERIOD = 1
 
@@ -52,7 +55,14 @@ class PID_Controller(Node):
     def __init__(self):
         super().__init__('PID_Controller')
         self.can_client = Can_Client()
+        # self.cur_state_client = Node.create_client(CurState, "cur_state")
+        # self.dest_state_client = Node.create_client(DestState, "dest_state")
+        
+
         self.timer = self.create_timer(PID_UPDATE_PERIOD, self.listener_callback)
+        # self.srv = self.create_service(SendMotor, 'motor_response', self.send_response)
+    
+        
         # self.subscription = self.create_subscription(
         #     String,
         #     'PID_Topic',
@@ -61,11 +71,14 @@ class PID_Controller(Node):
         # self.subscription  # prevent unused variable warning
 
         # Change to service from topic to get the data
-        # Get destination data
-        
-        # 
 
-    def listener_callback(self,):
+        # Get destination data
+    
+        # Create two clients: one for getting the current state and one for the desired state
+        # We have a service inside of the PID itself
+
+    def send_repsonse(self,):
+        
 
         controlMatrix[0,0] = yawPID(-1) 
         controlMatrix[1,0] = pitchPID(-1)
